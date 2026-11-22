@@ -1,0 +1,51 @@
+[
+  {
+    "ID": "1",
+    "Usuario": "admin",
+    "Contraseña": "1234",
+    "Nombre": "Melissa Zamorano Levy",
+    "Rol": "Administrador"
+  },
+  {
+    "ID": "2",
+    "Usuario": "admision",
+    "Contraseña": "1234",
+    "Nombre": "Claudia Muñoz",
+    "Rol": "Admisionista"
+  },
+  {
+    "ID": "3",
+    "Usuario": "medico1",
+    "Contraseña": "1234",
+    "Nombre": "Juan Pérez",
+    "Rol": "Médico"
+  },
+  {
+    "ID": "4",
+    "Usuario": "enfermero1",
+    "Contraseña": "1234",
+    "Nombre": "María Soto",
+    "Rol": "Enfermero"
+  },
+  {
+    "ID": "5",
+    "Usuario": "tens1",
+    "Contraseña": "1234",
+    "Nombre": "Ana Rojas",
+    "Rol": "TENS"
+  },
+  {
+    "ID": "6",
+    "Usuario": "administrativo1",
+    "Contraseña": "1234",
+    "Nombre": "Pedro León",
+    "Rol": "Administrativo"
+  },
+  {
+    "ID": "7",
+    "Usuario": "interop1",
+    "Contraseña": "1234",
+    "Nombre": "Diego Castro",
+    "Rol": "Interoperabilidad HL7-FHIR"
+  }
+]

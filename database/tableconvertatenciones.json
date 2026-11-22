@@ -1,0 +1,37 @@
+[
+  {
+    "ID": "1",
+    "PacienteID": "1",
+    "Fecha": "2026-11-01",
+    "ProfesionalID": "1",
+    "MotivoConsulta": "Control cardiovascular"
+  },
+  {
+    "ID": "2",
+    "PacienteID": "2",
+    "Fecha": "2026-11-02",
+    "ProfesionalID": "1",
+    "MotivoConsulta": "Dolor abdominal"
+  },
+  {
+    "ID": "3",
+    "PacienteID": "3",
+    "Fecha": "2026-11-03",
+    "ProfesionalID": "1",
+    "MotivoConsulta": "Control diabetes"
+  },
+  {
+    "ID": "4",
+    "PacienteID": "4",
+    "Fecha": "2026-11-04",
+    "ProfesionalID": "1",
+    "MotivoConsulta": "Infección respiratoria"
+  },
+  {
+    "ID": "5",
+    "PacienteID": "5",
+    "Fecha": "2026-11-05",
+    "ProfesionalID": "1",
+    "MotivoConsulta": "Examen preventivo"
+  }
+]

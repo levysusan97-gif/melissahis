@@ -1,0 +1,18 @@
+[
+  {
+    "ID": "1",
+    "Especialidad": "Medicina General"
+  },
+  {
+    "ID": "2",
+    "Especialidad": "Enfermería"
+  },
+  {
+    "ID": "3",
+    "Especialidad": "Salud Digital"
+  },
+  {
+    "ID": "4",
+    "Especialidad": "Telemedicina"
+  }
+]

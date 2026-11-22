@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pacientes de prueba</title>
+<style>
+:root{--bg:#f5f8fb;--card:#fff;--tx:#17324d;--mut:#5f7a93;--ac:#0b7a75;--bd:#d9e4ee;--hd:#e6f3f2}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1a24;--card:#16232f;--tx:#e4eef7;--mut:#8aa4ba;--ac:#3cc5bd;--bd:#2a3d4d;--hd:#1d3340}}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--tx);padding:24px}
+h1{margin:0 0 4px;font-size:1.5rem}
+p.sub{margin:0 0 16px;color:var(--mut)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+input,select{padding:9px 12px;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--tx);font-size:.95rem}
+input{flex:1;min-width:200px}
+.wrap{overflow-x:auto;background:var(--card);border:1px solid var(--bd);border-radius:10px}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{padding:9px 12px;text-align:left;white-space:nowrap}
+th{background:var(--hd);color:var(--ac);position:sticky;top:0}
+tr:nth-child(even) td{background:rgba(127,160,190,.07)}
+#n{color:var(--mut);margin:10px 2px;font-size:.9rem}
+</style>
+</head>
+<body>
+<h1>Pacientes de prueba</h1>
+<p class="sub">Datos ficticios para pruebas de HIS &middot; 100 pacientes</p>
+<div class="bar">
+<input id="q" placeholder="Buscar por nombre, apellido, correo o teléfono…">
+<select id="s"><option value="">Sexo: todos</option><option>M</option><option>F</option></select>
+<select id="c"><option value="">Ciudad: todas</option><option>Antofagasta</option><option>Concepcion</option><option>La Serena</option><option>Puerto Montt</option><option>Rancagua</option><option>Santiago</option><option>Temuco</option><option>Valparaiso</option></select>
+</div>
+<div class="wrap"><table>
+<thead><tr><th>#</th><th>Nombre</th><th>Apellido</th><th>Fecha nac.</th><th>Sexo</th><th>Teléfono</th><th>Email</th><th>Ciudad</th></tr></thead>
+<tbody id="b">
+<tr><td>1</td><td>Juan</td><td>Perez</td><td>1975-01-01</td><td>M</td><td>912345001</td><td>paciente1@test.cl</td><td>Santiago</td></tr>
+<tr><td>2</td><td>Maria</td><td>Morales</td><td>1976-02-02</td><td>F</td><td>912345002</td><td>paciente2@test.cl</td><td>Valparaiso</td></tr>
+<tr><td>3</td><td>Carlos</td><td>Herrera</td><td>1977-03-03</td><td>M</td><td>912345003</td><td>paciente3@test.cl</td><td>Concepcion</td></tr>
+<tr><td>4</td><td>Ana</td><td>Silva</td><td>1978-04-04</td><td>F</td><td>912345004</td><td>paciente4@test.cl</td><td>Temuco</td></tr>
+<tr><td>5</td><td>Pedro</td><td>Rojas</td><td>1979-05-05</td><td>M</td><td>912345005</td><td>paciente5@test.cl</td><td>La Serena</td></tr>
+<tr><td>6</td><td>Sofia</td><td>Vega</td><td>1980-06-06</td><td>F</td><td>912345006</td><td>paciente6@test.cl</td><td>Antofagasta</td></tr>
+<tr><td>7</td><td>Diego</td><td>Castro</td><td>1981-07-07</td><td>M</td><td>912345007</td><td>paciente7@test.cl</td><td>Puerto Montt</td></tr>
+<tr><td>8</td><td>Camila</td><td>Gonzalez</td><td>1982-08-08</td><td>F</td><td>912345008</td><td>paciente8@test.cl</td><td>Rancagua</td></tr>
+<tr><td>9</td><td>Javier</td><td>Fuentes</td><td>1983-09-09</td><td>M</td><td>912345009</td><td>paciente9@test.cl</td><td>Santiago</td></tr>
+<tr><td>10</td><td>Valentina</td><td>Torres</td><td>1984-10-10</td><td>F</td><td>912345010</td><td>paciente10@test.cl</td><td>Valparaiso</td></tr>
+<tr><td>11</td><td>Juan</td><td>Perez</td><td>1985-11-11</td><td>M</td><td>912345011</td><td>paciente11@test.cl</td><td>Concepcion</td></tr>
+<tr><td>12</td><td>Maria</td><td>Morales</td><td>1986-12-12</td><td>F</td><td>912345012</td><td>paciente12@test.cl</td><td>Temuco</td></tr>
+<tr><td>13</td><td>Carlos</td><td>Herrera</td><td>1987-01-13</td><td>M</td><td>912345013</td><td>paciente13@test.cl</td><td>La Serena</td></tr>
+<tr><td>14</td><td>Ana</td><td>Silva</td><td>1988-02-14</td><td>F</td><td>912345014</td><td>paciente14@test.cl</td><td>Antofagasta</td></tr>
+<tr><td>15</td><td>Pedro</td><td>Rojas</td><td>1989-03-15</td><td>M</td><td>912345015</td><td>paciente15@test.cl</td><td>Puerto Montt</td></tr>
+<tr><td>16</td><td>Sofia</td><td>Vega</td><td>1990-04-16</td><td>F</td><td>912345016</td><td>paciente16@test.cl</td><td>Rancagua</td></tr>
+<tr><td>17</td><td>Diego</td><td>Castro</td><td>1991-05-17</td><td>M</td><td>912345017</td><td>paciente17@test.cl</td><td>Santiago</td></tr>
+<tr><td>18</td><td>Camila</td><td>Gonzalez</td><td>1992-06-18</td><td>F</td><td>912345018</td><td>paciente18@test.cl</td><td>Valparaiso</td></tr>
+<tr><td>19</td><td>Javier</td><td>Fuentes</td><td>1993-07-19</td><td>M</td><td>912345019</td><td>paciente19@test.cl</td><td>Concepcion</td></tr>
+<tr><td>20</td><td>Valentina</td><td>Torres</td><td>1994-08-20</td><td>F</td><td>912345020</td><td>paciente20@test.cl</td><td>Temuco</td></tr>
+<tr><td>21</td><td>Juan</td><td>Perez</td><td>1995-09-21</td><td>M</td><td>912345021</td><td>paciente21@test.cl</td><td>La Serena</td></tr>
+<tr><td>22</td><td>Maria</td><td>Morales</td><td>1996-10-22</td><td>F</td><td>912345022</td><td>paciente22@test.cl</td><td>Antofagasta</td></tr>
+<tr><td>23</td><td>Carlos</td><td>Herrera</td><td>1997-11-23</td><td>M</td><td>912345023</td><td>paciente23@test.cl</td><td>Puerto Montt</td></tr>
+<tr><td>24</td><td>Ana</td><td>Silva</td><td>1998-12-24</td><td>F</td><td>912345024</td><td>paciente24@test.cl</td><td>Rancagua</td></tr>
+<tr><td>25</td><td>Pedro</td><td>Rojas</td><td>1999-01-25</td><td>M</td><td>912345025</td><td>paciente25@test.cl</td><td>Santiago</td></tr>
+<tr><td>26</td><td>Sofia</td><td>Vega</td><td>1975-02-26</td><td>F</td><td>912345026</td><td>paciente26@test.cl</td><td>Valparaiso</td></tr>
+<tr><td>27</td><td>Diego</td><td>Castro</td><td>1976-03-27</td><td>M</td><td>912345027</td><td>paciente27@test.cl</td><td>Concepcion</td></tr>
+<tr><td>28</td><td>Camila</td><td>Gonzalez</td><td>1977-04-28</td><td>F</td><td>912345028</td><td>paciente28@test.cl</td><td>Temuco</td></tr>
+<tr><td>29</td><td>Javier</td><td>Fuentes</td><td>1978-05-01</td><td>M</td><td>912345029</td><td>paciente29@test.cl</td><td>La Serena</td></tr>
+<tr><td>30</td><td>Valentina</td><td>Torres</td><td>1979-06-02</td><td>F</td><td>912345030</td><td>paciente30@test.cl</td><td>Antofagasta</td></tr>
+<tr><td>31</td><td>Juan</td><td>Perez</td><td>1980-07-03</td><td>M</td><td>912345031</td><td>paciente31@test.cl</td><td>Puerto Montt</td></tr>
+<tr><td>32</td><td>Maria</td><td>Morales</td><td>1981-08-04</td><td>F</td><td>912345032</td><td>paciente32@test.cl</td><td>Rancagua</td></tr>
+<tr><td>33</td><td>Carlos</td><td>Herrera</td><td>1982-09-05</td><td>M</td><td>912345033</td><td>paciente33@test.cl</td><td>Santiago</td></tr>
+<tr><td>34</td><td>Ana</td><td>Silva</td><td>1983-10-06</td><td>F</td><td>912345034</td><td>paciente34@test.cl</td><td>Valparaiso</td></tr>
+<tr><td>35</td><td>Pedro</td><td>Rojas</td><td>1984-11-07</td><td>M</td><td>912345035</td><td>paciente35@test.cl</td><td>Concepcion</td></tr>
+<tr><td>36</td><td>Sofia</td><td>Vega</td><td>1985-12-08</td><td>F</td><td>912345036</td><td>paciente36@test.cl</td><td>Temuco</td></tr>
+<tr><td>37</td><td>Diego</td><td>Castro</td><td>1986-01-09</td><td>M</td><td>912345037</td><td>paciente37@test.cl</td><td>La Serena</td></tr>
+<tr><td>38</td><td>Camila</td><td>Gonzalez</td><td>1987-02-10</td><td>F</td><td>912345038</td><td>paciente38@test.cl</td><td>Antofagasta</td></tr>
+<tr><td>39</td><td>Javier</td><td>Fuentes</td><td>1988-03-11</td><td>M</td><td>912345039</td><td>paciente39@test.cl</td><td>Puerto Montt</td></tr>
+<tr><td>40</td><td>Valentina</td><td>Torres</td><td>1989-04-12</td><td>F</td><td>912345040</td><td>paciente40@test.cl</td><td>Rancagua</td></tr>
+<tr><td>41</td><td>Juan</td><td>Perez</td><td>1990-05-13</td><td>M</td><td>912345041</td><td>paciente41@test.cl</td><td>Santiago</td></tr>
+<tr><td>42</td><td>Maria</td><td>Morales</td><td>1991-06-14</td><td>F</td><td>912345042</td><td>paciente42@test.cl</td><td>Valparaiso</td></tr>
+<tr><td>43</td><td>Carlos</td><td>Herrera</td><td>1992-07-15</td><td>M</td><td>912345043</td><td>paciente43@test.cl</td><td>Concepcion</td></tr>
+<tr><td>44</td><td>Ana</td><td>Silva</td><td>1993-08-16</td><td>F</td><td>912345044</td><td>paciente44@test.cl</td><td>Temuco</td></tr>
+<tr><td>45</td><td>Pedro</td><td>Rojas</td><td>1994-09-17</td><td>M</td><td>912345045</td><td>paciente45@test.cl</td><td>La Serena</td></tr>
+<tr><td>46</td><td>Sofia</td><td>Vega</td><td>1995-10-18</td><td>F</td><td>912345046</td><td>paciente46@test.cl</td><td>Antofagasta</td></tr>
+<tr><td>47</td><td>Diego</td><td>Castro</td><td>1996-11-19</td><td>M</td><td>912345047</td><td>paciente47@test.cl</td><td>Puerto Montt</td></tr>
+<tr><td>48</td><td>Camila</td><td>Gonzalez</td><td>1997-12-20</td><td>F</td><td>912345048</td><td>paciente48@test.cl</td><td>Rancagua</td></tr>
+<tr><td>49</td><td>Javier</td><td>Fuentes</td><td>1998-01-21</td><td>M</td><td>912345049</td><td>paciente49@test.cl</td><td>Santiago</td></tr>
+<tr><td>50</td><td>Valentina</td><td>Torres</td><td>1999-02-22</td><td>F</td><td>912345050</td><td>paciente50@test.cl</td><td>Valparaiso</td></tr>
+<tr><td>51</td><td>Juan</td><td>Perez</td><td>1975-03-23</td><td>M</td><td>912345051</td><td>paciente51@test.cl</td><td>Concepcion</td></tr>
+<tr><td>52</td><td>Maria</td><td>Morales</td><td>1976-04-24</td><td>F</td><td>912345052</td><td>paciente52@test.cl</td><td>Temuco</td></tr>
+<tr><td>53</td><td>Carlos</td><td>Herrera</td><td>1977-05-25</td><td>M</td><td>912345053</td><td>paciente53@test.cl</td><td>La Serena</td></tr>
+<tr><td>54</td><td>Ana</td><td>Silva</td><td>1978-06-26</td><td>F</td><td>912345054</td><td>paciente54@test.cl</td><td>Antofagasta</td></tr>
+<tr><td>55</td><td>Pedro</td><td>Rojas</td><td>1979-07-27</td><td>M</td><td>912345055</td><td>paciente55@test.cl</td><td>Puerto Montt</td></tr>
+<tr><td>56</td><td>Sofia</td><td>Vega</td><td>1980-08-28</td><td>F</td><td>912345056</td><td>paciente56@test.cl</td><td>Rancagua</td></tr>
+<tr><td>57</td><td>Diego</td><td>Castro</td><td>1981-09-01</td><td>M</td><td>912345057</td><td>paciente57@test.cl</td><td>Santiago</td></tr>
+<tr><td>58</td><td>Camila</td><td>Gonzalez</td><td>1982-10-02</td><td>F</td><td>912345058</td><td>paciente58@test.cl</td><td>Valparaiso</td></tr>
+<tr><td>59</td><td>Javier</td><td>Fuentes</td><td>1983-11-03</td><td>M</td><td>912345059</td><td>paciente59@test.cl</td><td>Concepcion</td></tr>
+<tr><td>60</td><td>Valentina</td><td>Torres</td><td>1984-12-04</td><td>F</td><td>912345060</td><td>paciente60@test.cl</td><td>Temuco</td></tr>
+<tr><td>61</td><td>Juan</td><td>Perez</td><td>1985-01-05</td><td>M</td><td>912345061</td><td>paciente61@test.cl</td><td>La Serena</td></tr>
+<tr><td>62</td><td>Maria</td><td>Morales</td><td>1986-02-06</td><td>F</td><td>912345062</td><td>paciente62@test.cl</td><td>Antofagasta</td></tr>
+<tr><td>63</td><td>Carlos</td><td>Herrera</td><td>1987-03-07</td><td>M</td><td>912345063</td><td>paciente63@test.cl</td><td>Puerto Montt</td></tr>
+<tr><td>64</td><td>Ana</td><td>Silva</td><td>1988-04-08</td><td>F</td><td>912345064</td><td>paciente64@test.cl</td><td>Rancagua</td></tr>
+<tr><td>65</td><td>Pedro</td><td>Rojas</td><td>1989-05-09</td><td>M</td><td>912345065</td><td>paciente65@test.cl</td><td>Santiago</td></tr>
+<tr><td>66</td><td>Sofia</td><td>Vega</td><td>1990-06-10</td><td>F</td><td>912345066</td><td>paciente66@test.cl</td><td>Valparaiso</td></tr>
+<tr><td>67</td><td>Diego</td><td>Castro</td><td>1991-07-11</td><td>M</td><td>912345067</td><td>paciente67@test.cl</td><td>Concepcion</td></tr>
+<tr><td>68</td><td>Camila</td><td>Gonzalez</td><td>1992-08-12</td><td>F</td><td>912345068</td><td>paciente68@test.cl</td><td>Temuco</td></tr>
+<tr><td>69</td><td>Javier</td><td>Fuentes</td><td>1993-09-13</td><td>M</td><td>912345069</td><td>paciente69@test.cl</td><td>La Serena</td></tr>
+<tr><td>70</td><td>Valentina</td><td>Torres</td><td>1994-10-14</td><td>F</td><td>912345070</td><td>paciente70@test.cl</td><td>Antofagasta</td></tr>
+<tr><td>71</td><td>Juan</td><td>Perez</td><td>1995-11-15</td><td>M</td><td>912345071</td><td>paciente71@test.cl</td><td>Puerto Montt</td></tr>
+<tr><td>72</td><td>Maria</td><td>Morales</td><td>1996-12-16</td><td>F</td><td>912345072</td><td>paciente72@test.cl</td><td>Rancagua</td></tr>
+<tr><td>73</td><td>Carlos</td><td>Herrera</td><td>1997-01-17</td><td>M</td><td>912345073</td><td>paciente73@test.cl</td><td>Santiago</td></tr>
+<tr><td>74</td><td>Ana</td><td>Silva</td><td>1998-02-18</td><td>F</td><td>912345074</td><td>paciente74@test.cl</td><td>Valparaiso</td></tr>
+<tr><td>75</td><td>Pedro</td><td>Rojas</td><td>1999-03-19</td><td>M</td><td>912345075</td><td>paciente75@test.cl</td><td>Concepcion</td></tr>
+<tr><td>76</td><td>Sofia</td><td>Vega</td><td>1975-04-20</td><td>F</td><td>912345076</td><td>paciente76@test.cl</td><td>Temuco</td></tr>
+<tr><td>77</td><td>Diego</td><td>Castro</td><td>1976-05-21</td><td>M</td><td>912345077</td><td>paciente77@test.cl</td><td>La Serena</td></tr>
+<tr><td>78</td><td>Camila</td><td>Gonzalez</td><td>1977-06-22</td><td>F</td><td>912345078</td><td>paciente78@test.cl</td><td>Antofagasta</td></tr>
+<tr><td>79</td><td>Javier</td><td>Fuentes</td><td>1978-07-23</td><td>M</td><td>912345079</td><td>paciente79@test.cl</td><td>Puerto Montt</td></tr>
+<tr><td>80</td><td>Valentina</td><td>Torres</td><td>1979-08-24</td><td>F</td><td>912345080</td><td>paciente80@test.cl</td><td>Rancagua</td></tr>
+<tr><td>81</td><td>Juan</td><td>Perez</td><td>1980-09-25</td><td>M</td><td>912345081</td><td>paciente81@test.cl</td><td>Santiago</td></tr>
+<tr><td>82</td><td>Maria</td><td>Morales</td><td>1981-10-26</td><td>F</td><td>912345082</td><td>paciente82@test.cl</td><td>Valparaiso</td></tr>
+<tr><td>83</td><td>Carlos</td><td>Herrera</td><td>1982-11-27</td><td>M</td><td>912345083</td><td>paciente83@test.cl</td><td>Concepcion</td></tr>
+<tr><td>84</td><td>Ana</td><td>Silva</td><td>1983-12-28</td><td>F</td><td>912345084</td><td>paciente84@test.cl</td><td>Temuco</td></tr>
+<tr><td>85</td><td>Pedro</td><td>Rojas</td><td>1984-01-01</td><td>M</td><td>912345085</td><td>paciente85@test.cl</td><td>La Serena</td></tr>
+<tr><td>86</td><td>Sofia</td><td>Vega</td><td>1985-02-02</td><td>F</td><td>912345086</td><td>paciente86@test.cl</td><td>Antofagasta</td></tr>
+<tr><td>87</td><td>Diego</td><td>Castro</td><td>1986-03-03</td><td>M</td><td>912345087</td><td>paciente87@test.cl</td><td>Puerto Montt</td></tr>
+<tr><td>88</td><td>Camila</td><td>Gonzalez</td><td>1987-04-04</td><td>F</td><td>912345088</td><td>paciente88@test.cl</td><td>Rancagua</td></tr>
+<tr><td>89</td><td>Javier</td><td>Fuentes</td><td>1988-05-05</td><td>M</td><td>912345089</td><td>paciente89@test.cl</td><td>Santiago</td></tr>
+<tr><td>90</td><td>Valentina</td><td>Torres</td><td>1989-06-06</td><td>F</td><td>912345090</td><td>paciente90@test.cl</td><td>Valparaiso</td></tr>
+<tr><td>91</td><td>Juan</td><td>Perez</td><td>1990-07-07</td><td>M</td><td>912345091</td><td>paciente91@test.cl</td><td>Concepcion</td></tr>
+<tr><td>92</td><td>Maria</td><td>Morales</td><td>1991-08-08</td><td>F</td><td>912345092</td><td>paciente92@test.cl</td><td>Temuco</td></tr>
+<tr><td>93</td><td>Carlos</td><td>Herrera</td><td>1992-09-09</td><td>M</td><td>912345093</td><td>paciente93@test.cl</td><td>La Serena</td></tr>
+<tr><td>94</td><td>Ana</td><td>Silva</td><td>1993-10-10</td><td>F</td><td>912345094</td><td>paciente94@test.cl</td><td>Antofagasta</td></tr>
+<tr><td>95</td><td>Pedro</td><td>Rojas</td><td>1994-11-11</td><td>M</td><td>912345095</td><td>paciente95@test.cl</td><td>Puerto Montt</td></tr>
+<tr><td>96</td><td>Sofia</td><td>Vega</td><td>1995-12-12</td><td>F</td><td>912345096</td><td>paciente96@test.cl</td><td>Rancagua</td></tr>
+<tr><td>97</td><td>Diego</td><td>Castro</td><td>1996-01-13</td><td>M</td><td>912345097</td><td>paciente97@test.cl</td><td>Santiago</td></tr>
+<tr><td>98</td><td>Camila</td><td>Gonzalez</td><td>1997-02-14</td><td>F</td><td>912345098</td><td>paciente98@test.cl</td><td>Valparaiso</td></tr>
+<tr><td>99</td><td>Javier</td><td>Fuentes</td><td>1998-03-15</td><td>M</td><td>912345099</td><td>paciente99@test.cl</td><td>Concepcion</td></tr>
+<tr><td>100</td><td>Valentina</td><td>Torres</td><td>1999-04-16</td><td>F</td><td>912345100</td><td>paciente100@test.cl</td><td>Temuco</td></tr>
+</tbody></table></div>
+<div id="n"></div>
+<script>
+var q=document.getElementById('q'),s=document.getElementById('s'),c=document.getElementById('c'),n=document.getElementById('n');
+var rs=document.querySelectorAll('#b tr');
+function f(){
+  var t=q.value.toLowerCase(),k=0;
+  rs.forEach(function(r){
+    var x=r.children,ok=r.textContent.toLowerCase().indexOf(t)>-1&&(!s.value||x[4].textContent===s.value)&&(!c.value||x[7].textContent===c.value);
+    r.style.display=ok?'':'none';if(ok)k++;
+  });
+  n.textContent='Mostrando '+k+' de '+rs.length+' pacientes';
+}
+q.oninput=s.onchange=c.onchange=f;f();
+</script>
+</body>
+</html>

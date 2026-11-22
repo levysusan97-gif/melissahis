@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MeliHealth HIS UAT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+}
+
+body{
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+height:100vh;
+
+overflow:hidden;
+
+background:
+linear-gradient(
+135deg,
+#050816,
+#111827,
+#1e293b
+);
+
+position:relative;
+
+}
+
+/* FONDO ANIMADO */
+
+body::before{
+
+content:'';
+
+position:absolute;
+
+width:200%;
+height:200%;
+
+background:
+radial-gradient(circle,#00d4ff22,transparent 30%),
+radial-gradient(circle,#7b2ff722,transparent 35%);
+
+animation:bgMove 18s linear infinite;
+
+}
+
+@keyframes bgMove{
+
+0%{
+transform:translate(-20%,-20%) rotate(0deg);
+}
+
+100%{
+transform:translate(-20%,-20%) rotate(360deg);
+}
+
+}
+
+/* GRID FUTURISTA */
+
+body::after{
+
+content:'';
+
+position:absolute;
+
+inset:0;
+
+background-image:
+
+linear-gradient(
+rgba(255,255,255,.03) 1px,
+transparent 1px
+),
+
+linear-gradient(
+90deg,
+rgba(255,255,255,.03) 1px,
+transparent 1px
+);
+
+background-size:40px 40px;
+
+pointer-events:none;
+
+}
+
+/* LOGIN */
+
+.login-card{
+
+width:450px;
+
+padding:40px;
+
+background:
+rgba(255,255,255,.06);
+
+backdrop-filter:blur(20px);
+
+border:
+1px solid rgba(255,255,255,.15);
+
+border-radius:24px;
+
+position:relative;
+
+z-index:10;
+
+box-shadow:
+0 0 20px rgba(0,212,255,.25),
+0 0 60px rgba(123,47,247,.20);
+
+animation:fadeIn .8s ease;
+
+}
+
+@keyframes fadeIn{
+
+from{
+opacity:0;
+transform:translateY(20px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+.logo{
+
+font-size:70px;
+
+text-align:center;
+
+animation:pulse 3s infinite;
+}
+
+@keyframes pulse{
+
+0%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(1.08);
+}
+
+100%{
+transform:scale(1);
+}
+
+}
+
+h1{
+
+color:white;
+
+text-align:center;
+
+margin-top:10px;
+}
+
+.subtitulo{
+
+text-align:center;
+
+color:#94a3b8;
+
+margin-top:8px;
+
+margin-bottom:30px;
+}
+
+label{
+
+display:block;
+
+margin-top:15px;
+margin-bottom:6px;
+
+color:white;
+}
+
+input,
+select{
+
+width:100%;
+
+padding:14px;
+
+border:none;
+
+border-radius:12px;
+
+background:
+rgba(255,255,255,.08);
+
+color:white;
+
+outline:none;
+
+transition:.3s;
+}
+
+input:focus,
+select:focus{
+
+box-shadow:
+0 0 15px #00d4ff;
+
+background:
+rgba(255,255,255,.12);
+
+}
+
+input::placeholder{
+color:#cbd5e1;
+}
+
+select option{
+color:black;
+}
+
+button{
+
+width:100%;
+
+padding:15px;
+
+margin-top:25px;
+
+border:none;
+
+border-radius:12px;
+
+font-size:16px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+color:white;
+
+background:
+linear-gradient(
+90deg,
+#00d4ff,
+#4f46e5
+);
+
+transition:.35s;
+}
+
+button:hover{
+
+transform:translateY(-3px);
+
+box-shadow:
+0 0 25px #00d4ff;
+
+}
+
+.info{
+
+margin-top:25px;
+
+text-align:center;
+
+font-size:12px;
+
+color:#94a3b8;
+}
+
+.version{
+
+margin-top:10px;
+
+text-align:center;
+
+color:#00d4ff;
+
+font-size:13px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login-card">
+
+<div class="logo">
+🏥
+</div>
+
+<h1>MeliHealth HIS</h1>
+
+<p class="subtitulo">
+Sistema de Información Hospitalaria
+</p>
+
+<label>Usuario</label>
+
+<input
+type="text"
+id="usuario"
+placeholder="Ingrese usuario">
+
+<label>Contraseña</label>
+
+<input
+type="password"
+id="clave"
+placeholder="Ingrese contraseña">
+
+<label>Perfil</label>
+
+<select id="rol">
+
+<option>Administrador</option>
+<option>Admisionista</option>
+<option>Médico</option>
+<option>Enfermero</option>
+<option>TENS</option>
+<option>Administrativo</option>
+<option>Interoperabilidad HL7-FHIR</option>
+
+</select>
+
+<button onclick="ingresar()">
+Ingresar al Sistema
+</button>
+
+<div class="info">
+Melissa Zamorano Levy
+</div>
+
+<div class="version">
+UAT Environment v1.0
+</div>
+
+</div>
+
+<script>
+
+function ingresar(){
+
+const usuario =
+document.getElementById("usuario").value;
+
+const clave =
+document.getElementById("clave").value;
+
+if(usuario==="admin" && clave==="1234"){
+
+window.location.href="index.html";
+
+}
+else{
+
+alert("Usuario o contraseña incorrectos");
+
+}
+
+}
+
+</script>
+
+</body>
+</html>

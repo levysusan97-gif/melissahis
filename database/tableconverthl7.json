@@ -1,0 +1,20 @@
+[
+  {
+    "ID": "1",
+    "PacienteID": "1",
+    "TipoMensaje": "ADT_A04",
+    "Fecha": "2026-11-01"
+  },
+  {
+    "ID": "2",
+    "PacienteID": "2",
+    "TipoMensaje": "ADT_A08",
+    "Fecha": "2026-11-02"
+  },
+  {
+    "ID": "3",
+    "PacienteID": "3",
+    "TipoMensaje": "ORU_R01",
+    "Fecha": "2026-11-03"
+  }
+]

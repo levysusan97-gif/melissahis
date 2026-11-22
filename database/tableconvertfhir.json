@@ -1,0 +1,20 @@
+[
+  {
+    "ID": "1",
+    "PacienteID": "1",
+    "ResourceType": "Patient",
+    "Estado": "Generado"
+  },
+  {
+    "ID": "2",
+    "PacienteID": "1",
+    "ResourceType": "Encounter",
+    "Estado": "Generado"
+  },
+  {
+    "ID": "3",
+    "PacienteID": "1",
+    "ResourceType": "Observation",
+    "Estado": "Generado"
+  }
+]

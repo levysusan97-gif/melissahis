@@ -1,0 +1,902 @@
+[
+  {
+    "fname": "Juan",
+    "lname": "Perez",
+    "DOB": "1975-01-01",
+    "sex": "M",
+    "phone_home": "912345001",
+    "email": "paciente1@test.cl",
+    "city": "Santiago"
+  },
+  {
+    "fname": "Maria",
+    "lname": "Morales",
+    "DOB": "1976-02-02",
+    "sex": "F",
+    "phone_home": "912345002",
+    "email": "paciente2@test.cl",
+    "city": "Valparaiso"
+  },
+  {
+    "fname": "Carlos",
+    "lname": "Herrera",
+    "DOB": "1977-03-03",
+    "sex": "M",
+    "phone_home": "912345003",
+    "email": "paciente3@test.cl",
+    "city": "Concepcion"
+  },
+  {
+    "fname": "Ana",
+    "lname": "Silva",
+    "DOB": "1978-04-04",
+    "sex": "F",
+    "phone_home": "912345004",
+    "email": "paciente4@test.cl",
+    "city": "Temuco"
+  },
+  {
+    "fname": "Pedro",
+    "lname": "Rojas",
+    "DOB": "1979-05-05",
+    "sex": "M",
+    "phone_home": "912345005",
+    "email": "paciente5@test.cl",
+    "city": "La Serena"
+  },
+  {
+    "fname": "Sofia",
+    "lname": "Vega",
+    "DOB": "1980-06-06",
+    "sex": "F",
+    "phone_home": "912345006",
+    "email": "paciente6@test.cl",
+    "city": "Antofagasta"
+  },
+  {
+    "fname": "Diego",
+    "lname": "Castro",
+    "DOB": "1981-07-07",
+    "sex": "M",
+    "phone_home": "912345007",
+    "email": "paciente7@test.cl",
+    "city": "Puerto Montt"
+  },
+  {
+    "fname": "Camila",
+    "lname": "Gonzalez",
+    "DOB": "1982-08-08",
+    "sex": "F",
+    "phone_home": "912345008",
+    "email": "paciente8@test.cl",
+    "city": "Rancagua"
+  },
+  {
+    "fname": "Javier",
+    "lname": "Fuentes",
+    "DOB": "1983-09-09",
+    "sex": "M",
+    "phone_home": "912345009",
+    "email": "paciente9@test.cl",
+    "city": "Santiago"
+  },
+  {
+    "fname": "Valentina",
+    "lname": "Torres",
+    "DOB": "1984-10-10",
+    "sex": "F",
+    "phone_home": "912345010",
+    "email": "paciente10@test.cl",
+    "city": "Valparaiso"
+  },
+  {
+    "fname": "Juan",
+    "lname": "Perez",
+    "DOB": "1985-11-11",
+    "sex": "M",
+    "phone_home": "912345011",
+    "email": "paciente11@test.cl",
+    "city": "Concepcion"
+  },
+  {
+    "fname": "Maria",
+    "lname": "Morales",
+    "DOB": "1986-12-12",
+    "sex": "F",
+    "phone_home": "912345012",
+    "email": "paciente12@test.cl",
+    "city": "Temuco"
+  },
+  {
+    "fname": "Carlos",
+    "lname": "Herrera",
+    "DOB": "1987-01-13",
+    "sex": "M",
+    "phone_home": "912345013",
+    "email": "paciente13@test.cl",
+    "city": "La Serena"
+  },
+  {
+    "fname": "Ana",
+    "lname": "Silva",
+    "DOB": "1988-02-14",
+    "sex": "F",
+    "phone_home": "912345014",
+    "email": "paciente14@test.cl",
+    "city": "Antofagasta"
+  },
+  {
+    "fname": "Pedro",
+    "lname": "Rojas",
+    "DOB": "1989-03-15",
+    "sex": "M",
+    "phone_home": "912345015",
+    "email": "paciente15@test.cl",
+    "city": "Puerto Montt"
+  },
+  {
+    "fname": "Sofia",
+    "lname": "Vega",
+    "DOB": "1990-04-16",
+    "sex": "F",
+    "phone_home": "912345016",
+    "email": "paciente16@test.cl",
+    "city": "Rancagua"
+  },
+  {
+    "fname": "Diego",
+    "lname": "Castro",
+    "DOB": "1991-05-17",
+    "sex": "M",
+    "phone_home": "912345017",
+    "email": "paciente17@test.cl",
+    "city": "Santiago"
+  },
+  {
+    "fname": "Camila",
+    "lname": "Gonzalez",
+    "DOB": "1992-06-18",
+    "sex": "F",
+    "phone_home": "912345018",
+    "email": "paciente18@test.cl",
+    "city": "Valparaiso"
+  },
+  {
+    "fname": "Javier",
+    "lname": "Fuentes",
+    "DOB": "1993-07-19",
+    "sex": "M",
+    "phone_home": "912345019",
+    "email": "paciente19@test.cl",
+    "city": "Concepcion"
+  },
+  {
+    "fname": "Valentina",
+    "lname": "Torres",
+    "DOB": "1994-08-20",
+    "sex": "F",
+    "phone_home": "912345020",
+    "email": "paciente20@test.cl",
+    "city": "Temuco"
+  },
+  {
+    "fname": "Juan",
+    "lname": "Perez",
+    "DOB": "1995-09-21",
+    "sex": "M",
+    "phone_home": "912345021",
+    "email": "paciente21@test.cl",
+    "city": "La Serena"
+  },
+  {
+    "fname": "Maria",
+    "lname": "Morales",
+    "DOB": "1996-10-22",
+    "sex": "F",
+    "phone_home": "912345022",
+    "email": "paciente22@test.cl",
+    "city": "Antofagasta"
+  },
+  {
+    "fname": "Carlos",
+    "lname": "Herrera",
+    "DOB": "1997-11-23",
+    "sex": "M",
+    "phone_home": "912345023",
+    "email": "paciente23@test.cl",
+    "city": "Puerto Montt"
+  },
+  {
+    "fname": "Ana",
+    "lname": "Silva",
+    "DOB": "1998-12-24",
+    "sex": "F",
+    "phone_home": "912345024",
+    "email": "paciente24@test.cl",
+    "city": "Rancagua"
+  },
+  {
+    "fname": "Pedro",
+    "lname": "Rojas",
+    "DOB": "1999-01-25",
+    "sex": "M",
+    "phone_home": "912345025",
+    "email": "paciente25@test.cl",
+    "city": "Santiago"
+  },
+  {
+    "fname": "Sofia",
+    "lname": "Vega",
+    "DOB": "1975-02-26",
+    "sex": "F",
+    "phone_home": "912345026",
+    "email": "paciente26@test.cl",
+    "city": "Valparaiso"
+  },
+  {
+    "fname": "Diego",
+    "lname": "Castro",
+    "DOB": "1976-03-27",
+    "sex": "M",
+    "phone_home": "912345027",
+    "email": "paciente27@test.cl",
+    "city": "Concepcion"
+  },
+  {
+    "fname": "Camila",
+    "lname": "Gonzalez",
+    "DOB": "1977-04-28",
+    "sex": "F",
+    "phone_home": "912345028",
+    "email": "paciente28@test.cl",
+    "city": "Temuco"
+  },
+  {
+    "fname": "Javier",
+    "lname": "Fuentes",
+    "DOB": "1978-05-01",
+    "sex": "M",
+    "phone_home": "912345029",
+    "email": "paciente29@test.cl",
+    "city": "La Serena"
+  },
+  {
+    "fname": "Valentina",
+    "lname": "Torres",
+    "DOB": "1979-06-02",
+    "sex": "F",
+    "phone_home": "912345030",
+    "email": "paciente30@test.cl",
+    "city": "Antofagasta"
+  },
+  {
+    "fname": "Juan",
+    "lname": "Perez",
+    "DOB": "1980-07-03",
+    "sex": "M",
+    "phone_home": "912345031",
+    "email": "paciente31@test.cl",
+    "city": "Puerto Montt"
+  },
+  {
+    "fname": "Maria",
+    "lname": "Morales",
+    "DOB": "1981-08-04",
+    "sex": "F",
+    "phone_home": "912345032",
+    "email": "paciente32@test.cl",
+    "city": "Rancagua"
+  },
+  {
+    "fname": "Carlos",
+    "lname": "Herrera",
+    "DOB": "1982-09-05",
+    "sex": "M",
+    "phone_home": "912345033",
+    "email": "paciente33@test.cl",
+    "city": "Santiago"
+  },
+  {
+    "fname": "Ana",
+    "lname": "Silva",
+    "DOB": "1983-10-06",
+    "sex": "F",
+    "phone_home": "912345034",
+    "email": "paciente34@test.cl",
+    "city": "Valparaiso"
+  },
+  {
+    "fname": "Pedro",
+    "lname": "Rojas",
+    "DOB": "1984-11-07",
+    "sex": "M",
+    "phone_home": "912345035",
+    "email": "paciente35@test.cl",
+    "city": "Concepcion"
+  },
+  {
+    "fname": "Sofia",
+    "lname": "Vega",
+    "DOB": "1985-12-08",
+    "sex": "F",
+    "phone_home": "912345036",
+    "email": "paciente36@test.cl",
+    "city": "Temuco"
+  },
+  {
+    "fname": "Diego",
+    "lname": "Castro",
+    "DOB": "1986-01-09",
+    "sex": "M",
+    "phone_home": "912345037",
+    "email": "paciente37@test.cl",
+    "city": "La Serena"
+  },
+  {
+    "fname": "Camila",
+    "lname": "Gonzalez",
+    "DOB": "1987-02-10",
+    "sex": "F",
+    "phone_home": "912345038",
+    "email": "paciente38@test.cl",
+    "city": "Antofagasta"
+  },
+  {
+    "fname": "Javier",
+    "lname": "Fuentes",
+    "DOB": "1988-03-11",
+    "sex": "M",
+    "phone_home": "912345039",
+    "email": "paciente39@test.cl",
+    "city": "Puerto Montt"
+  },
+  {
+    "fname": "Valentina",
+    "lname": "Torres",
+    "DOB": "1989-04-12",
+    "sex": "F",
+    "phone_home": "912345040",
+    "email": "paciente40@test.cl",
+    "city": "Rancagua"
+  },
+  {
+    "fname": "Juan",
+    "lname": "Perez",
+    "DOB": "1990-05-13",
+    "sex": "M",
+    "phone_home": "912345041",
+    "email": "paciente41@test.cl",
+    "city": "Santiago"
+  },
+  {
+    "fname": "Maria",
+    "lname": "Morales",
+    "DOB": "1991-06-14",
+    "sex": "F",
+    "phone_home": "912345042",
+    "email": "paciente42@test.cl",
+    "city": "Valparaiso"
+  },
+  {
+    "fname": "Carlos",
+    "lname": "Herrera",
+    "DOB": "1992-07-15",
+    "sex": "M",
+    "phone_home": "912345043",
+    "email": "paciente43@test.cl",
+    "city": "Concepcion"
+  },
+  {
+    "fname": "Ana",
+    "lname": "Silva",
+    "DOB": "1993-08-16",
+    "sex": "F",
+    "phone_home": "912345044",
+    "email": "paciente44@test.cl",
+    "city": "Temuco"
+  },
+  {
+    "fname": "Pedro",
+    "lname": "Rojas",
+    "DOB": "1994-09-17",
+    "sex": "M",
+    "phone_home": "912345045",
+    "email": "paciente45@test.cl",
+    "city": "La Serena"
+  },
+  {
+    "fname": "Sofia",
+    "lname": "Vega",
+    "DOB": "1995-10-18",
+    "sex": "F",
+    "phone_home": "912345046",
+    "email": "paciente46@test.cl",
+    "city": "Antofagasta"
+  },
+  {
+    "fname": "Diego",
+    "lname": "Castro",
+    "DOB": "1996-11-19",
+    "sex": "M",
+    "phone_home": "912345047",
+    "email": "paciente47@test.cl",
+    "city": "Puerto Montt"
+  },
+  {
+    "fname": "Camila",
+    "lname": "Gonzalez",
+    "DOB": "1997-12-20",
+    "sex": "F",
+    "phone_home": "912345048",
+    "email": "paciente48@test.cl",
+    "city": "Rancagua"
+  },
+  {
+    "fname": "Javier",
+    "lname": "Fuentes",
+    "DOB": "1998-01-21",
+    "sex": "M",
+    "phone_home": "912345049",
+    "email": "paciente49@test.cl",
+    "city": "Santiago"
+  },
+  {
+    "fname": "Valentina",
+    "lname": "Torres",
+    "DOB": "1999-02-22",
+    "sex": "F",
+    "phone_home": "912345050",
+    "email": "paciente50@test.cl",
+    "city": "Valparaiso"
+  },
+  {
+    "fname": "Juan",
+    "lname": "Perez",
+    "DOB": "1975-03-23",
+    "sex": "M",
+    "phone_home": "912345051",
+    "email": "paciente51@test.cl",
+    "city": "Concepcion"
+  },
+  {
+    "fname": "Maria",
+    "lname": "Morales",
+    "DOB": "1976-04-24",
+    "sex": "F",
+    "phone_home": "912345052",
+    "email": "paciente52@test.cl",
+    "city": "Temuco"
+  },
+  {
+    "fname": "Carlos",
+    "lname": "Herrera",
+    "DOB": "1977-05-25",
+    "sex": "M",
+    "phone_home": "912345053",
+    "email": "paciente53@test.cl",
+    "city": "La Serena"
+  },
+  {
+    "fname": "Ana",
+    "lname": "Silva",
+    "DOB": "1978-06-26",
+    "sex": "F",
+    "phone_home": "912345054",
+    "email": "paciente54@test.cl",
+    "city": "Antofagasta"
+  },
+  {
+    "fname": "Pedro",
+    "lname": "Rojas",
+    "DOB": "1979-07-27",
+    "sex": "M",
+    "phone_home": "912345055",
+    "email": "paciente55@test.cl",
+    "city": "Puerto Montt"
+  },
+  {
+    "fname": "Sofia",
+    "lname": "Vega",
+    "DOB": "1980-08-28",
+    "sex": "F",
+    "phone_home": "912345056",
+    "email": "paciente56@test.cl",
+    "city": "Rancagua"
+  },
+  {
+    "fname": "Diego",
+    "lname": "Castro",
+    "DOB": "1981-09-01",
+    "sex": "M",
+    "phone_home": "912345057",
+    "email": "paciente57@test.cl",
+    "city": "Santiago"
+  },
+  {
+    "fname": "Camila",
+    "lname": "Gonzalez",
+    "DOB": "1982-10-02",
+    "sex": "F",
+    "phone_home": "912345058",
+    "email": "paciente58@test.cl",
+    "city": "Valparaiso"
+  },
+  {
+    "fname": "Javier",
+    "lname": "Fuentes",
+    "DOB": "1983-11-03",
+    "sex": "M",
+    "phone_home": "912345059",
+    "email": "paciente59@test.cl",
+    "city": "Concepcion"
+  },
+  {
+    "fname": "Valentina",
+    "lname": "Torres",
+    "DOB": "1984-12-04",
+    "sex": "F",
+    "phone_home": "912345060",
+    "email": "paciente60@test.cl",
+    "city": "Temuco"
+  },
+  {
+    "fname": "Juan",
+    "lname": "Perez",
+    "DOB": "1985-01-05",
+    "sex": "M",
+    "phone_home": "912345061",
+    "email": "paciente61@test.cl",
+    "city": "La Serena"
+  },
+  {
+    "fname": "Maria",
+    "lname": "Morales",
+    "DOB": "1986-02-06",
+    "sex": "F",
+    "phone_home": "912345062",
+    "email": "paciente62@test.cl",
+    "city": "Antofagasta"
+  },
+  {
+    "fname": "Carlos",
+    "lname": "Herrera",
+    "DOB": "1987-03-07",
+    "sex": "M",
+    "phone_home": "912345063",
+    "email": "paciente63@test.cl",
+    "city": "Puerto Montt"
+  },
+  {
+    "fname": "Ana",
+    "lname": "Silva",
+    "DOB": "1988-04-08",
+    "sex": "F",
+    "phone_home": "912345064",
+    "email": "paciente64@test.cl",
+    "city": "Rancagua"
+  },
+  {
+    "fname": "Pedro",
+    "lname": "Rojas",
+    "DOB": "1989-05-09",
+    "sex": "M",
+    "phone_home": "912345065",
+    "email": "paciente65@test.cl",
+    "city": "Santiago"
+  },
+  {
+    "fname": "Sofia",
+    "lname": "Vega",
+    "DOB": "1990-06-10",
+    "sex": "F",
+    "phone_home": "912345066",
+    "email": "paciente66@test.cl",
+    "city": "Valparaiso"
+  },
+  {
+    "fname": "Diego",
+    "lname": "Castro",
+    "DOB": "1991-07-11",
+    "sex": "M",
+    "phone_home": "912345067",
+    "email": "paciente67@test.cl",
+    "city": "Concepcion"
+  },
+  {
+    "fname": "Camila",
+    "lname": "Gonzalez",
+    "DOB": "1992-08-12",
+    "sex": "F",
+    "phone_home": "912345068",
+    "email": "paciente68@test.cl",
+    "city": "Temuco"
+  },
+  {
+    "fname": "Javier",
+    "lname": "Fuentes",
+    "DOB": "1993-09-13",
+    "sex": "M",
+    "phone_home": "912345069",
+    "email": "paciente69@test.cl",
+    "city": "La Serena"
+  },
+  {
+    "fname": "Valentina",
+    "lname": "Torres",
+    "DOB": "1994-10-14",
+    "sex": "F",
+    "phone_home": "912345070",
+    "email": "paciente70@test.cl",
+    "city": "Antofagasta"
+  },
+  {
+    "fname": "Juan",
+    "lname": "Perez",
+    "DOB": "1995-11-15",
+    "sex": "M",
+    "phone_home": "912345071",
+    "email": "paciente71@test.cl",
+    "city": "Puerto Montt"
+  },
+  {
+    "fname": "Maria",
+    "lname": "Morales",
+    "DOB": "1996-12-16",
+    "sex": "F",
+    "phone_home": "912345072",
+    "email": "paciente72@test.cl",
+    "city": "Rancagua"
+  },
+  {
+    "fname": "Carlos",
+    "lname": "Herrera",
+    "DOB": "1997-01-17",
+    "sex": "M",
+    "phone_home": "912345073",
+    "email": "paciente73@test.cl",
+    "city": "Santiago"
+  },
+  {
+    "fname": "Ana",
+    "lname": "Silva",
+    "DOB": "1998-02-18",
+    "sex": "F",
+    "phone_home": "912345074",
+    "email": "paciente74@test.cl",
+    "city": "Valparaiso"
+  },
+  {
+    "fname": "Pedro",
+    "lname": "Rojas",
+    "DOB": "1999-03-19",
+    "sex": "M",
+    "phone_home": "912345075",
+    "email": "paciente75@test.cl",
+    "city": "Concepcion"
+  },
+  {
+    "fname": "Sofia",
+    "lname": "Vega",
+    "DOB": "1975-04-20",
+    "sex": "F",
+    "phone_home": "912345076",
+    "email": "paciente76@test.cl",
+    "city": "Temuco"
+  },
+  {
+    "fname": "Diego",
+    "lname": "Castro",
+    "DOB": "1976-05-21",
+    "sex": "M",
+    "phone_home": "912345077",
+    "email": "paciente77@test.cl",
+    "city": "La Serena"
+  },
+  {
+    "fname": "Camila",
+    "lname": "Gonzalez",
+    "DOB": "1977-06-22",
+    "sex": "F",
+    "phone_home": "912345078",
+    "email": "paciente78@test.cl",
+    "city": "Antofagasta"
+  },
+  {
+    "fname": "Javier",
+    "lname": "Fuentes",
+    "DOB": "1978-07-23",
+    "sex": "M",
+    "phone_home": "912345079",
+    "email": "paciente79@test.cl",
+    "city": "Puerto Montt"
+  },
+  {
+    "fname": "Valentina",
+    "lname": "Torres",
+    "DOB": "1979-08-24",
+    "sex": "F",
+    "phone_home": "912345080",
+    "email": "paciente80@test.cl",
+    "city": "Rancagua"
+  },
+  {
+    "fname": "Juan",
+    "lname": "Perez",
+    "DOB": "1980-09-25",
+    "sex": "M",
+    "phone_home": "912345081",
+    "email": "paciente81@test.cl",
+    "city": "Santiago"
+  },
+  {
+    "fname": "Maria",
+    "lname": "Morales",
+    "DOB": "1981-10-26",
+    "sex": "F",
+    "phone_home": "912345082",
+    "email": "paciente82@test.cl",
+    "city": "Valparaiso"
+  },
+  {
+    "fname": "Carlos",
+    "lname": "Herrera",
+    "DOB": "1982-11-27",
+    "sex": "M",
+    "phone_home": "912345083",
+    "email": "paciente83@test.cl",
+    "city": "Concepcion"
+  },
+  {
+    "fname": "Ana",
+    "lname": "Silva",
+    "DOB": "1983-12-28",
+    "sex": "F",
+    "phone_home": "912345084",
+    "email": "paciente84@test.cl",
+    "city": "Temuco"
+  },
+  {
+    "fname": "Pedro",
+    "lname": "Rojas",
+    "DOB": "1984-01-01",
+    "sex": "M",
+    "phone_home": "912345085",
+    "email": "paciente85@test.cl",
+    "city": "La Serena"
+  },
+  {
+    "fname": "Sofia",
+    "lname": "Vega",
+    "DOB": "1985-02-02",
+    "sex": "F",
+    "phone_home": "912345086",
+    "email": "paciente86@test.cl",
+    "city": "Antofagasta"
+  },
+  {
+    "fname": "Diego",
+    "lname": "Castro",
+    "DOB": "1986-03-03",
+    "sex": "M",
+    "phone_home": "912345087",
+    "email": "paciente87@test.cl",
+    "city": "Puerto Montt"
+  },
+  {
+    "fname": "Camila",
+    "lname": "Gonzalez",
+    "DOB": "1987-04-04",
+    "sex": "F",
+    "phone_home": "912345088",
+    "email": "paciente88@test.cl",
+    "city": "Rancagua"
+  },
+  {
+    "fname": "Javier",
+    "lname": "Fuentes",
+    "DOB": "1988-05-05",
+    "sex": "M",
+    "phone_home": "912345089",
+    "email": "paciente89@test.cl",
+    "city": "Santiago"
+  },
+  {
+    "fname": "Valentina",
+    "lname": "Torres",
+    "DOB": "1989-06-06",
+    "sex": "F",
+    "phone_home": "912345090",
+    "email": "paciente90@test.cl",
+    "city": "Valparaiso"
+  },
+  {
+    "fname": "Juan",
+    "lname": "Perez",
+    "DOB": "1990-07-07",
+    "sex": "M",
+    "phone_home": "912345091",
+    "email": "paciente91@test.cl",
+    "city": "Concepcion"
+  },
+  {
+    "fname": "Maria",
+    "lname": "Morales",
+    "DOB": "1991-08-08",
+    "sex": "F",
+    "phone_home": "912345092",
+    "email": "paciente92@test.cl",
+    "city": "Temuco"
+  },
+  {
+    "fname": "Carlos",
+    "lname": "Herrera",
+    "DOB": "1992-09-09",
+    "sex": "M",
+    "phone_home": "912345093",
+    "email": "paciente93@test.cl",
+    "city": "La Serena"
+  },
+  {
+    "fname": "Ana",
+    "lname": "Silva",
+    "DOB": "1993-10-10",
+    "sex": "F",
+    "phone_home": "912345094",
+    "email": "paciente94@test.cl",
+    "city": "Antofagasta"
+  },
+  {
+    "fname": "Pedro",
+    "lname": "Rojas",
+    "DOB": "1994-11-11",
+    "sex": "M",
+    "phone_home": "912345095",
+    "email": "paciente95@test.cl",
+    "city": "Puerto Montt"
+  },
+  {
+    "fname": "Sofia",
+    "lname": "Vega",
+    "DOB": "1995-12-12",
+    "sex": "F",
+    "phone_home": "912345096",
+    "email": "paciente96@test.cl",
+    "city": "Rancagua"
+  },
+  {
+    "fname": "Diego",
+    "lname": "Castro",
+    "DOB": "1996-01-13",
+    "sex": "M",
+    "phone_home": "912345097",
+    "email": "paciente97@test.cl",
+    "city": "Santiago"
+  },
+  {
+    "fname": "Camila",
+    "lname": "Gonzalez",
+    "DOB": "1997-02-14",
+    "sex": "F",
+    "phone_home": "912345098",
+    "email": "paciente98@test.cl",
+    "city": "Valparaiso"
+  },
+  {
+    "fname": "Javier",
+    "lname": "Fuentes",
+    "DOB": "1998-03-15",
+    "sex": "M",
+    "phone_home": "912345099",
+    "email": "paciente99@test.cl",
+    "city": "Concepcion"
+  },
+  {
+    "fname": "Valentina",
+    "lname": "Torres",
+    "DOB": "1999-04-16",
+    "sex": "F",
+    "phone_home": "912345100",
+    "email": "paciente100@test.cl",
+    "city": "Temuco"
+  }
+]

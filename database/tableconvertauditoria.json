@@ -1,0 +1,32 @@
+[
+  {
+    "FechaHora": "2026-11-18 09:00",
+    "Usuario": "admin",
+    "Accion": "Inicio Sesión",
+    "Modulo": "Login"
+  },
+  {
+    "FechaHora": "2026-11-18 09:15",
+    "Usuario": "admision",
+    "Accion": "Registro Paciente",
+    "Modulo": "Pacientes"
+  },
+  {
+    "FechaHora": "2026-11-18 10:00",
+    "Usuario": "medico1",
+    "Accion": "Registro Atención",
+    "Modulo": "Atenciones"
+  },
+  {
+    "FechaHora": "2026-11-18 10:30",
+    "Usuario": "interop1",
+    "Accion": "Generación FHIR",
+    "Modulo": "FHIR"
+  },
+  {
+    "FechaHora": "2026-11-18 10:45",
+    "Usuario": "interop1",
+    "Accion": "Generación HL7",
+    "Modulo": "HL7"
+  }
+]

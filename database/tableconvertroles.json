@@ -1,0 +1,30 @@
+[
+  {
+    "ID": "1",
+    "Rol": "Administrador"
+  },
+  {
+    "ID": "2",
+    "Rol": "Admisionista"
+  },
+  {
+    "ID": "3",
+    "Rol": "Médico"
+  },
+  {
+    "ID": "4",
+    "Rol": "Enfermero"
+  },
+  {
+    "ID": "5",
+    "Rol": "TENS"
+  },
+  {
+    "ID": "6",
+    "Rol": "Administrativo"
+  },
+  {
+    "ID": "7",
+    "Rol": "Interoperabilidad HL7-FHIR"
+  }
+]

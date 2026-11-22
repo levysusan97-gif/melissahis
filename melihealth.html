@@ -1,0 +1,2652 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MeliHealth HIS</title>
+<style>
+:root{
+  --bg:#03111a; --card:rgba(9,32,46,.62); --tx:#dff7f6; --mut:#7fa3ab; --bd:rgba(63,232,216,.16);
+  --ac:#35e8d8; --ac2:rgba(53,232,216,.11); --ac-tx:#021419; --vio:#8b7cff;
+  --rojo:#ff8a98; --rojo2:rgba(255,95,115,.13); --verde:#5af0a8; --verde2:rgba(90,240,168,.12);
+  --azul:#7cc4ff; --azul2:rgba(124,196,255,.13);
+  --titulos:Bahnschrift,"Segoe UI Variable Display","Segoe UI",system-ui,sans-serif;
+  --datos:ui-monospace,"Cascadia Code",Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{color-scheme:dark}
+body{margin:0;color:var(--tx);font:15px/1.55 "Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,sans-serif;min-height:100vh;
+  background:radial-gradient(900px 500px at 85% -10%,rgba(139,124,255,.16),transparent 60%),radial-gradient(800px 500px at -10% 110%,rgba(53,232,216,.12),transparent 60%),var(--bg);background-attachment:fixed}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background-image:linear-gradient(rgba(63,232,216,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(63,232,216,.05) 1px,transparent 1px);background-size:44px 44px;
+  -webkit-mask-image:radial-gradient(ellipse at 50% 30%,#000 20%,transparent 75%);mask-image:radial-gradient(ellipse at 50% 30%,#000 20%,transparent 75%)}
+h1,h2,h3{margin:0 0 .6rem;font-family:var(--titulos);font-weight:600;line-height:1.2;letter-spacing:.01em;font-variation-settings:"wdth" 90}
+h1{font-size:1.9rem;text-shadow:0 0 22px rgba(53,232,216,.35)}h2{font-size:1.2rem;color:#bff5ef}h3{font-size:1.02rem;color:#bff5ef}
+h1::after{content:"";display:block;width:56px;height:3px;margin-top:.45rem;border-radius:2px;background:linear-gradient(90deg,var(--ac),var(--vio));box-shadow:0 0 12px var(--ac)}
+a{color:var(--ac);text-underline-offset:3px}a:hover{color:#fff}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.mut{color:var(--mut)}
+.card{position:relative;background:var(--card);border:1px solid var(--bd);border-radius:6px 22px 6px 22px;padding:1.15rem 1.3rem;margin-bottom:1.1rem;
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 10px 40px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.04)}
+.card::before{content:"";position:absolute;left:22px;right:40px;top:-1px;height:1px;background:linear-gradient(90deg,var(--ac),transparent);opacity:.7}
+.pill{display:inline-block;margin-left:.6rem;padding:.12rem .75rem;border-radius:999px;font-size:.8rem;font-weight:600;color:var(--ac);background:var(--ac2);border:1px solid var(--bd)}
+.badge{display:inline-block;border-radius:5px;padding:.05rem .55rem;font-size:.8rem;font-weight:600;border:1px solid transparent}
+.b-Agendada,.b-ver{background:var(--azul2);color:var(--azul);border-color:rgba(124,196,255,.3)}
+.b-Atendida,.b-escribir{background:var(--verde2);color:var(--verde);border-color:rgba(90,240,168,.3)}
+.b-Cancelada{background:var(--rojo2);color:var(--rojo);border-color:rgba(255,95,115,.3)}
+button,.btn{font:inherit;cursor:pointer;color:var(--tx);background:rgba(255,255,255,.04);border:1px solid var(--bd);border-radius:8px 14px 8px 14px;padding:.48rem 1rem;text-decoration:none;display:inline-block;transition:border-color .15s,box-shadow .15s,background .15s}
+button:hover:not(:disabled){border-color:var(--ac);box-shadow:0 0 16px rgba(53,232,216,.25)}
+button.pri{color:var(--ac-tx);font-weight:700;border-color:transparent;background:linear-gradient(120deg,var(--ac),#6fd6ff 55%,var(--vio));box-shadow:0 0 22px rgba(53,232,216,.28)}
+button.pri:hover:not(:disabled){box-shadow:0 0 30px rgba(53,232,216,.55)}
+button:disabled{opacity:.4;cursor:default}
+input,select{font:inherit;color:var(--tx);background:rgba(2,12,20,.65);border:1px solid var(--bd);border-radius:8px;padding:.5rem .7rem;max-width:100%;color-scheme:dark;transition:border-color .15s,box-shadow .15s}
+input:focus,select:focus{outline:0;border-color:var(--ac);box-shadow:0 0 0 3px var(--ac2),0 0 18px rgba(53,232,216,.2)}
+select option{background:#06202e;color:var(--tx)}
+label{display:block;font-size:.85rem;color:var(--mut);margin-bottom:.25rem}
+.fila{display:flex;gap:.8rem;flex-wrap:wrap;align-items:flex-end;margin-bottom:.8rem}
+.tabla{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;padding:.6rem .75rem;border-bottom:1px solid rgba(63,232,216,.09);white-space:nowrap}
+th{font-weight:600;font-size:.84rem;color:var(--mut);border-bottom-color:var(--bd)}
+tbody tr:hover td,table tr:not(:first-child):hover td{background:rgba(53,232,216,.05)}
+td:nth-child(2){font-variant-numeric:tabular-nums}
+pre{margin:.8rem 0 0;padding:1rem;overflow:auto;max-height:60vh;border-radius:6px 16px 6px 16px;border:1px solid var(--bd);background:rgba(1,8,14,.8);color:#a8f5ee;font:13px/1.6 var(--datos)}
+pre.mut{color:var(--mut)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.9rem}
+.dato b{display:block;font-size:.82rem;font-weight:500;color:var(--mut)}
+.dato{font-size:1.02rem}
+.aviso{border:1px solid rgba(255,95,115,.35);border-left:4px solid var(--rojo);background:var(--rojo2);color:var(--rojo);padding:.75rem 1rem;border-radius:6px 14px 6px 14px}
+.nota{border:1px solid var(--bd);border-left:4px solid var(--ac);background:var(--ac2);padding:.75rem 1rem;border-radius:6px 14px 6px 14px;font-size:.9rem}
+
+/* el pulso: una traza de monitor cardíaco, el único elemento animado */
+.ecg{display:block;width:100%;height:100%}
+.ecg path{fill:none;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.ecg .base{stroke:rgba(53,232,216,.22);stroke-width:1.5}
+.ecg .pulso{stroke:var(--ac);stroke-width:2.5;stroke-dasharray:16 84;filter:drop-shadow(0 0 5px var(--ac));animation:latido 3.4s linear infinite}
+@keyframes latido{from{stroke-dashoffset:16}to{stroke-dashoffset:-84}}
+@media(prefers-reduced-motion:reduce){.ecg .pulso{animation:none;stroke-dasharray:none;opacity:.8}*{transition:none!important}}
+
+/* acceso */
+#login{min-height:100vh;display:grid;place-items:center;padding:1rem}
+#login .caja{width:100%;max-width:430px}
+.traza-login{height:84px;margin:-.2rem 0 .6rem}
+.titulo-login{font-family:var(--titulos);font-size:2.1rem;font-weight:600;font-variation-settings:"wdth" 88;letter-spacing:.01em;line-height:1.1;text-shadow:0 0 26px rgba(53,232,216,.45)}
+.titulo-login span{color:var(--ac)}
+.chips{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.6rem}.chips button{font-size:.82rem;padding:.2rem .7rem;font-family:var(--datos)}
+
+/* aplicación */
+#app{display:grid;grid-template-columns:236px 1fr;grid-template-rows:auto 1fr;min-height:100vh}
+header{position:relative;overflow:hidden;grid-column:1/3;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.8rem 1.4rem;flex-wrap:wrap;
+  background:rgba(4,20,30,.7);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd)}
+header .traza{position:absolute;inset:0;z-index:0;opacity:.55;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent 8%,#000 40%,#000 70%,transparent);mask-image:linear-gradient(90deg,transparent 8%,#000 40%,#000 70%,transparent)}
+header>*:not(.traza){position:relative;z-index:1}
+.marca{display:flex;align-items:center;gap:.6rem;font-family:var(--titulos);font-size:1.35rem;font-weight:600;font-variation-settings:"wdth" 88}
+.marca svg{width:30px;height:30px;filter:drop-shadow(0 0 8px var(--ac))}
+.marca span{color:var(--ac)}
+nav{padding:1.1rem .8rem;border-right:1px solid var(--bd);background:rgba(4,20,30,.55);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+nav a{display:block;padding:.58rem .9rem;border-radius:6px 14px 6px 14px;color:var(--mut);text-decoration:none;margin-bottom:.2rem;transition:color .15s,background .15s}
+nav a:hover{color:var(--tx);background:rgba(255,255,255,.04)}
+nav a.act{color:var(--ac);font-weight:600;background:linear-gradient(90deg,rgba(53,232,216,.16),transparent);box-shadow:inset 3px 0 0 var(--ac);text-shadow:0 0 12px rgba(53,232,216,.5)}
+main{padding:1.5rem;min-width:0;max-width:1120px}
+footer{margin-top:2.2rem;font-size:.82rem;color:var(--mut)}
+@media(max-width:760px){#app{grid-template-columns:1fr}header{grid-column:1}nav{display:flex;gap:.25rem;overflow-x:auto;border-right:0;border-bottom:1px solid var(--bd);padding:.5rem}nav a{white-space:nowrap;margin:0}h1{font-size:1.55rem}}
+
+/* ===== Colores y movimiento extra ===== */
+:root{--rosa:#ff7ad9;--ambar:#ffc857;--lima:#b8f36b;--naranja:#ff9f6b}
+.orbes{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.orbes i{position:absolute;border-radius:50%;filter:blur(70px);opacity:.38;animation:flota 18s ease-in-out infinite alternate}
+.orbes i:nth-child(1){width:380px;height:380px;background:var(--vio);top:-80px;right:8%}
+.orbes i:nth-child(2){width:320px;height:320px;background:var(--ac);bottom:-60px;left:6%;animation-duration:23s}
+.orbes i:nth-child(3){width:260px;height:260px;background:var(--rosa);top:42%;left:46%;animation-duration:27s;opacity:.2}
+@keyframes flota{to{transform:translate(70px,-50px) scale(1.2)}}
+h1{background:linear-gradient(90deg,#fff,var(--ac),var(--vio),var(--rosa),#fff);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;animation:brilla 8s linear infinite}
+@keyframes brilla{to{background-position:-250% 0}}
+nav a::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:.6rem;background:var(--c,var(--ac));box-shadow:0 0 8px var(--c,var(--ac));transition:transform .2s}
+nav a:hover::before{transform:scale(1.7)}
+nav a.act{color:var(--c);box-shadow:inset 3px 0 0 var(--c);background:linear-gradient(90deg,color-mix(in srgb,var(--c) 20%,transparent),transparent);text-shadow:0 0 12px var(--c)}
+nav a.act::before{animation:pulsa 1.4s ease-in-out infinite}
+@keyframes pulsa{50%{transform:scale(1.8);opacity:.5}}
+#vista>*{animation:entra .55s cubic-bezier(.2,.7,.2,1) both}
+@keyframes entra{from{opacity:0;transform:translateY(14px)}}
+table tr{animation:fila .4s both}
+@keyframes fila{from{opacity:0;transform:translateX(-10px)}}
+#vista>*:nth-child(2){animation-delay:0.07s}#vista>*:nth-child(3){animation-delay:0.14s}#vista>*:nth-child(4){animation-delay:0.21s}#vista>*:nth-child(5){animation-delay:0.28s}#vista>*:nth-child(6){animation-delay:0.35s}#vista>*:nth-child(7){animation-delay:0.42s}table tr:nth-child(2){animation-delay:0.03s}table tr:nth-child(3){animation-delay:0.06s}table tr:nth-child(4){animation-delay:0.09s}table tr:nth-child(5){animation-delay:0.12s}table tr:nth-child(6){animation-delay:0.15s}table tr:nth-child(7){animation-delay:0.18s}table tr:nth-child(8){animation-delay:0.21s}table tr:nth-child(9){animation-delay:0.24s}table tr:nth-child(10){animation-delay:0.27s}table tr:nth-child(11){animation-delay:0.30s}table tr:nth-child(12){animation-delay:0.33s}table tr:nth-child(13){animation-delay:0.36s}table tr:nth-child(14){animation-delay:0.39s}table tr:nth-child(15){animation-delay:0.42s}table tr:nth-child(16){animation-delay:0.45s}
+.grid>.card,.card.graf,.kpi{transition:transform .25s,box-shadow .25s,border-color .25s}
+.grid>.card:hover,.card.graf:hover{transform:translateY(-3px);border-color:rgba(53,232,216,.4);box-shadow:0 14px 44px rgba(0,0,0,.4),0 0 26px rgba(53,232,216,.12)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.9rem;margin-bottom:1.1rem}
+.kpi{position:relative;overflow:hidden;padding:1rem 1.1rem;border-radius:6px 20px 6px 20px;background:var(--card);border:1px solid var(--bd)}
+.kpi::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--c);box-shadow:0 0 14px var(--c)}
+.kpi::after{content:"";position:absolute;width:110px;height:110px;right:-34px;bottom:-44px;border-radius:50%;background:var(--c);opacity:.14;filter:blur(8px)}
+.kpi:hover{transform:translateY(-4px);box-shadow:0 12px 34px rgba(0,0,0,.4),0 0 24px color-mix(in srgb,var(--c) 30%,transparent)}
+.kpi em{font-style:normal;font-size:1.5rem}
+.kpi b{display:block;font:600 2.3rem/1.1 var(--titulos);color:var(--c);text-shadow:0 0 18px var(--c)}
+.kpi span{color:var(--mut);font-size:.85rem}
+.dos{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:1.1rem}
+.barra{display:grid;grid-template-columns:96px 1fr 28px;gap:.6rem;align-items:center;margin:.5rem 0;font-size:.88rem}
+.barra div{height:10px;border-radius:6px;background:rgba(255,255,255,.06);overflow:hidden}
+.barra i{display:block;height:100%;width:0;border-radius:6px;transition:width 1.1s cubic-bezier(.2,.7,.2,1)}
+.barra span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.barra b{text-align:right}
+.donawrap{display:flex;gap:1.2rem;align-items:center;flex-wrap:wrap}
+.dona{position:relative;width:130px;height:130px;border-radius:50%;display:grid;place-items:center;animation:dona 1.2s cubic-bezier(.2,.7,.2,1) both;box-shadow:0 0 28px rgba(139,124,255,.25)}
+.dona::after{content:"";position:absolute;inset:24px;border-radius:50%;background:#0a2130}
+.dona span{position:relative;z-index:1;font:600 1.3rem var(--titulos)}
+@keyframes dona{from{transform:rotate(-160deg) scale(.5);opacity:0}}
+.leyenda div{margin:.2rem 0;font-size:.9rem}.leyenda i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:.5rem}
+.mods{display:flex;flex-wrap:wrap;gap:.5rem}
+.alerta{display:flex;justify-content:space-between;gap:.6rem;padding:.5rem .7rem;margin:.4rem 0;border-radius:8px;background:var(--rojo2);border-left:3px solid var(--rojo);text-decoration:none;color:var(--tx);font-size:.88rem;transition:transform .2s}
+.alerta:hover{transform:translateX(5px);color:var(--tx)}
+.v{display:inline-block;min-width:2.2rem;text-align:center;padding:.05rem .5rem;border-radius:999px;font-weight:600;font-variant-numeric:tabular-nums}
+.v-ok{background:var(--verde2);color:var(--verde)}
+.v-warn{background:rgba(255,200,87,.14);color:var(--ambar)}
+.v-bad{background:var(--rojo2);color:var(--rojo);animation:alarma 1.3s ease-in-out infinite}
+@keyframes alarma{50%{box-shadow:0 0 14px var(--rojo)}}
+.av{display:inline-grid;place-items:center;width:28px;height:28px;margin-right:.5rem;border-radius:50%;font-size:.7rem;font-weight:700;color:#04121a;background:linear-gradient(135deg,hsl(var(--h) 90% 66%),hsl(calc(var(--h) + 50) 90% 62%));vertical-align:middle}
+.av.grande{width:68px;height:68px;font-size:1.4rem;margin:0;box-shadow:0 0 24px hsl(var(--h) 90% 60%/.5);animation:late 2.6s ease-in-out infinite}
+@keyframes late{50%{transform:scale(1.06)}}
+.fichahead{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}.fichahead h1{margin:0}
+.sx{display:inline-block;width:1.7rem;text-align:center;border-radius:6px;font-weight:700}
+.sx-F{background:rgba(255,122,217,.15);color:var(--rosa)}.sx-M{background:var(--azul2);color:var(--azul)}
+.badge.m{background:hsl(var(--h) 80% 60%/.14);color:hsl(var(--h) 90% 74%);border-color:hsl(var(--h) 80% 60%/.3)}
+tr.mal td{background:var(--rojo2);color:var(--rojo)}
+.spark{display:flex;gap:1.4rem;flex-wrap:wrap;margin-top:1rem}
+.spark svg{width:300px;height:64px;background:rgba(1,8,14,.5);border-radius:8px;border:1px solid var(--bd)}
+.spark polyline{fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:trazo 1.6s ease-out forwards;filter:drop-shadow(0 0 4px currentColor)}
+@keyframes trazo{to{stroke-dashoffset:0}}
+.toast{position:fixed;right:1.2rem;bottom:1.2rem;z-index:50;padding:.7rem 1.1rem;border-radius:8px 16px 8px 16px;color:var(--ac-tx);font-weight:700;background:linear-gradient(120deg,var(--verde),var(--ac));box-shadow:0 8px 30px rgba(53,232,216,.4);animation:toast 2.6s both}
+@keyframes toast{0%{transform:translateY(30px);opacity:0}12%,85%{transform:none;opacity:1}100%{transform:translateY(10px);opacity:0}}
+.reloj{font-family:var(--datos);font-size:.85rem;color:var(--ac);margin-left:auto;text-shadow:0 0 10px var(--ac)}
+button.pri{background-size:200% 100%;animation:desliza 5s ease infinite}
+@keyframes desliza{50%{background-position:100% 0}}
+.chips button{border-color:hsl(var(--h,170) 80% 60%/.5);color:hsl(var(--h,170) 90% 76%);transition:transform .2s,box-shadow .2s}
+.chips button:hover{transform:translateY(-2px)}
+@media(prefers-reduced-motion:reduce){.orbes i,h1,button.pri,.v-bad,.av.grande,nav a.act::before,.dona,.spark polyline,#vista>*,table tr,.toast{animation:none!important}.spark polyline{stroke-dashoffset:0}.barra i{transition:none}}
+
+/* ===== Tema clínico: blanco · fucsia · rosado (reemplaza el estilo oscuro) ===== */
+:root{
+  --bg:#fff8fb; --card:#ffffff; --tx:#2a1a23; --mut:#7a6670; --bd:#f3cfe0;
+  --ac:#d6246e; --ac2:rgba(214,36,110,.09); --ac-tx:#ffffff; --vio:#7c5ce6; --ac-hover:#a8174f;
+  --rojo:#d92d4b; --rojo2:rgba(217,45,75,.10); --verde:#1c8f68; --verde2:rgba(28,143,104,.12);
+  --azul:#2f7fd6; --azul2:rgba(47,127,214,.12);
+  --rosa:#ff5fa8; --ambar:#b7770a; --lima:#5b9f1f; --naranja:#d9692a;
+}
+html{color-scheme:light}
+body{background:radial-gradient(900px 500px at 85% -10%,rgba(255,95,168,.16),transparent 60%),radial-gradient(800px 500px at -10% 110%,rgba(124,92,230,.10),transparent 60%),var(--bg)}
+body::before{background-image:linear-gradient(rgba(214,36,110,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(214,36,110,.045) 1px,transparent 1px)}
+h1{text-shadow:none;background:linear-gradient(90deg,var(--ac),var(--vio),var(--rosa),var(--ac));background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent}
+h1::after{box-shadow:none}
+h2,h3{color:#8a1a4c}
+a:hover{color:var(--ac-hover)}
+::selection{background:#ffd3e6}
+.card{box-shadow:0 8px 28px rgba(214,36,110,.08),inset 0 1px 0 #fff}
+.kpi{background:#fff}
+.kpi b{text-shadow:none}
+.kpi::before{box-shadow:none}
+.kpi:hover{box-shadow:0 12px 30px rgba(214,36,110,.14)}
+.grid>.card:hover,.card.graf:hover{border-color:rgba(214,36,110,.4);box-shadow:0 12px 34px rgba(214,36,110,.14)}
+button,.btn{background:#fff;color:var(--tx)}
+button:hover:not(:disabled){box-shadow:0 0 0 3px var(--ac2)}
+button.pri{color:#fff;box-shadow:0 6px 18px rgba(214,36,110,.28);background-image:linear-gradient(120deg,var(--ac),var(--rosa) 55%,var(--vio));background-size:200% 100%}
+button.pri:hover:not(:disabled){box-shadow:0 8px 24px rgba(214,36,110,.42)}
+input,select,textarea{font:inherit;color:var(--tx);background:#fff;border:1px solid var(--bd);border-radius:8px;padding:.5rem .7rem;max-width:100%;color-scheme:light}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--ac);box-shadow:0 0 0 3px var(--ac2)}
+select option{background:#fff;color:var(--tx)}
+th,td{border-bottom-color:rgba(214,36,110,.10)}
+th{background:#fff0f6}
+tbody tr:hover td,table tr:not(:first-child):hover td{background:rgba(214,36,110,.05)}
+pre{background:#fff0f6;color:#7a1243;border-color:var(--bd)}
+.ecg .base{stroke:rgba(214,36,110,.22)}
+.ecg .pulso{filter:none}
+.titulo-login,.reloj{text-shadow:none}
+.marca svg{filter:none}
+header{background:rgba(255,255,255,.88)}
+nav{background:rgba(255,255,255,.75)}
+nav a:hover{background:rgba(214,36,110,.06)}
+nav a.act{text-shadow:none;font-weight:700}
+nav a::before{box-shadow:none}
+.orbes i{opacity:.16}
+.orbes i:nth-child(3){opacity:.10}
+.dona{box-shadow:0 0 22px rgba(214,36,110,.15)}
+.dona::after{background:#fff}
+.spark svg{background:#fff0f6}
+.spark polyline{filter:none}
+.toast{color:#fff;background:linear-gradient(120deg,var(--ac),var(--vio));box-shadow:0 8px 26px rgba(214,36,110,.35)}
+.chips button{color:hsl(var(--h,330) 65% 32%);border-color:hsl(var(--h,330) 70% 55%/.45);background:#fff}
+.badge.m{color:hsl(var(--h) 70% 30%)}
+.v-warn{background:rgba(183,119,10,.13)}
+.barra div{background:rgba(214,36,110,.08)}
+.barra i{box-shadow:none!important}
+tr.mal td{background:rgba(217,45,75,.08)}
+
+/* ===== Incidencias ITIL ===== */
+.inc td{white-space:normal;vertical-align:top}
+.inc td.desc{min-width:240px;max-width:330px}
+.inc td:nth-child(1),.inc td:nth-child(2),.inc td:nth-child(6){white-space:nowrap}
+.inc small{display:block;color:var(--mut);margin-top:.2rem}
+.pr{display:inline-block;border-radius:6px;padding:.05rem .55rem;font-size:.8rem;font-weight:700;white-space:nowrap}
+.p-P1{background:#d92d4b;color:#fff}
+.p-P2{background:#ffd9b8;color:#9a4210}
+.p-P3{background:#ffe0ef;color:#a8174f}
+.p-P4{background:#dff3ea;color:#176b4e}
+.e-Nueva{background:var(--azul2);color:var(--azul);border-color:rgba(47,127,214,.3)}
+.e-En-análisis{background:rgba(183,119,10,.13);color:var(--ambar)}
+.e-Escalada{background:var(--rojo2);color:var(--rojo);border-color:rgba(217,45,75,.3)}
+.e-Resuelta{background:var(--verde2);color:var(--verde);border-color:rgba(28,143,104,.3)}
+.e-Cerrada{background:#efe9f7;color:var(--vio)}
+.auto{font-size:.72rem;color:var(--vio);font-weight:700}
+.inc select{padding:.25rem .4rem;font-size:.85rem}
+</style>
+</head>
+<body>
+<div class="orbes" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<section id="login" hidden>
+  <div class="caja">
+    <div class="card">
+      <div class="traza-login"><svg class="ecg" viewBox="0 0 400 80" preserveAspectRatio="none" aria-hidden="true"><path class="base" pathLength="100" d="M0 40H70L80 34 90 40H130L138 47 148 6 160 72 170 40H215L228 30 242 40H400"/><path class="pulso" pathLength="100" d="M0 40H70L80 34 90 40H130L138 47 148 6 160 72 170 40H215L228 30 242 40H400"/></svg></div>
+      <div class="titulo-login">Meli<span>Health</span> HIS</div>
+      <p class="mut" style="margin:.3rem 0 0">Sistema de información hospitalaria en versión demo.</p>
+      <form id="formLogin" autocomplete="off">
+        <div style="margin:.8rem 0"><label for="usr">Usuario</label><input id="usr" style="width:100%" required></div>
+        <div style="margin-bottom:.8rem"><label for="pwd">Contraseña</label><input id="pwd" type="password" style="width:100%" required></div>
+        <div id="errLogin" class="aviso" hidden>Usuario o contraseña incorrectos.</div>
+        <button class="pri" style="width:100%;margin-top:.5rem">Ingresar</button>
+      </form>
+      <details id="cuentas" style="margin-top:.9rem;font-size:.82rem;color:var(--mut)">
+        <summary style="cursor:pointer;width:max-content">Probar otro rol</summary>
+        <div class="chips" id="chips"></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<div id="app" hidden>
+  <header>
+    <div class="traza"><svg class="ecg" viewBox="0 0 400 80" preserveAspectRatio="none" aria-hidden="true"><path class="base" pathLength="100" d="M0 40H70L80 34 90 40H130L138 47 148 6 160 72 170 40H215L228 30 242 40H400"/><path class="pulso" pathLength="100" d="M0 40H70L80 34 90 40H130L138 47 148 6 160 72 170 40H215L228 30 242 40H400"/></svg></div>
+    <div class="marca"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M13 3h6v10h10v6H19v10h-6V19H3v-6h10z" fill="none" stroke="#d6246e" stroke-width="1.6" stroke-linejoin="round"/><path d="M5 16h6l2-4 3 9 2-5h9" fill="none" stroke="#7c5ce6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><div>Meli<span>Health</span> HIS</div></div>
+    <div id="reloj" class="reloj"></div><div id="quien"></div>
+    <button id="salir">Cerrar sesión</button>
+  </header>
+  <nav id="menu"></nav>
+  <main>
+    <div id="vista"></div>
+    <footer>Versión demo en el navegador: los datos son ficticios y la seguridad real requiere un servidor.
+      <a href="#" id="reset">Restablecer datos de demo</a> · <span id="fuente"></span></footer>
+  </main>
+</div>
+
+<script>
+// Generado desde tus Excel. Datos ficticios de prueba (RUT inventados).
+const DATOS_BASE = {
+ "roles": [
+  "Administrador",
+  "Admisionista",
+  "Médico",
+  "Enfermero",
+  "TENS",
+  "Administrativo",
+  "Interoperabilidad HL7-FHIR"
+ ],
+ "usuarios": [
+  {
+   "usuario": "admin",
+   "hash": "f8e68e8d44bfb5314974a97f787d017ff6ac9d0046083f28665fcf96f0cef80c",
+   "nombre": "Melissa Zamorano Levy",
+   "rol": "Administrador"
+  },
+  {
+   "usuario": "admision",
+   "hash": "0d46f5c892c3da70ef06fee02850fe904901cd93d075d985175b01b44c0dc771",
+   "nombre": "Claudia Muñoz",
+   "rol": "Admisionista"
+  },
+  {
+   "usuario": "medico1",
+   "hash": "91d2e3cecc8433bad8e2fc27a72a6b65f845113efa6a382c706b024640fa205d",
+   "nombre": "Juan Pérez",
+   "rol": "Médico"
+  },
+  {
+   "usuario": "enfermero1",
+   "hash": "43096eb3dda086981cac3b00a2f22d3d12393b1930027d4776c73ba7fa42e0a8",
+   "nombre": "María Soto",
+   "rol": "Enfermero"
+  },
+  {
+   "usuario": "tens1",
+   "hash": "76d1a74edd2f62e82af651ad6834885f9d07e69df303f879e6b9e0ac7203ff1f",
+   "nombre": "Ana Rojas",
+   "rol": "TENS"
+  },
+  {
+   "usuario": "administrativo1",
+   "hash": "5dc8ff5ea54f4c6b7985a8a3ecd3b939b702346cc94e085b74872ef9eeac7752",
+   "nombre": "Pedro León",
+   "rol": "Administrativo"
+  },
+  {
+   "usuario": "interop1",
+   "hash": "ac04ee7dd708e36754081e6e31f4bca72766d4c28a3b21f3c2198ce77b60b22e",
+   "nombre": "Diego Castro",
+   "rol": "Interoperabilidad HL7-FHIR"
+  }
+ ],
+ "pacientes": [
+  {
+   "id": 1,
+   "rut": "99000001-8",
+   "nombres": "Juan",
+   "apellidos": "Perez",
+   "fecha_nacimiento": "1975-01-01",
+   "sexo": "M",
+   "telefono": "912345001",
+   "email": "paciente1@test.cl",
+   "ciudad": "Santiago"
+  },
+  {
+   "id": 2,
+   "rut": "99000002-6",
+   "nombres": "Maria",
+   "apellidos": "Morales",
+   "fecha_nacimiento": "1976-02-02",
+   "sexo": "F",
+   "telefono": "912345002",
+   "email": "paciente2@test.cl",
+   "ciudad": "Valparaiso"
+  },
+  {
+   "id": 3,
+   "rut": "99000003-4",
+   "nombres": "Carlos",
+   "apellidos": "Herrera",
+   "fecha_nacimiento": "1977-03-03",
+   "sexo": "M",
+   "telefono": "912345003",
+   "email": "paciente3@test.cl",
+   "ciudad": "Concepcion"
+  },
+  {
+   "id": 4,
+   "rut": "99000004-2",
+   "nombres": "Ana",
+   "apellidos": "Silva",
+   "fecha_nacimiento": "1978-04-04",
+   "sexo": "F",
+   "telefono": "912345004",
+   "email": "paciente4@test.cl",
+   "ciudad": "Temuco"
+  },
+  {
+   "id": 5,
+   "rut": "99000005-0",
+   "nombres": "Pedro",
+   "apellidos": "Rojas",
+   "fecha_nacimiento": "1979-05-05",
+   "sexo": "M",
+   "telefono": "912345005",
+   "email": "paciente5@test.cl",
+   "ciudad": "La Serena"
+  },
+  {
+   "id": 6,
+   "rut": "99000006-9",
+   "nombres": "Sofia",
+   "apellidos": "Vega",
+   "fecha_nacimiento": "1980-06-06",
+   "sexo": "F",
+   "telefono": "912345006",
+   "email": "paciente6@test.cl",
+   "ciudad": "Antofagasta"
+  },
+  {
+   "id": 7,
+   "rut": "99000007-7",
+   "nombres": "Diego",
+   "apellidos": "Castro",
+   "fecha_nacimiento": "1981-07-07",
+   "sexo": "M",
+   "telefono": "912345007",
+   "email": "paciente7@test.cl",
+   "ciudad": "Puerto Montt"
+  },
+  {
+   "id": 8,
+   "rut": "99000008-5",
+   "nombres": "Camila",
+   "apellidos": "Gonzalez",
+   "fecha_nacimiento": "1982-08-08",
+   "sexo": "F",
+   "telefono": "912345008",
+   "email": "paciente8@test.cl",
+   "ciudad": "Rancagua"
+  },
+  {
+   "id": 9,
+   "rut": "99000009-3",
+   "nombres": "Javier",
+   "apellidos": "Fuentes",
+   "fecha_nacimiento": "1983-09-09",
+   "sexo": "M",
+   "telefono": "912345009",
+   "email": "paciente9@test.cl",
+   "ciudad": "Santiago"
+  },
+  {
+   "id": 10,
+   "rut": "99000010-7",
+   "nombres": "Valentina",
+   "apellidos": "Torres",
+   "fecha_nacimiento": "1984-10-10",
+   "sexo": "F",
+   "telefono": "912345010",
+   "email": "paciente10@test.cl",
+   "ciudad": "Valparaiso"
+  },
+  {
+   "id": 11,
+   "rut": "99000011-5",
+   "nombres": "Juan",
+   "apellidos": "Perez",
+   "fecha_nacimiento": "1985-11-11",
+   "sexo": "M",
+   "telefono": "912345011",
+   "email": "paciente11@test.cl",
+   "ciudad": "Concepcion"
+  },
+  {
+   "id": 12,
+   "rut": "99000012-3",
+   "nombres": "Maria",
+   "apellidos": "Morales",
+   "fecha_nacimiento": "1986-12-12",
+   "sexo": "F",
+   "telefono": "912345012",
+   "email": "paciente12@test.cl",
+   "ciudad": "Temuco"
+  },
+  {
+   "id": 13,
+   "rut": "99000013-1",
+   "nombres": "Carlos",
+   "apellidos": "Herrera",
+   "fecha_nacimiento": "1987-01-13",
+   "sexo": "M",
+   "telefono": "912345013",
+   "email": "paciente13@test.cl",
+   "ciudad": "La Serena"
+  },
+  {
+   "id": 14,
+   "rut": "99000014-K",
+   "nombres": "Ana",
+   "apellidos": "Silva",
+   "fecha_nacimiento": "1988-02-14",
+   "sexo": "F",
+   "telefono": "912345014",
+   "email": "paciente14@test.cl",
+   "ciudad": "Antofagasta"
+  },
+  {
+   "id": 15,
+   "rut": "99000015-8",
+   "nombres": "Pedro",
+   "apellidos": "Rojas",
+   "fecha_nacimiento": "1989-03-15",
+   "sexo": "M",
+   "telefono": "912345015",
+   "email": "paciente15@test.cl",
+   "ciudad": "Puerto Montt"
+  },
+  {
+   "id": 16,
+   "rut": "99000016-6",
+   "nombres": "Sofia",
+   "apellidos": "Vega",
+   "fecha_nacimiento": "1990-04-16",
+   "sexo": "F",
+   "telefono": "912345016",
+   "email": "paciente16@test.cl",
+   "ciudad": "Rancagua"
+  },
+  {
+   "id": 17,
+   "rut": "99000017-4",
+   "nombres": "Diego",
+   "apellidos": "Castro",
+   "fecha_nacimiento": "1991-05-17",
+   "sexo": "M",
+   "telefono": "912345017",
+   "email": "paciente17@test.cl",
+   "ciudad": "Santiago"
+  },
+  {
+   "id": 18,
+   "rut": "99000018-2",
+   "nombres": "Camila",
+   "apellidos": "Gonzalez",
+   "fecha_nacimiento": "1992-06-18",
+   "sexo": "F",
+   "telefono": "912345018",
+   "email": "paciente18@test.cl",
+   "ciudad": "Valparaiso"
+  },
+  {
+   "id": 19,
+   "rut": "99000019-0",
+   "nombres": "Javier",
+   "apellidos": "Fuentes",
+   "fecha_nacimiento": "1993-07-19",
+   "sexo": "M",
+   "telefono": "912345019",
+   "email": "paciente19@test.cl",
+   "ciudad": "Concepcion"
+  },
+  {
+   "id": 20,
+   "rut": "99000020-4",
+   "nombres": "Valentina",
+   "apellidos": "Torres",
+   "fecha_nacimiento": "1994-08-20",
+   "sexo": "F",
+   "telefono": "912345020",
+   "email": "paciente20@test.cl",
+   "ciudad": "Temuco"
+  },
+  {
+   "id": 21,
+   "rut": "99000021-2",
+   "nombres": "Juan",
+   "apellidos": "Perez",
+   "fecha_nacimiento": "1995-09-21",
+   "sexo": "M",
+   "telefono": "912345021",
+   "email": "paciente21@test.cl",
+   "ciudad": "La Serena"
+  },
+  {
+   "id": 22,
+   "rut": "99000022-0",
+   "nombres": "Maria",
+   "apellidos": "Morales",
+   "fecha_nacimiento": "1996-10-22",
+   "sexo": "F",
+   "telefono": "912345022",
+   "email": "paciente22@test.cl",
+   "ciudad": "Antofagasta"
+  },
+  {
+   "id": 23,
+   "rut": "99000023-9",
+   "nombres": "Carlos",
+   "apellidos": "Herrera",
+   "fecha_nacimiento": "1997-11-23",
+   "sexo": "M",
+   "telefono": "912345023",
+   "email": "paciente23@test.cl",
+   "ciudad": "Puerto Montt"
+  },
+  {
+   "id": 24,
+   "rut": "99000024-7",
+   "nombres": "Ana",
+   "apellidos": "Silva",
+   "fecha_nacimiento": "1998-12-24",
+   "sexo": "F",
+   "telefono": "912345024",
+   "email": "paciente24@test.cl",
+   "ciudad": "Rancagua"
+  },
+  {
+   "id": 25,
+   "rut": "99000025-5",
+   "nombres": "Pedro",
+   "apellidos": "Rojas",
+   "fecha_nacimiento": "1999-01-25",
+   "sexo": "M",
+   "telefono": "912345025",
+   "email": "paciente25@test.cl",
+   "ciudad": "Santiago"
+  },
+  {
+   "id": 26,
+   "rut": "99000026-3",
+   "nombres": "Sofia",
+   "apellidos": "Vega",
+   "fecha_nacimiento": "1975-02-26",
+   "sexo": "F",
+   "telefono": "912345026",
+   "email": "paciente26@test.cl",
+   "ciudad": "Valparaiso"
+  },
+  {
+   "id": 27,
+   "rut": "99000027-1",
+   "nombres": "Diego",
+   "apellidos": "Castro",
+   "fecha_nacimiento": "1976-03-27",
+   "sexo": "M",
+   "telefono": "912345027",
+   "email": "paciente27@test.cl",
+   "ciudad": "Concepcion"
+  },
+  {
+   "id": 28,
+   "rut": "99000028-K",
+   "nombres": "Camila",
+   "apellidos": "Gonzalez",
+   "fecha_nacimiento": "1977-04-28",
+   "sexo": "F",
+   "telefono": "912345028",
+   "email": "paciente28@test.cl",
+   "ciudad": "Temuco"
+  },
+  {
+   "id": 29,
+   "rut": "99000029-8",
+   "nombres": "Javier",
+   "apellidos": "Fuentes",
+   "fecha_nacimiento": "1978-05-01",
+   "sexo": "M",
+   "telefono": "912345029",
+   "email": "paciente29@test.cl",
+   "ciudad": "La Serena"
+  },
+  {
+   "id": 30,
+   "rut": "99000030-1",
+   "nombres": "Valentina",
+   "apellidos": "Torres",
+   "fecha_nacimiento": "1979-06-02",
+   "sexo": "F",
+   "telefono": "912345030",
+   "email": "paciente30@test.cl",
+   "ciudad": "Antofagasta"
+  },
+  {
+   "id": 31,
+   "rut": "99000031-K",
+   "nombres": "Juan",
+   "apellidos": "Perez",
+   "fecha_nacimiento": "1980-07-03",
+   "sexo": "M",
+   "telefono": "912345031",
+   "email": "paciente31@test.cl",
+   "ciudad": "Puerto Montt"
+  },
+  {
+   "id": 32,
+   "rut": "99000032-8",
+   "nombres": "Maria",
+   "apellidos": "Morales",
+   "fecha_nacimiento": "1981-08-04",
+   "sexo": "F",
+   "telefono": "912345032",
+   "email": "paciente32@test.cl",
+   "ciudad": "Rancagua"
+  },
+  {
+   "id": 33,
+   "rut": "99000033-6",
+   "nombres": "Carlos",
+   "apellidos": "Herrera",
+   "fecha_nacimiento": "1982-09-05",
+   "sexo": "M",
+   "telefono": "912345033",
+   "email": "paciente33@test.cl",
+   "ciudad": "Santiago"
+  },
+  {
+   "id": 34,
+   "rut": "99000034-4",
+   "nombres": "Ana",
+   "apellidos": "Silva",
+   "fecha_nacimiento": "1983-10-06",
+   "sexo": "F",
+   "telefono": "912345034",
+   "email": "paciente34@test.cl",
+   "ciudad": "Valparaiso"
+  },
+  {
+   "id": 35,
+   "rut": "99000035-2",
+   "nombres": "Pedro",
+   "apellidos": "Rojas",
+   "fecha_nacimiento": "1984-11-07",
+   "sexo": "M",
+   "telefono": "912345035",
+   "email": "paciente35@test.cl",
+   "ciudad": "Concepcion"
+  },
+  {
+   "id": 36,
+   "rut": "99000036-0",
+   "nombres": "Sofia",
+   "apellidos": "Vega",
+   "fecha_nacimiento": "1985-12-08",
+   "sexo": "F",
+   "telefono": "912345036",
+   "email": "paciente36@test.cl",
+   "ciudad": "Temuco"
+  },
+  {
+   "id": 37,
+   "rut": "99000037-9",
+   "nombres": "Diego",
+   "apellidos": "Castro",
+   "fecha_nacimiento": "1986-01-09",
+   "sexo": "M",
+   "telefono": "912345037",
+   "email": "paciente37@test.cl",
+   "ciudad": "La Serena"
+  },
+  {
+   "id": 38,
+   "rut": "99000038-7",
+   "nombres": "Camila",
+   "apellidos": "Gonzalez",
+   "fecha_nacimiento": "1987-02-10",
+   "sexo": "F",
+   "telefono": "912345038",
+   "email": "paciente38@test.cl",
+   "ciudad": "Antofagasta"
+  },
+  {
+   "id": 39,
+   "rut": "99000039-5",
+   "nombres": "Javier",
+   "apellidos": "Fuentes",
+   "fecha_nacimiento": "1988-03-11",
+   "sexo": "M",
+   "telefono": "912345039",
+   "email": "paciente39@test.cl",
+   "ciudad": "Puerto Montt"
+  },
+  {
+   "id": 40,
+   "rut": "99000040-9",
+   "nombres": "Valentina",
+   "apellidos": "Torres",
+   "fecha_nacimiento": "1989-04-12",
+   "sexo": "F",
+   "telefono": "912345040",
+   "email": "paciente40@test.cl",
+   "ciudad": "Rancagua"
+  },
+  {
+   "id": 41,
+   "rut": "99000041-7",
+   "nombres": "Juan",
+   "apellidos": "Perez",
+   "fecha_nacimiento": "1990-05-13",
+   "sexo": "M",
+   "telefono": "912345041",
+   "email": "paciente41@test.cl",
+   "ciudad": "Santiago"
+  },
+  {
+   "id": 42,
+   "rut": "99000042-5",
+   "nombres": "Maria",
+   "apellidos": "Morales",
+   "fecha_nacimiento": "1991-06-14",
+   "sexo": "F",
+   "telefono": "912345042",
+   "email": "paciente42@test.cl",
+   "ciudad": "Valparaiso"
+  },
+  {
+   "id": 43,
+   "rut": "99000043-3",
+   "nombres": "Carlos",
+   "apellidos": "Herrera",
+   "fecha_nacimiento": "1992-07-15",
+   "sexo": "M",
+   "telefono": "912345043",
+   "email": "paciente43@test.cl",
+   "ciudad": "Concepcion"
+  },
+  {
+   "id": 44,
+   "rut": "99000044-1",
+   "nombres": "Ana",
+   "apellidos": "Silva",
+   "fecha_nacimiento": "1993-08-16",
+   "sexo": "F",
+   "telefono": "912345044",
+   "email": "paciente44@test.cl",
+   "ciudad": "Temuco"
+  },
+  {
+   "id": 45,
+   "rut": "99000045-K",
+   "nombres": "Pedro",
+   "apellidos": "Rojas",
+   "fecha_nacimiento": "1994-09-17",
+   "sexo": "M",
+   "telefono": "912345045",
+   "email": "paciente45@test.cl",
+   "ciudad": "La Serena"
+  },
+  {
+   "id": 46,
+   "rut": "99000046-8",
+   "nombres": "Sofia",
+   "apellidos": "Vega",
+   "fecha_nacimiento": "1995-10-18",
+   "sexo": "F",
+   "telefono": "912345046",
+   "email": "paciente46@test.cl",
+   "ciudad": "Antofagasta"
+  },
+  {
+   "id": 47,
+   "rut": "99000047-6",
+   "nombres": "Diego",
+   "apellidos": "Castro",
+   "fecha_nacimiento": "1996-11-19",
+   "sexo": "M",
+   "telefono": "912345047",
+   "email": "paciente47@test.cl",
+   "ciudad": "Puerto Montt"
+  },
+  {
+   "id": 48,
+   "rut": "99000048-4",
+   "nombres": "Camila",
+   "apellidos": "Gonzalez",
+   "fecha_nacimiento": "1997-12-20",
+   "sexo": "F",
+   "telefono": "912345048",
+   "email": "paciente48@test.cl",
+   "ciudad": "Rancagua"
+  },
+  {
+   "id": 49,
+   "rut": "99000049-2",
+   "nombres": "Javier",
+   "apellidos": "Fuentes",
+   "fecha_nacimiento": "1998-01-21",
+   "sexo": "M",
+   "telefono": "912345049",
+   "email": "paciente49@test.cl",
+   "ciudad": "Santiago"
+  },
+  {
+   "id": 50,
+   "rut": "99000050-6",
+   "nombres": "Valentina",
+   "apellidos": "Torres",
+   "fecha_nacimiento": "1999-02-22",
+   "sexo": "F",
+   "telefono": "912345050",
+   "email": "paciente50@test.cl",
+   "ciudad": "Valparaiso"
+  },
+  {
+   "id": 51,
+   "rut": "99000051-4",
+   "nombres": "Juan",
+   "apellidos": "Perez",
+   "fecha_nacimiento": "1975-03-23",
+   "sexo": "M",
+   "telefono": "912345051",
+   "email": "paciente51@test.cl",
+   "ciudad": "Concepcion"
+  },
+  {
+   "id": 52,
+   "rut": "99000052-2",
+   "nombres": "Maria",
+   "apellidos": "Morales",
+   "fecha_nacimiento": "1976-04-24",
+   "sexo": "F",
+   "telefono": "912345052",
+   "email": "paciente52@test.cl",
+   "ciudad": "Temuco"
+  },
+  {
+   "id": 53,
+   "rut": "99000053-0",
+   "nombres": "Carlos",
+   "apellidos": "Herrera",
+   "fecha_nacimiento": "1977-05-25",
+   "sexo": "M",
+   "telefono": "912345053",
+   "email": "paciente53@test.cl",
+   "ciudad": "La Serena"
+  },
+  {
+   "id": 54,
+   "rut": "99000054-9",
+   "nombres": "Ana",
+   "apellidos": "Silva",
+   "fecha_nacimiento": "1978-06-26",
+   "sexo": "F",
+   "telefono": "912345054",
+   "email": "paciente54@test.cl",
+   "ciudad": "Antofagasta"
+  },
+  {
+   "id": 55,
+   "rut": "99000055-7",
+   "nombres": "Pedro",
+   "apellidos": "Rojas",
+   "fecha_nacimiento": "1979-07-27",
+   "sexo": "M",
+   "telefono": "912345055",
+   "email": "paciente55@test.cl",
+   "ciudad": "Puerto Montt"
+  },
+  {
+   "id": 56,
+   "rut": "99000056-5",
+   "nombres": "Sofia",
+   "apellidos": "Vega",
+   "fecha_nacimiento": "1980-08-28",
+   "sexo": "F",
+   "telefono": "912345056",
+   "email": "paciente56@test.cl",
+   "ciudad": "Rancagua"
+  },
+  {
+   "id": 57,
+   "rut": "99000057-3",
+   "nombres": "Diego",
+   "apellidos": "Castro",
+   "fecha_nacimiento": "1981-09-01",
+   "sexo": "M",
+   "telefono": "912345057",
+   "email": "paciente57@test.cl",
+   "ciudad": "Santiago"
+  },
+  {
+   "id": 58,
+   "rut": "99000058-1",
+   "nombres": "Camila",
+   "apellidos": "Gonzalez",
+   "fecha_nacimiento": "1982-10-02",
+   "sexo": "F",
+   "telefono": "912345058",
+   "email": "paciente58@test.cl",
+   "ciudad": "Valparaiso"
+  },
+  {
+   "id": 59,
+   "rut": "99000059-K",
+   "nombres": "Javier",
+   "apellidos": "Fuentes",
+   "fecha_nacimiento": "1983-11-03",
+   "sexo": "M",
+   "telefono": "912345059",
+   "email": "paciente59@test.cl",
+   "ciudad": "Concepcion"
+  },
+  {
+   "id": 60,
+   "rut": "99000060-3",
+   "nombres": "Valentina",
+   "apellidos": "Torres",
+   "fecha_nacimiento": "1984-12-04",
+   "sexo": "F",
+   "telefono": "912345060",
+   "email": "paciente60@test.cl",
+   "ciudad": "Temuco"
+  },
+  {
+   "id": 61,
+   "rut": "99000061-1",
+   "nombres": "Juan",
+   "apellidos": "Perez",
+   "fecha_nacimiento": "1985-01-05",
+   "sexo": "M",
+   "telefono": "912345061",
+   "email": "paciente61@test.cl",
+   "ciudad": "La Serena"
+  },
+  {
+   "id": 62,
+   "rut": "99000062-K",
+   "nombres": "Maria",
+   "apellidos": "Morales",
+   "fecha_nacimiento": "1986-02-06",
+   "sexo": "F",
+   "telefono": "912345062",
+   "email": "paciente62@test.cl",
+   "ciudad": "Antofagasta"
+  },
+  {
+   "id": 63,
+   "rut": "99000063-8",
+   "nombres": "Carlos",
+   "apellidos": "Herrera",
+   "fecha_nacimiento": "1987-03-07",
+   "sexo": "M",
+   "telefono": "912345063",
+   "email": "paciente63@test.cl",
+   "ciudad": "Puerto Montt"
+  },
+  {
+   "id": 64,
+   "rut": "99000064-6",
+   "nombres": "Ana",
+   "apellidos": "Silva",
+   "fecha_nacimiento": "1988-04-08",
+   "sexo": "F",
+   "telefono": "912345064",
+   "email": "paciente64@test.cl",
+   "ciudad": "Rancagua"
+  },
+  {
+   "id": 65,
+   "rut": "99000065-4",
+   "nombres": "Pedro",
+   "apellidos": "Rojas",
+   "fecha_nacimiento": "1989-05-09",
+   "sexo": "M",
+   "telefono": "912345065",
+   "email": "paciente65@test.cl",
+   "ciudad": "Santiago"
+  },
+  {
+   "id": 66,
+   "rut": "99000066-2",
+   "nombres": "Sofia",
+   "apellidos": "Vega",
+   "fecha_nacimiento": "1990-06-10",
+   "sexo": "F",
+   "telefono": "912345066",
+   "email": "paciente66@test.cl",
+   "ciudad": "Valparaiso"
+  },
+  {
+   "id": 67,
+   "rut": "99000067-0",
+   "nombres": "Diego",
+   "apellidos": "Castro",
+   "fecha_nacimiento": "1991-07-11",
+   "sexo": "M",
+   "telefono": "912345067",
+   "email": "paciente67@test.cl",
+   "ciudad": "Concepcion"
+  },
+  {
+   "id": 68,
+   "rut": "99000068-9",
+   "nombres": "Camila",
+   "apellidos": "Gonzalez",
+   "fecha_nacimiento": "1992-08-12",
+   "sexo": "F",
+   "telefono": "912345068",
+   "email": "paciente68@test.cl",
+   "ciudad": "Temuco"
+  },
+  {
+   "id": 69,
+   "rut": "99000069-7",
+   "nombres": "Javier",
+   "apellidos": "Fuentes",
+   "fecha_nacimiento": "1993-09-13",
+   "sexo": "M",
+   "telefono": "912345069",
+   "email": "paciente69@test.cl",
+   "ciudad": "La Serena"
+  },
+  {
+   "id": 70,
+   "rut": "99000070-0",
+   "nombres": "Valentina",
+   "apellidos": "Torres",
+   "fecha_nacimiento": "1994-10-14",
+   "sexo": "F",
+   "telefono": "912345070",
+   "email": "paciente70@test.cl",
+   "ciudad": "Antofagasta"
+  },
+  {
+   "id": 71,
+   "rut": "99000071-9",
+   "nombres": "Juan",
+   "apellidos": "Perez",
+   "fecha_nacimiento": "1995-11-15",
+   "sexo": "M",
+   "telefono": "912345071",
+   "email": "paciente71@test.cl",
+   "ciudad": "Puerto Montt"
+  },
+  {
+   "id": 72,
+   "rut": "99000072-7",
+   "nombres": "Maria",
+   "apellidos": "Morales",
+   "fecha_nacimiento": "1996-12-16",
+   "sexo": "F",
+   "telefono": "912345072",
+   "email": "paciente72@test.cl",
+   "ciudad": "Rancagua"
+  },
+  {
+   "id": 73,
+   "rut": "99000073-5",
+   "nombres": "Carlos",
+   "apellidos": "Herrera",
+   "fecha_nacimiento": "1997-01-17",
+   "sexo": "M",
+   "telefono": "912345073",
+   "email": "paciente73@test.cl",
+   "ciudad": "Santiago"
+  },
+  {
+   "id": 74,
+   "rut": "99000074-3",
+   "nombres": "Ana",
+   "apellidos": "Silva",
+   "fecha_nacimiento": "1998-02-18",
+   "sexo": "F",
+   "telefono": "912345074",
+   "email": "paciente74@test.cl",
+   "ciudad": "Valparaiso"
+  },
+  {
+   "id": 75,
+   "rut": "99000075-1",
+   "nombres": "Pedro",
+   "apellidos": "Rojas",
+   "fecha_nacimiento": "1999-03-19",
+   "sexo": "M",
+   "telefono": "912345075",
+   "email": "paciente75@test.cl",
+   "ciudad": "Concepcion"
+  },
+  {
+   "id": 76,
+   "rut": "99000076-K",
+   "nombres": "Sofia",
+   "apellidos": "Vega",
+   "fecha_nacimiento": "1975-04-20",
+   "sexo": "F",
+   "telefono": "912345076",
+   "email": "paciente76@test.cl",
+   "ciudad": "Temuco"
+  },
+  {
+   "id": 77,
+   "rut": "99000077-8",
+   "nombres": "Diego",
+   "apellidos": "Castro",
+   "fecha_nacimiento": "1976-05-21",
+   "sexo": "M",
+   "telefono": "912345077",
+   "email": "paciente77@test.cl",
+   "ciudad": "La Serena"
+  },
+  {
+   "id": 78,
+   "rut": "99000078-6",
+   "nombres": "Camila",
+   "apellidos": "Gonzalez",
+   "fecha_nacimiento": "1977-06-22",
+   "sexo": "F",
+   "telefono": "912345078",
+   "email": "paciente78@test.cl",
+   "ciudad": "Antofagasta"
+  },
+  {
+   "id": 79,
+   "rut": "99000079-4",
+   "nombres": "Javier",
+   "apellidos": "Fuentes",
+   "fecha_nacimiento": "1978-07-23",
+   "sexo": "M",
+   "telefono": "912345079",
+   "email": "paciente79@test.cl",
+   "ciudad": "Puerto Montt"
+  },
+  {
+   "id": 80,
+   "rut": "99000080-8",
+   "nombres": "Valentina",
+   "apellidos": "Torres",
+   "fecha_nacimiento": "1979-08-24",
+   "sexo": "F",
+   "telefono": "912345080",
+   "email": "paciente80@test.cl",
+   "ciudad": "Rancagua"
+  },
+  {
+   "id": 81,
+   "rut": "99000081-6",
+   "nombres": "Juan",
+   "apellidos": "Perez",
+   "fecha_nacimiento": "1980-09-25",
+   "sexo": "M",
+   "telefono": "912345081",
+   "email": "paciente81@test.cl",
+   "ciudad": "Santiago"
+  },
+  {
+   "id": 82,
+   "rut": "99000082-4",
+   "nombres": "Maria",
+   "apellidos": "Morales",
+   "fecha_nacimiento": "1981-10-26",
+   "sexo": "F",
+   "telefono": "912345082",
+   "email": "paciente82@test.cl",
+   "ciudad": "Valparaiso"
+  },
+  {
+   "id": 83,
+   "rut": "99000083-2",
+   "nombres": "Carlos",
+   "apellidos": "Herrera",
+   "fecha_nacimiento": "1982-11-27",
+   "sexo": "M",
+   "telefono": "912345083",
+   "email": "paciente83@test.cl",
+   "ciudad": "Concepcion"
+  },
+  {
+   "id": 84,
+   "rut": "99000084-0",
+   "nombres": "Ana",
+   "apellidos": "Silva",
+   "fecha_nacimiento": "1983-12-28",
+   "sexo": "F",
+   "telefono": "912345084",
+   "email": "paciente84@test.cl",
+   "ciudad": "Temuco"
+  },
+  {
+   "id": 85,
+   "rut": "99000085-9",
+   "nombres": "Pedro",
+   "apellidos": "Rojas",
+   "fecha_nacimiento": "1984-01-01",
+   "sexo": "M",
+   "telefono": "912345085",
+   "email": "paciente85@test.cl",
+   "ciudad": "La Serena"
+  },
+  {
+   "id": 86,
+   "rut": "99000086-7",
+   "nombres": "Sofia",
+   "apellidos": "Vega",
+   "fecha_nacimiento": "1985-02-02",
+   "sexo": "F",
+   "telefono": "912345086",
+   "email": "paciente86@test.cl",
+   "ciudad": "Antofagasta"
+  },
+  {
+   "id": 87,
+   "rut": "99000087-5",
+   "nombres": "Diego",
+   "apellidos": "Castro",
+   "fecha_nacimiento": "1986-03-03",
+   "sexo": "M",
+   "telefono": "912345087",
+   "email": "paciente87@test.cl",
+   "ciudad": "Puerto Montt"
+  },
+  {
+   "id": 88,
+   "rut": "99000088-3",
+   "nombres": "Camila",
+   "apellidos": "Gonzalez",
+   "fecha_nacimiento": "1987-04-04",
+   "sexo": "F",
+   "telefono": "912345088",
+   "email": "paciente88@test.cl",
+   "ciudad": "Rancagua"
+  },
+  {
+   "id": 89,
+   "rut": "99000089-1",
+   "nombres": "Javier",
+   "apellidos": "Fuentes",
+   "fecha_nacimiento": "1988-05-05",
+   "sexo": "M",
+   "telefono": "912345089",
+   "email": "paciente89@test.cl",
+   "ciudad": "Santiago"
+  },
+  {
+   "id": 90,
+   "rut": "99000090-5",
+   "nombres": "Valentina",
+   "apellidos": "Torres",
+   "fecha_nacimiento": "1989-06-06",
+   "sexo": "F",
+   "telefono": "912345090",
+   "email": "paciente90@test.cl",
+   "ciudad": "Valparaiso"
+  },
+  {
+   "id": 91,
+   "rut": "99000091-3",
+   "nombres": "Juan",
+   "apellidos": "Perez",
+   "fecha_nacimiento": "1990-07-07",
+   "sexo": "M",
+   "telefono": "912345091",
+   "email": "paciente91@test.cl",
+   "ciudad": "Concepcion"
+  },
+  {
+   "id": 92,
+   "rut": "99000092-1",
+   "nombres": "Maria",
+   "apellidos": "Morales",
+   "fecha_nacimiento": "1991-08-08",
+   "sexo": "F",
+   "telefono": "912345092",
+   "email": "paciente92@test.cl",
+   "ciudad": "Temuco"
+  },
+  {
+   "id": 93,
+   "rut": "99000093-K",
+   "nombres": "Carlos",
+   "apellidos": "Herrera",
+   "fecha_nacimiento": "1992-09-09",
+   "sexo": "M",
+   "telefono": "912345093",
+   "email": "paciente93@test.cl",
+   "ciudad": "La Serena"
+  },
+  {
+   "id": 94,
+   "rut": "99000094-8",
+   "nombres": "Ana",
+   "apellidos": "Silva",
+   "fecha_nacimiento": "1993-10-10",
+   "sexo": "F",
+   "telefono": "912345094",
+   "email": "paciente94@test.cl",
+   "ciudad": "Antofagasta"
+  },
+  {
+   "id": 95,
+   "rut": "99000095-6",
+   "nombres": "Pedro",
+   "apellidos": "Rojas",
+   "fecha_nacimiento": "1994-11-11",
+   "sexo": "M",
+   "telefono": "912345095",
+   "email": "paciente95@test.cl",
+   "ciudad": "Puerto Montt"
+  },
+  {
+   "id": 96,
+   "rut": "99000096-4",
+   "nombres": "Sofia",
+   "apellidos": "Vega",
+   "fecha_nacimiento": "1995-12-12",
+   "sexo": "F",
+   "telefono": "912345096",
+   "email": "paciente96@test.cl",
+   "ciudad": "Rancagua"
+  },
+  {
+   "id": 97,
+   "rut": "99000097-2",
+   "nombres": "Diego",
+   "apellidos": "Castro",
+   "fecha_nacimiento": "1996-01-13",
+   "sexo": "M",
+   "telefono": "912345097",
+   "email": "paciente97@test.cl",
+   "ciudad": "Santiago"
+  },
+  {
+   "id": 98,
+   "rut": "99000098-0",
+   "nombres": "Camila",
+   "apellidos": "Gonzalez",
+   "fecha_nacimiento": "1997-02-14",
+   "sexo": "F",
+   "telefono": "912345098",
+   "email": "paciente98@test.cl",
+   "ciudad": "Valparaiso"
+  },
+  {
+   "id": 99,
+   "rut": "99000099-9",
+   "nombres": "Javier",
+   "apellidos": "Fuentes",
+   "fecha_nacimiento": "1998-03-15",
+   "sexo": "M",
+   "telefono": "912345099",
+   "email": "paciente99@test.cl",
+   "ciudad": "Concepcion"
+  },
+  {
+   "id": 100,
+   "rut": "99000100-6",
+   "nombres": "Valentina",
+   "apellidos": "Torres",
+   "fecha_nacimiento": "1999-04-16",
+   "sexo": "F",
+   "telefono": "912345100",
+   "email": "paciente100@test.cl",
+   "ciudad": "Temuco"
+  }
+ ],
+ "profesionales": [
+  {
+   "id": 1,
+   "rut": "98000001-K",
+   "nombre": "Dr. Juan Pérez",
+   "profesion": "Médico",
+   "especialidad": "Medicina General"
+  },
+  {
+   "id": 2,
+   "rut": "98000002-8",
+   "nombre": "María Soto",
+   "profesion": "Enfermero",
+   "especialidad": "Enfermería"
+  },
+  {
+   "id": 3,
+   "rut": "98000003-6",
+   "nombre": "Ana Rojas",
+   "profesion": "TENS",
+   "especialidad": "Apoyo Clínico"
+  }
+ ],
+ "citas": [
+  {
+   "id": 1,
+   "paciente_id": 1,
+   "fecha": "2026-11-20",
+   "hora": "09:00",
+   "profesional_id": 1,
+   "estado": "Agendada"
+  },
+  {
+   "id": 2,
+   "paciente_id": 2,
+   "fecha": "2026-11-20",
+   "hora": "09:30",
+   "profesional_id": 1,
+   "estado": "Atendida"
+  },
+  {
+   "id": 3,
+   "paciente_id": 3,
+   "fecha": "2026-11-20",
+   "hora": "10:00",
+   "profesional_id": 1,
+   "estado": "Cancelada"
+  },
+  {
+   "id": 4,
+   "paciente_id": 4,
+   "fecha": "2026-11-20",
+   "hora": "10:30",
+   "profesional_id": 1,
+   "estado": "Agendada"
+  },
+  {
+   "id": 5,
+   "paciente_id": 5,
+   "fecha": "2026-11-20",
+   "hora": "11:00",
+   "profesional_id": 1,
+   "estado": "Atendida"
+  }
+ ],
+ "atenciones": [
+  {
+   "id": 1,
+   "paciente_id": 1,
+   "fecha": "2026-11-01",
+   "profesional_id": 1,
+   "motivo": "Control cardiovascular"
+  },
+  {
+   "id": 2,
+   "paciente_id": 2,
+   "fecha": "2026-11-02",
+   "profesional_id": 1,
+   "motivo": "Dolor abdominal"
+  },
+  {
+   "id": 3,
+   "paciente_id": 3,
+   "fecha": "2026-11-03",
+   "profesional_id": 1,
+   "motivo": "Control diabetes"
+  },
+  {
+   "id": 4,
+   "paciente_id": 4,
+   "fecha": "2026-11-04",
+   "profesional_id": 1,
+   "motivo": "Infección respiratoria"
+  },
+  {
+   "id": 5,
+   "paciente_id": 5,
+   "fecha": "2026-11-05",
+   "profesional_id": 1,
+   "motivo": "Examen preventivo"
+  }
+ ],
+ "diagnosticos": [
+  {
+   "id": 1,
+   "atencion_id": 1,
+   "cie10": "I10",
+   "descripcion": "Hipertensión esencial"
+  },
+  {
+   "id": 2,
+   "atencion_id": 2,
+   "cie10": "K29",
+   "descripcion": "Gastritis"
+  },
+  {
+   "id": 3,
+   "atencion_id": 3,
+   "cie10": "E11",
+   "descripcion": "Diabetes Mellitus Tipo 2"
+  },
+  {
+   "id": 4,
+   "atencion_id": 4,
+   "cie10": "J06",
+   "descripcion": "Infección respiratoria aguda"
+  },
+  {
+   "id": 5,
+   "atencion_id": 5,
+   "cie10": "Z00",
+   "descripcion": "Examen preventivo"
+  }
+ ],
+ "signos_vitales": [
+  {
+   "id": 1,
+   "paciente_id": 1,
+   "fecha": "2026-11-01",
+   "pa": "130/80",
+   "fc": 72,
+   "fr": 18,
+   "temp": 36.5,
+   "sato2": 98
+  },
+  {
+   "id": 2,
+   "paciente_id": 2,
+   "fecha": "2026-11-02",
+   "pa": "120/70",
+   "fc": 68,
+   "fr": 18,
+   "temp": 36.8,
+   "sato2": 99
+  },
+  {
+   "id": 3,
+   "paciente_id": 3,
+   "fecha": "2026-11-03",
+   "pa": "140/90",
+   "fc": 75,
+   "fr": 20,
+   "temp": 37.0,
+   "sato2": 97
+  }
+ ],
+ "auditoria": [
+  {
+   "fecha_hora": "2026-11-18 09:00",
+   "usuario": "admin",
+   "accion": "Inicio Sesión",
+   "modulo": "Login"
+  },
+  {
+   "fecha_hora": "2026-11-18 09:15",
+   "usuario": "admision",
+   "accion": "Registro Paciente",
+   "modulo": "Pacientes"
+  },
+  {
+   "fecha_hora": "2026-11-18 10:00",
+   "usuario": "medico1",
+   "accion": "Registro Atención",
+   "modulo": "Atenciones"
+  },
+  {
+   "fecha_hora": "2026-11-18 10:30",
+   "usuario": "interop1",
+   "accion": "Generación FHIR",
+   "modulo": "FHIR"
+  },
+  {
+   "fecha_hora": "2026-11-18 10:45",
+   "usuario": "interop1",
+   "accion": "Generación HL7",
+   "modulo": "HL7"
+  }
+ ]
+};
+
+</script>
+<script>
+/* Roles, usuarios e incidencias nuevas (se suman a los de tus Excel/JSON; contraseña de prueba: 1234). Datos ficticios. */
+const EXTRA_ROLES = ["Matrona", "Kinesiólogo", "Nutricionista", "Psicólogo / Trab. Social", "Tec. Médico (Laboratorio)", "Imagenología", "Farmacia", "Gestión de camas", "Jefe de servicio", "Calidad", "Soporte TI", "Service Desk", "Auditor"];
+const EXTRA_USUARIOS = [
+ {
+  "usuario": "matrona1",
+  "hash": "c7068324da7fd94bdae5787b8df7e420ac97295dffaa98fb8049fb1e2403580f",
+  "nombre": "Camila Fuentes",
+  "rol": "Matrona"
+ },
+ {
+  "usuario": "kine1",
+  "hash": "56beddbfdcc48d74fdf97dd658436a350abdac28f7ac2885bd107aa8da3ed738",
+  "nombre": "Rodrigo Vera",
+  "rol": "Kinesiólogo"
+ },
+ {
+  "usuario": "nutri1",
+  "hash": "67bb44a1d4be8d01695e08b0017ee2f0df113d159a2cecb299baa226c2ec2d7b",
+  "nombre": "Sofía Araya",
+  "rol": "Nutricionista"
+ },
+ {
+  "usuario": "psico1",
+  "hash": "1d50485ec6c57a026c08e80cd9257330051bf5ec0c668da08cbb2956920a0e4f",
+  "nombre": "Valentina Ríos",
+  "rol": "Psicólogo / Trab. Social"
+ },
+ {
+  "usuario": "tecmed1",
+  "hash": "9ef0c71b1638b686d7fef1615fa33397ac1b14e16148e8414d1854c2f2961712",
+  "nombre": "Andrés Molina",
+  "rol": "Tec. Médico (Laboratorio)"
+ },
+ {
+  "usuario": "imagen1",
+  "hash": "f65f494d078672ee0d9d05111ea2a14a8246db5c50b756b41f6dbb59c6f866b4",
+  "nombre": "Paula Núñez",
+  "rol": "Imagenología"
+ },
+ {
+  "usuario": "farmacia1",
+  "hash": "617d3df38f0f20a9f46d6fc7f97bcf2dbd912fbdaec30dba33008ab1b8bdbd7f",
+  "nombre": "Javiera Lagos",
+  "rol": "Farmacia"
+ },
+ {
+  "usuario": "camas1",
+  "hash": "e101a743910d3279ba2501e99de22f22580d8dc29b36ad1cda9721a68863129e",
+  "nombre": "Marcelo Tapia",
+  "rol": "Gestión de camas"
+ },
+ {
+  "usuario": "jefe1",
+  "hash": "70d9eeace1efb5b6cabc2939177f2c53317d693dbbaf4a45fbd0e20341e04480",
+  "nombre": "Carolina Bravo",
+  "rol": "Jefe de servicio"
+ },
+ {
+  "usuario": "calidad1",
+  "hash": "fc11cefa2932387456295a12b30211324942c815a0e8a56c01ee5578e6874ef5",
+  "nombre": "Fernanda Silva",
+  "rol": "Calidad"
+ },
+ {
+  "usuario": "soporteti1",
+  "hash": "8bee93a05fb400d3675a76aaf328e376ed6ea9ced14b6fc1884c6e3368608c19",
+  "nombre": "Nicolás Peña",
+  "rol": "Soporte TI"
+ },
+ {
+  "usuario": "servicedesk1",
+  "hash": "f314726720e0e1837f80358ee09b237ed802bc7294dd23fdf71c0260fd3179d8",
+  "nombre": "Daniela Campos",
+  "rol": "Service Desk"
+ },
+ {
+  "usuario": "auditor1",
+  "hash": "4b3d03da473678ed1886db386b27a7a6229aa29f5e3e590d9f31889f460e0f2a",
+  "nombre": "Héctor Vidal",
+  "rol": "Auditor"
+ }
+];
+const INCIDENCIAS_BASE = [
+ {
+  "id": "INC-001",
+  "fecha": "2026-11-15",
+  "caso": "UAT-003",
+  "modulo": "Signos vitales",
+  "categoria": "Clínica",
+  "reportado": "enfermero1",
+  "descripcion": "Paciente con PA 180/110, FC 120, Temp 38.5 y SatO2 89% no dispara alerta clínica",
+  "esperado": "Alerta clínica visible (estado bad)",
+  "obtenido": "No aparece alerta",
+  "impacto": "Alto",
+  "urgencia": "Medio",
+  "estado": "Nueva",
+  "asignado": "servicedesk1",
+  "resolucion": "",
+  "cierre": ""
+ },
+ {
+  "id": "INC-002",
+  "fecha": "2026-11-15",
+  "caso": "UAT-006",
+  "modulo": "HL7",
+  "categoria": "Seguridad",
+  "reportado": "calidad1",
+  "descripcion": "admision puede abrir el módulo HL7 (sin permiso)",
+  "esperado": "Acceso denegado + registro en auditoría",
+  "obtenido": "Accedió al módulo",
+  "impacto": "Alto",
+  "urgencia": "Alto",
+  "estado": "Escalada",
+  "asignado": "admin",
+  "resolucion": "Revisar matriz de permisos y validar el rol en cada vista",
+  "cierre": ""
+ },
+ {
+  "id": "INC-003",
+  "fecha": "2026-11-16",
+  "caso": "UAT-002",
+  "modulo": "Diagnósticos",
+  "categoria": "Datos",
+  "reportado": "medico1",
+  "descripcion": "Se registra diagnóstico CIE-10 sin atención asociada",
+  "esperado": "El diagnóstico exige una atención abierta",
+  "obtenido": "Se guarda sin atención",
+  "impacto": "Medio",
+  "urgencia": "Medio",
+  "estado": "En análisis",
+  "asignado": "admin",
+  "resolucion": "",
+  "cierre": ""
+ },
+ {
+  "id": "INC-004",
+  "fecha": "2026-11-16",
+  "caso": "UAT-004",
+  "modulo": "FHIR",
+  "categoria": "Interoperabilidad",
+  "reportado": "interop1",
+  "descripcion": "Bundle FHIR se genera sin el recurso Condition",
+  "esperado": "Patient, Encounter, Observation y Condition",
+  "obtenido": "Falta Condition",
+  "impacto": "Alto",
+  "urgencia": "Medio",
+  "estado": "En análisis",
+  "asignado": "interop1",
+  "resolucion": "",
+  "cierre": ""
+ },
+ {
+  "id": "INC-005",
+  "fecha": "2026-11-17",
+  "caso": "UAT-005",
+  "modulo": "HL7",
+  "categoria": "Interoperabilidad",
+  "reportado": "interop1",
+  "descripcion": "Mensaje ADT_A08 sin identificador del paciente (PID-3)",
+  "esperado": "Mensaje ADT_A08 completo y válido",
+  "obtenido": "PID-3 vacío",
+  "impacto": "Medio",
+  "urgencia": "Medio",
+  "estado": "Nueva",
+  "asignado": "interop1",
+  "resolucion": "",
+  "cierre": ""
+ },
+ {
+  "id": "INC-006",
+  "fecha": "2026-11-17",
+  "caso": "UAT-007",
+  "modulo": "Auditoría",
+  "categoria": "Seguridad",
+  "reportado": "calidad1",
+  "descripcion": "La creación de cita no queda registrada en auditoría",
+  "esperado": "Evento «Creación cita» trazable",
+  "obtenido": "Sin registro",
+  "impacto": "Alto",
+  "urgencia": "Medio",
+  "estado": "Nueva",
+  "asignado": "admin",
+  "resolucion": "",
+  "cierre": ""
+ },
+ {
+  "id": "INC-007",
+  "fecha": "2026-11-18",
+  "caso": "UAT-001",
+  "modulo": "Pacientes",
+  "categoria": "Funcional",
+  "reportado": "admision",
+  "descripcion": "Buscar paciente inexistente muestra error técnico",
+  "esperado": "Mensaje «Paciente no encontrado»",
+  "obtenido": "Pantalla en blanco",
+  "impacto": "Bajo",
+  "urgencia": "Medio",
+  "estado": "Resuelta",
+  "asignado": "servicedesk1",
+  "resolucion": "Se agregó mensaje amigable en la búsqueda",
+  "cierre": ""
+ },
+ {
+  "id": "INC-008",
+  "fecha": "2026-11-18",
+  "caso": "UAT-002",
+  "modulo": "Diagnósticos",
+  "categoria": "Funcional",
+  "reportado": "medico1",
+  "descripcion": "Botones Editar/Eliminar no responden al hacer clic",
+  "esperado": "Acción ejecutada o confirmación",
+  "obtenido": "Sin respuesta",
+  "impacto": "Medio",
+  "urgencia": "Medio",
+  "estado": "Resuelta",
+  "asignado": "admin",
+  "resolucion": "Se asociaron eventos a los botones",
+  "cierre": ""
+ },
+ {
+  "id": "INC-009",
+  "fecha": "2026-11-19",
+  "caso": "UAT-006",
+  "modulo": "Auditoría",
+  "categoria": "Seguridad",
+  "reportado": "calidad1",
+  "descripcion": "enfermero1 ve el módulo Auditoría",
+  "esperado": "Acceso denegado",
+  "obtenido": "Accedió al módulo",
+  "impacto": "Alto",
+  "urgencia": "Medio",
+  "estado": "Cerrada",
+  "asignado": "admin",
+  "resolucion": "Permiso corregido y re-probado OK",
+  "cierre": "2026-11-20"
+ },
+ {
+  "id": "INC-010",
+  "fecha": "2026-11-19",
+  "caso": "UAT-008",
+  "modulo": "Interfaz",
+  "categoria": "Usabilidad",
+  "reportado": "administrativo1",
+  "descripcion": "Texto rosado claro sobre fondo blanco con poco contraste",
+  "esperado": "Contraste legible (tema clínico)",
+  "obtenido": "Difícil de leer",
+  "impacto": "Bajo",
+  "urgencia": "Bajo",
+  "estado": "Cerrada",
+  "asignado": "servicedesk1",
+  "resolucion": "Se oscureció el fucsia de los textos",
+  "cierre": "2026-11-21"
+ }
+];
+</script>
+<script>
+/* MeliHealth HIS – lógica del lado del navegador (sin servidor, sin instalar nada).
+   DEMO: la seguridad real (claves, permisos) solo puede garantizarla un backend. */
+const HIS = (() => {
+  // ---------- SHA-256 (para no guardar contraseñas en texto plano) ----------
+  const primos = [];
+  for (let n = 2; primos.length < 64; n++) if (primos.every(p => n % p)) primos.push(n);
+  const frac = x => Math.floor((x - Math.floor(x)) * 4294967296);
+  const K = primos.map(p => frac(Math.cbrt(p)));
+  const H0 = primos.slice(0, 8).map(p => frac(Math.sqrt(p)));
+  const rotr = (x, n) => (x >>> n) | (x << (32 - n));
+  function sha256(msg) {
+    const b = new TextEncoder().encode(msg), l = b.length;
+    const m = new Uint8Array(((l + 9 + 63) >> 6) << 6);
+    m.set(b); m[l] = 0x80;
+    const dv = new DataView(m.buffer);
+    dv.setUint32(m.length - 4, (l * 8) >>> 0);
+    dv.setUint32(m.length - 8, Math.floor(l * 8 / 4294967296));
+    const h = H0.slice(), w = new Uint32Array(64);
+    for (let o = 0; o < m.length; o += 64) {
+      for (let i = 0; i < 16; i++) w[i] = dv.getUint32(o + i * 4);
+      for (let i = 16; i < 64; i++) {
+        const s0 = rotr(w[i - 15], 7) ^ rotr(w[i - 15], 18) ^ (w[i - 15] >>> 3);
+        const s1 = rotr(w[i - 2], 17) ^ rotr(w[i - 2], 19) ^ (w[i - 2] >>> 10);
+        w[i] = (w[i - 16] + s0 + w[i - 7] + s1) >>> 0;
+      }
+      let [a, b2, c, d, e, f, g, hh] = h;
+      for (let i = 0; i < 64; i++) {
+        const S1 = rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25), ch = (e & f) ^ (~e & g);
+        const t1 = (hh + S1 + ch + K[i] + w[i]) >>> 0;
+        const S0 = rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22), mj = (a & b2) ^ (a & c) ^ (b2 & c);
+        const t2 = (S0 + mj) >>> 0;
+        hh = g; g = f; f = e; e = (d + t1) >>> 0; d = c; c = b2; b2 = a; a = (t1 + t2) >>> 0;
+      }
+      [a, b2, c, d, e, f, g, hh].forEach((v, i) => (h[i] = (h[i] + v) >>> 0));
+    }
+    return h.map(x => x.toString(16).padStart(8, '0')).join('');
+  }
+
+  // ---------- Almacenamiento (datos base + lo que se registra en el navegador) ----------
+  const CLAVE = 'melihealth_extra_v1';
+  const vacio = () => ({ pacientes: [], signos_vitales: [], auditoria: [], atenciones: [], diagnosticos: [], incidencias: [], inc_init: false });
+  let extra = vacio();
+  try { extra = Object.assign(vacio(), JSON.parse(localStorage.getItem(CLAVE) || '{}')); } catch (e) {}
+  const guardar = () => { try { localStorage.setItem(CLAVE, JSON.stringify(extra)); } catch (e) {} };
+  const datos = () => ({
+    ...DATOS,
+    pacientes: [...DATOS.pacientes, ...extra.pacientes],
+    signos_vitales: [...DATOS.signos_vitales, ...extra.signos_vitales],
+    auditoria: [...DATOS.auditoria, ...extra.auditoria],
+    atenciones: [...DATOS.atenciones, ...extra.atenciones],
+    diagnosticos: [...DATOS.diagnosticos, ...extra.diagnosticos],
+  });
+  const restablecer = () => { extra = vacio(); try { localStorage.removeItem(CLAVE); } catch (e) {} };
+
+  // ---------- Roles y permisos (misma matriz que backend/permisos.py) ----------
+  const MATRIZ = {
+    'Administrador': { usuarios: 'escribir', auditoria: 'ver', pacientes: 'ver', agenda: 'ver', fhir: 'ver', hl7: 'ver', incidencias: 'escribir' },
+    'Admisionista': { pacientes: 'escribir', agenda: 'escribir' },
+    'Médico': { pacientes: 'ver', agenda: 'ver', atenciones: 'escribir', diagnosticos: 'escribir', signos_vitales: 'escribir' },
+    'Enfermero': { pacientes: 'ver', agenda: 'ver', atenciones: 'ver', diagnosticos: 'ver', signos_vitales: 'escribir' },
+    'TENS': { pacientes: 'ver', agenda: 'ver', signos_vitales: 'escribir' },
+    'Administrativo': { pacientes: 'ver', agenda: 'escribir' },
+    'Interoperabilidad HL7-FHIR': { pacientes: 'ver', fhir: 'ver', hl7: 'ver', incidencias: 'ver' },
+    'Matrona': { pacientes: 'ver', agenda: 'ver', atenciones: 'escribir', diagnosticos: 'escribir', signos_vitales: 'escribir' },
+    'Kinesiólogo': { pacientes: 'ver', agenda: 'ver', atenciones: 'escribir', diagnosticos: 'ver', signos_vitales: 'ver' },
+    'Nutricionista': { pacientes: 'ver', agenda: 'ver', atenciones: 'escribir', diagnosticos: 'ver', signos_vitales: 'ver' },
+    'Psicólogo / Trab. Social': { pacientes: 'ver', agenda: 'ver', atenciones: 'escribir', diagnosticos: 'ver' },
+    'Tec. Médico (Laboratorio)': { pacientes: 'ver', atenciones: 'ver' },
+    'Imagenología': { pacientes: 'ver', atenciones: 'ver' },
+    'Farmacia': { pacientes: 'ver', atenciones: 'ver', diagnosticos: 'ver' },
+    'Gestión de camas': { pacientes: 'ver', atenciones: 'ver' },
+    'Jefe de servicio': { pacientes: 'ver', agenda: 'ver', atenciones: 'ver', diagnosticos: 'ver', signos_vitales: 'ver', auditoria: 'ver', incidencias: 'ver' },
+    'Calidad': { pacientes: 'ver', atenciones: 'ver', diagnosticos: 'ver', signos_vitales: 'ver', auditoria: 'ver', incidencias: 'ver' },
+    'Soporte TI': { usuarios: 'ver', fhir: 'ver', hl7: 'ver', auditoria: 'ver', incidencias: 'escribir' },
+    'Service Desk': { auditoria: 'ver', incidencias: 'escribir' },
+    'Auditor': { auditoria: 'ver', incidencias: 'ver' },
+  };
+  const NIVEL = { ver: 1, escribir: 2 };
+  const permitido = (rol, mod, acc = 'ver') => {
+    const n = (MATRIZ[rol] || {})[mod];
+    return !!n && NIVEL[n] >= NIVEL[acc];
+  };
+
+  // ---------- Sesión y auditoría ----------
+  let sesion = null;
+  try { sesion = JSON.parse(sessionStorage.getItem('melihealth_sesion') || 'null'); } catch (e) {}
+  const ahora = () => {
+    const d = new Date(), p = n => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+  };
+  function auditar(usuario, accion, modulo) {
+    extra.auditoria.push({ fecha_hora: ahora(), usuario, accion, modulo });
+    guardar();
+  }
+  function login(usuario, password) {
+    const u = DATOS.usuarios.find(x => x.usuario === usuario.trim());
+    if (!u || u.hash !== sha256(u.usuario + ':' + password)) {
+      auditar(usuario.trim() || '(vacío)', 'Inicio Sesión fallido', 'Login');
+      return null;
+    }
+    sesion = { usuario: u.usuario, nombre: u.nombre, rol: u.rol };
+    try { sessionStorage.setItem('melihealth_sesion', JSON.stringify(sesion)); } catch (e) {}
+    auditar(u.usuario, 'Inicio Sesión', 'Login');
+    return sesion;
+  }
+  function logout() {
+    if (sesion) auditar(sesion.usuario, 'Cierre Sesión', 'Login');
+    sesion = null;
+    try { sessionStorage.removeItem('melihealth_sesion'); } catch (e) {}
+  }
+
+  // ---------- Registro de pacientes y signos vitales ----------
+  function dvRut(n) {
+    let s = 0, m = 2;
+    for (const d of String(n).split('').reverse()) { s += +d * m; m = m === 7 ? 2 : m + 1; }
+    const r = 11 - (s % 11);
+    return r === 11 ? '0' : r === 10 ? 'K' : String(r);
+  }
+  function nuevoPaciente(p) {
+    const id = Math.max(...datos().pacientes.map(x => x.id)) + 1;
+    const reg = { id, rut: `${99000000 + id}-${dvRut(99000000 + id)}`, ...p };
+    extra.pacientes.push(reg); guardar();
+    return reg;
+  }
+  function nuevoSigno(s) {
+    const id = Math.max(0, ...datos().signos_vitales.map(x => x.id)) + 1;
+    const reg = { id, ...s };
+    extra.signos_vitales.push(reg); guardar();
+    return reg;
+  }
+
+  function nuevaAtencion(a) {
+    const id = Math.max(0, ...datos().atenciones.map(x => x.id)) + 1;
+    const reg = { id, ...a };
+    extra.atenciones.push(reg); guardar();
+    return reg;
+  }
+  function nuevoDiagnostico(dx) {
+    const id = Math.max(0, ...datos().diagnosticos.map(x => x.id)) + 1;
+    const reg = { id, ...dx };
+    extra.diagnosticos.push(reg); guardar();
+    return reg;
+  }
+
+  // ---------- FHIR R4 ----------
+  const RUT_SYSTEM = 'https://melihealth.local/rut'; // reemplazar por el de CL Core (HL7 Chile)
+  const LOINC = 'http://loinc.org', UCUM = 'http://unitsofmeasure.org';
+  const qty = (v, unit, code) => ({ valueQuantity: { value: v, unit, system: UCUM, code } });
+  const obs = (id, pid, fecha, loinc, nombre, extraProps) => ({
+    resourceType: 'Observation', id, status: 'final',
+    category: [{ coding: [{ system: 'http://terminology.hl7.org/CodeSystem/observation-category', code: 'vital-signs' }] }],
+    code: { coding: [{ system: LOINC, code: loinc, display: nombre }] },
+    subject: { reference: `Patient/${pid}` }, effectiveDateTime: fecha, ...extraProps,
+  });
+  const fhirPaciente = p => ({
+    resourceType: 'Patient', id: String(p.id),
+    identifier: [{ system: RUT_SYSTEM, value: p.rut }],
+    name: [{ family: p.apellidos, given: [p.nombres] }],
+    gender: { M: 'male', F: 'female' }[p.sexo] || 'unknown', birthDate: p.fecha_nacimiento,
+    telecom: [
+      ...(p.telefono ? [{ system: 'phone', use: 'home', value: p.telefono }] : []),
+      ...(p.email ? [{ system: 'email', value: p.email }] : []),
+    ],
+    address: [{ city: p.ciudad, country: 'CL' }],
+  });
+  const fhirProfesional = x => ({
+    resourceType: 'Practitioner', id: String(x.id),
+    identifier: [{ system: RUT_SYSTEM, value: x.rut }], name: [{ text: x.nombre }],
+    qualification: [{ code: { text: `${x.profesion} - ${x.especialidad}` } }],
+  });
+  function fhirSignos(s) {
+    const out = [], pid = s.paciente_id, f = s.fecha, i = s.id;
+    if (s.pa && s.pa.includes('/')) {
+      const [sis, dia] = s.pa.split('/').map(Number);
+      out.push(obs(`${i}-pa`, pid, f, '85354-9', 'Presión arterial', {
+        component: [
+          { code: { coding: [{ system: LOINC, code: '8480-6', display: 'Sistólica' }] }, ...qty(sis, 'mmHg', 'mm[Hg]') },
+          { code: { coding: [{ system: LOINC, code: '8462-4', display: 'Diastólica' }] }, ...qty(dia, 'mmHg', 'mm[Hg]') },
+        ],
+      }));
+    }
+    out.push(
+      obs(`${i}-fc`, pid, f, '8867-4', 'Frecuencia cardiaca', qty(s.fc, '/min', '/min')),
+      obs(`${i}-fr`, pid, f, '9279-1', 'Frecuencia respiratoria', qty(s.fr, '/min', '/min')),
+      obs(`${i}-temp`, pid, f, '8310-5', 'Temperatura corporal', qty(s.temp, '°C', 'Cel')),
+      obs(`${i}-sat`, pid, f, '2708-6', 'Saturación de oxígeno', qty(s.sato2, '%', '%')));
+    return out;
+  }
+  function fhirBundle(pid) {
+    const d = datos(), p = d.pacientes.find(x => x.id === pid);
+    const aten = d.atenciones.filter(a => a.paciente_id === pid);
+    const ids = new Set(aten.map(a => a.id));
+    const recursos = [fhirPaciente(p)];
+    d.profesionales.filter(x => aten.some(a => a.profesional_id === x.id)).forEach(x => recursos.push(fhirProfesional(x)));
+    aten.forEach(a => recursos.push({
+      resourceType: 'Encounter', id: String(a.id), status: 'finished',
+      class: { system: 'http://terminology.hl7.org/CodeSystem/v3-ActCode', code: 'AMB' },
+      subject: { reference: `Patient/${pid}` },
+      participant: [{ individual: { reference: `Practitioner/${a.profesional_id}` } }],
+      period: { start: a.fecha }, reasonCode: [{ text: a.motivo }],
+    }));
+    d.diagnosticos.filter(x => ids.has(x.atencion_id)).forEach(x => recursos.push({
+      resourceType: 'Condition', id: String(x.id),
+      code: { coding: [{ system: 'http://hl7.org/fhir/sid/icd-10', code: x.cie10, display: x.descripcion }] },
+      subject: { reference: `Patient/${pid}` }, encounter: { reference: `Encounter/${x.atencion_id}` },
+    }));
+    d.signos_vitales.filter(s => s.paciente_id === pid).forEach(s => recursos.push(...fhirSignos(s)));
+    return { resourceType: 'Bundle', type: 'collection', entry: recursos.map(resource => ({ resource })) };
+  }
+
+  // ---------- HL7 v2.5 ----------
+  const esc = s => String(s ?? '').replace(/\\/g, '\\E\\').replace(/\|/g, '\\F\\').replace(/\^/g, '\\S\\').replace(/&/g, '\\T\\').replace(/~/g, '\\R\\');
+  const msh = (tipo, ev, ctrl) => {
+    const d = new Date(), p = n => String(n).padStart(2, '0');
+    const ts = `${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`;
+    return `MSH|^~\\&|MELIHEALTH|MELIHEALTH-HIS|DESTINO|DESTINO|${ts}||${tipo}^${ev}|${ctrl}|P|2.5`;
+  };
+  const pid = p => ['PID', '1', '', `${esc(p.rut)}^^^RUN^NI`, '', `${esc(p.apellidos)}^${esc(p.nombres)}`, '',
+    (p.fecha_nacimiento || '').replace(/-/g, ''), esc(p.sexo), '', '', `^^${esc(p.ciudad)}^^^CL`, '', esc(p.telefono)].join('|');
+  function hl7(tipo, pacienteId) {
+    const d = datos(), p = d.pacientes.find(x => x.id === pacienteId);
+    if (tipo === 'ADT_A04' || tipo === 'ADT_A08') {
+      const ev = tipo.split('_')[1];
+      const a = d.atenciones.find(x => x.paciente_id === pacienteId);
+      const pr = a && d.profesionales.find(x => x.id === a.profesional_id);
+      return [msh('ADT', ev, `ADT${p.id}`), `EVN|${ev}`, pid(p),
+        ['PV1', '1', 'O', '', '', '', '', pr ? `${esc(pr.rut)}^${esc(pr.nombre)}` : ''].join('|')].join('\n');
+    }
+    const seg = [msh('ORU', 'R01', `ORU${p.id}`), pid(p), 'OBR|1|||SV^Signos vitales^L'];
+    let n = 0;
+    const obx = (t, c, nom, v, u) => seg.push(`OBX|${++n}|${t}|${c}^${nom}^LN||${esc(v)}|${esc(u)}|||||F`);
+    d.signos_vitales.filter(s => s.paciente_id === pacienteId).forEach(s => {
+      obx('ST', '85354-9', 'Presion arterial', s.pa, 'mm[Hg]');
+      obx('NM', '8867-4', 'Frecuencia cardiaca', s.fc, '/min');
+      obx('NM', '9279-1', 'Frecuencia respiratoria', s.fr, '/min');
+      obx('NM', '8310-5', 'Temperatura', s.temp, 'Cel');
+      obx('NM', '2708-6', 'Saturacion O2', s.sato2, '%');
+    });
+    return seg.join('\n'); // el separador real HL7 es \r; aquí \n solo para leerlo en pantalla
+  }
+
+  // ---------- Incidencias (marco ITIL) ----------
+  const NIV = { Bajo: 1, Medio: 2, Alto: 3 };
+  const prioridad = (imp, urg) => {
+    if (!NIV[imp] || !NIV[urg]) return '';
+    const n = NIV[imp] + NIV[urg];
+    return n >= 6 ? 'P1 - Crítica' : n === 5 ? 'P2 - Alta' : n === 4 ? 'P3 - Media' : 'P4 - Baja';
+  };
+  function incidencias() {
+    if (!extra.inc_init) { extra.incidencias = INCIDENCIAS_BASE.map(x => ({ ...x })); extra.inc_init = true; guardar(); }
+    return extra.incidencias;
+  }
+  function nuevaIncidencia(i) {
+    const lista = incidencias();
+    const n = Math.max(0, ...lista.map(x => parseInt(String(x.id).replace(/\D/g, ''), 10) || 0)) + 1;
+    const reg = { id: 'INC-' + String(n).padStart(3, '0'), fecha: ahora().slice(0, 10), estado: 'Nueva', asignado: '', resolucion: '', cierre: '', ...i };
+    lista.push(reg); guardar();
+    return reg;
+  }
+  function cambiarEstadoInc(id, estado, resolucion) {
+    const x = incidencias().find(y => y.id === id);
+    if (!x) return null;
+    x.estado = estado;
+    if (resolucion) x.resolucion = resolucion;
+    x.cierre = estado === 'Cerrada' || estado === 'Resuelta' ? ahora().slice(0, 10) : '';
+    guardar();
+    return x;
+  }
+  // Un acceso denegado genera una incidencia de seguridad (sin duplicar mientras siga abierta)
+  function incidenciaSeguridad(usuario, rol, modulo) {
+    const ya = incidencias().find(x => x.auto && x.usuarioAfectado === usuario && x.modulo === modulo && x.estado !== 'Cerrada' && x.estado !== 'Resuelta');
+    if (ya) { ya.repeticiones = (ya.repeticiones || 1) + 1; guardar(); return ya; }
+    return nuevaIncidencia({
+      caso: '', modulo, categoria: 'Seguridad', reportado: 'sistema', auto: true, usuarioAfectado: usuario, repeticiones: 1,
+      descripcion: `${usuario} (${rol}) intentó abrir «${modulo}» sin permiso`,
+      esperado: 'Acceso denegado', obtenido: 'Acceso denegado y registrado en auditoría', impacto: 'Medio', urgencia: 'Medio',
+    });
+  }
+
+  return {
+    sha256, datos, restablecer, MATRIZ, permitido, auditar, login, logout,
+    get sesion() { return sesion; }, nuevoPaciente, nuevoSigno, nuevaAtencion, nuevoDiagnostico, fhirBundle, hl7,
+    incidencias, nuevaIncidencia, cambiarEstadoInc, incidenciaSeguridad, prioridad,
+  };
+})();
+if (typeof module !== 'undefined') module.exports = HIS;
+
+</script>
+<script>
+let DATOS = DATOS_BASE; // datos incrustados: sirven de respaldo si no se pueden leer los JSON
+function completarDatos() { // suma los roles/usuarios nuevos a lo que venga de los JSON o de los datos incrustados
+  EXTRA_ROLES.forEach(r => { if (!DATOS.roles.includes(r)) DATOS.roles.push(r); });
+  EXTRA_USUARIOS.forEach(u => { if (!DATOS.usuarios.some(x => x.usuario === u.usuario)) DATOS.usuarios.push({ ...u }); });
+}
+completarDatos();
+const $ = s => document.querySelector(s);
+
+/* ---------- Datos desde JSON (tableconvert*.json) ---------- */
+const RUTA_JSON = ''; // carpeta de los JSON; vacío = misma carpeta que este HTML (ej. 'data/')
+const TABLAS_JSON = ['pacientes', 'atenciones', 'citas', 'diagnosticos', 'profesionales', 'roles', 'signosvitales', 'usuarios', 'auditoria'];
+const dvJ = n => { let a = 0, m = 2; for (const d of String(n).split('').reverse()) { a += +d * m; m = m === 7 ? 2 : m + 1; } const r = 11 - (a % 11); return r === 11 ? '0' : r === 10 ? 'K' : String(r); };
+const rutJ = (base, i) => `${base + i}-${dvJ(base + i)}`; // RUT FICTICIOS (rangos 98/99 millones)
+let fuenteDatos = 'incrustados';
+async function cargarDatos() {
+  try {
+    if (location.protocol === 'file:') throw new Error('Los navegadores no dejan leer archivos al abrir con doble clic');
+    const t = {};
+    await Promise.all(TABLAS_JSON.map(async nombre => {
+      const r = await fetch(`${RUTA_JSON}tableconvert${nombre}.json`, { cache: 'no-store' });
+      if (!r.ok) throw new Error(`No se encontró tableconvert${nombre}.json`);
+      t[nombre] = await r.json();
+    }));
+    const n = v => Number(v), f = v => String(v ?? '').slice(0, 10);
+    DATOS = {
+      roles: t.roles.map(x => x.Rol),
+      usuarios: t.usuarios.map(x => ({ usuario: x.Usuario, hash: HIS.sha256(x.Usuario + ':' + x['Contraseña']), nombre: x.Nombre, rol: x.Rol })),
+      pacientes: t.pacientes.map((x, i) => ({ id: i + 1, rut: rutJ(99000000, i + 1), nombres: x.fname, apellidos: x.lname, fecha_nacimiento: f(x.DOB), sexo: x.sex, telefono: String(x.phone_home ?? ''), email: x.email, ciudad: x.city })),
+      profesionales: t.profesionales.map(x => ({ id: n(x.ID), rut: rutJ(98000000, n(x.ID)), nombre: x.Nombre, profesion: x.Profesion, especialidad: x.Especialidad })),
+      citas: t.citas.map(x => ({ id: n(x.ID), paciente_id: n(x.PacienteID), fecha: f(x.Fecha), hora: String(x.Hora).slice(0, 5), profesional_id: n(x.ProfesionalID), estado: x.Estado })),
+      atenciones: t.atenciones.map(x => ({ id: n(x.ID), paciente_id: n(x.PacienteID), fecha: f(x.Fecha), profesional_id: n(x.ProfesionalID), motivo: x.MotivoConsulta })),
+      diagnosticos: t.diagnosticos.map(x => ({ id: n(x.ID), atencion_id: n(x.AtencionID), cie10: x.CIE10, descripcion: x.Diagnostico })),
+      signos_vitales: t.signosvitales.map(x => ({ id: n(x.ID), paciente_id: n(x.PacienteID), fecha: f(x.Fecha), pa: x.PA, fc: n(x.FC), fr: n(x.FR), temp: n(x.Temp), sato2: n(x.SatO2) })),
+      auditoria: t.auditoria.map(x => ({ fecha_hora: x.FechaHora, usuario: x.Usuario, accion: x.Accion, modulo: x.Modulo })),
+    };
+    fuenteDatos = 'JSON';
+  } catch (e) {
+    DATOS = DATOS_BASE; fuenteDatos = 'incrustados';
+    console.info('Usando datos incrustados:', e.message);
+  }
+  completarDatos();
+  const el = $('#fuente');
+  if (el) el.textContent = fuenteDatos === 'JSON' ? 'Datos: leídos de los JSON' : 'Datos: incrustados (abre con un servidor para leer los JSON)';
+}
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const nombrePac = p => `${p.nombres} ${p.apellidos}`;
+const MENU = [
+  { id: 'inicio', t: 'Inicio', mod: null }, { id: 'pacientes', t: 'Pacientes', mod: 'pacientes' },
+  { id: 'agenda', t: 'Agenda', mod: 'agenda' }, { id: 'atenciones', t: 'Atenciones', mod: 'atenciones' },
+  { id: 'fhir', t: 'FHIR', mod: 'fhir' }, { id: 'hl7', t: 'HL7', mod: 'hl7' },
+  { id: 'auditoria', t: 'Auditoría', mod: 'auditoria' }, { id: 'incidencias', t: 'Incidencias', mod: 'incidencias' }, { id: 'roles', t: 'Roles y permisos', mod: 'usuarios' },
+];
+const MOD_DE = { inicio: null, pacientes: 'pacientes', ficha: 'pacientes', agenda: 'agenda', atenciones: 'atenciones', fhir: 'fhir', hl7: 'hl7', auditoria: 'auditoria', incidencias: 'incidencias', roles: 'usuarios' };
+const NOMBRE_MOD = { usuarios: 'Usuarios y roles', auditoria: 'Auditoría', pacientes: 'Pacientes', agenda: 'Agenda', atenciones: 'Atenciones', diagnosticos: 'Diagnósticos', signos_vitales: 'Signos vitales', fhir: 'FHIR', hl7: 'HL7', incidencias: 'Incidencias' };
+
+function descargar(nombre, texto, tipo) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([texto], { type: tipo })); a.download = nombre; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+async function copiar(texto) {
+  try { await navigator.clipboard.writeText(texto); }
+  catch (e) { const t = document.createElement('textarea'); t.value = texto; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); }
+}
+
+/* ---------- Ayudas visuales ---------- */
+const COLS = ['var(--ac)', 'var(--vio)', 'var(--rosa)', 'var(--ambar)', 'var(--verde)', 'var(--azul)', 'var(--naranja)', 'var(--lima)'];
+const COL_NAV = { inicio: 'var(--ac)', pacientes: 'var(--verde)', agenda: 'var(--ambar)', atenciones: 'var(--rosa)', fhir: 'var(--vio)', hl7: 'var(--azul)', auditoria: 'var(--naranja)', incidencias: 'var(--rojo)', roles: 'var(--lima)' };
+const hue = s => [...String(s)].reduce((a, c) => a * 31 + c.charCodeAt(0) >>> 0, 7) % 360;
+const av = (p, c = '') => `<span class="av ${c}" style="--h:${(p.id * 47) % 360}">${esc((p.nombres[0] || '') + (p.apellidos[0] || ''))}</span>`;
+function toast(t) { const e = document.createElement('div'); e.className = 'toast'; e.textContent = t; document.body.appendChild(e); setTimeout(() => e.remove(), 2600); }
+const cuenta = (arr, f) => { const o = {}; arr.forEach(x => { const k = f(x); o[k] = (o[k] || 0) + 1; }); return Object.entries(o).sort((a, b) => b[1] - a[1]); };
+const barras = items => { const m = Math.max(1, ...items.map(i => i[1])); return items.map(([t, n], i) => `<div class="barra"><span title="${esc(t)}">${esc(t)}</span><div><i data-w="${n / m * 100}" style="background:${COLS[i % 8]};box-shadow:0 0 12px ${COLS[i % 8]}"></i></div><b>${n}</b></div>`).join(''); };
+const dona = (items, centro) => {
+  const tot = items.reduce((a, i) => a + i[1], 0) || 1; let ac = 0;
+  const g = items.map(([, n, c]) => { const a = ac / tot * 360; ac += n; return `${c} ${a}deg ${ac / tot * 360}deg`; }).join(',');
+  return `<div class="donawrap"><div class="dona" style="background:conic-gradient(${g})"><span>${centro}</span></div><div class="leyenda">${items.map(([t, n, c]) => `<div><i style="background:${c}"></i>${esc(t)} <b>${n}</b></div>`).join('')}</div></div>`;
+};
+const vit = (k, v) => {
+  if (k === 'fc') return v < 50 || v > 120 ? 'bad' : v < 60 || v > 100 ? 'warn' : 'ok';
+  if (k === 'fr') return v < 10 || v > 28 ? 'bad' : v < 12 || v > 20 ? 'warn' : 'ok';
+  if (k === 'temp') return v >= 39 || v < 35 ? 'bad' : v >= 37.5 || v < 36 ? 'warn' : 'ok';
+  if (k === 'sato2') return v < 90 ? 'bad' : v < 95 ? 'warn' : 'ok';
+  if (k === 'pa') { const [a, b] = String(v).split('/').map(Number); return a >= 180 || b >= 110 || a < 90 ? 'bad' : a >= 140 || b >= 90 ? 'warn' : 'ok'; }
+  return 'ok';
+};
+const vtd = (k, v) => `<td><span class="v v-${vit(k, v)}">${esc(v)}</span></td>`;
+const alertasDe = x => ['pa', 'fc', 'fr', 'temp', 'sato2'].filter(k => vit(k, x[k]) !== 'ok');
+function spark(sv) {
+  if (sv.length < 2) return '';
+  const W = 300, H = 64;
+  const linea = (k, mn, mx, c) => `<polyline pathLength="1" style="color:${c};stroke:${c}" points="${sv.map((x, i) => `${(4 + i / (sv.length - 1) * (W - 8)).toFixed(1)},${(H - 6 - Math.max(0, Math.min(1, (x[k] - mn) / (mx - mn))) * (H - 12)).toFixed(1)}`).join(' ')}"/>`;
+  return `<div class="spark"><div><div class="mut">Frecuencia cardiaca</div><svg viewBox="0 0 ${W} ${H}">${linea('fc', 40, 140, 'var(--rosa)')}</svg></div><div><div class="mut">Saturación O₂</div><svg viewBox="0 0 ${W} ${H}">${linea('sato2', 85, 100, 'var(--verde)')}</svg></div></div>`;
+}
+function animar() {
+  document.querySelectorAll('[data-n]').forEach(el => {
+    const n = +el.dataset.n, t0 = performance.now();
+    const f = t => { const k = Math.min(1, (t - t0) / 900); el.textContent = Math.round(n * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(f); };
+    requestAnimationFrame(f);
+  });
+  document.querySelectorAll('[data-w]').forEach(el => requestAnimationFrame(() => requestAnimationFrame(() => { el.style.width = el.dataset.w + '%'; })));
+}
+
+/* ---------- Registro de diagnósticos (CIE-10) ---------- */
+const CIE_COMUNES = [['I10', 'Hipertensión esencial'], ['E11', 'Diabetes Mellitus Tipo 2'], ['J06', 'Infección respiratoria aguda'], ['K29', 'Gastritis'],
+  ['J45', 'Asma'], ['E78', 'Trastornos del metabolismo de las lipoproteínas y otras lipidemias'], ['N39.0', 'Infección de vías urinarias, sitio no especificado'],
+  ['M54', 'Dorsalgia'], ['R51', 'Cefalea'], ['K21', 'Enfermedad del reflujo gastroesofágico'], ['F41', 'Otros trastornos de ansiedad'],
+  ['J02', 'Faringitis aguda'], ['E66', 'Obesidad'], ['I20', 'Angina de pecho']];
+const catalogoCie = () => { const m = new Map(CIE_COMUNES); HIS.datos().diagnosticos.forEach(x => m.set(x.cie10, x.descripcion)); return m; };
+function formDx(at) {
+  return `<form id="formDx" class="fila" style="margin-top:1rem">
+    <div><label for="dxAt">Atención</label><select name="atencion" id="dxAt">${at.map(a => `<option value="${a.id}">${esc(a.fecha)} · ${esc(a.motivo)}</option>`).join('')}<option value="0">+ Nueva atención de hoy</option></select></div>
+    <div id="dxMotivo" ${at.length ? 'hidden' : ''}><label for="dxMot">Motivo de consulta</label><input name="motivo" id="dxMot"></div>
+    <div><label for="dxCod">Código CIE-10</label><input name="cie10" id="dxCod" list="listaCie" required size="8" maxlength="8" pattern="[A-Za-z][0-9]{2}(\\.[0-9A-Za-z]{1,4})?" autocomplete="off"></div>
+    <div><label for="dxDes">Diagnóstico</label><input name="descripcion" id="dxDes" required style="min-width:260px"></div>
+    <datalist id="listaCie">${[...catalogoCie()].map(([c, t]) => `<option value="${esc(c)}">${esc(t)}</option>`).join('')}</datalist>
+    <button class="pri">Registrar diagnóstico</button></form>`;
+}
+
+/* ---------- Login ---------- */
+function mostrarLogin() {
+  $('#app').hidden = true; $('#login').hidden = false;
+  $('#usr').value = 'admin'; $('#pwd').value = '1234'; // cuenta de prueba por defecto
+  $('#chips').innerHTML = DATOS.usuarios.map(u => `<button type="button" data-u="${esc(u.usuario)}" title="${esc(u.rol)}" style="--h:${hue(u.rol)}">${esc(u.usuario)}</button>`).join('');
+}
+$('#chips').addEventListener('click', e => { const b = e.target.closest('[data-u]'); if (b) { $('#usr').value = b.dataset.u; $('#pwd').value = '1234'; } });
+document.addEventListener('keydown', e => { if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'd') { e.preventDefault(); $('#cuentas').open = !$('#cuentas').open; } });
+$('#formLogin').addEventListener('submit', e => {
+  e.preventDefault();
+  const s = HIS.login($('#usr').value, $('#pwd').value);
+  $('#errLogin').hidden = !!s;
+  if (s) { $('#pwd').value = ''; location.hash = 'inicio'; render(); }
+});
+$('#salir').addEventListener('click', () => { HIS.logout(); location.hash = ''; render(); });
+$('#reset').addEventListener('click', e => { e.preventDefault(); if (confirm('¿Borrar lo registrado en este navegador y volver a los datos originales?')) { HIS.restablecer(); render(); } });
+
+/* ---------- Vistas ---------- */
+const VISTAS = {
+  inicio() {
+    const s = HIS.sesion, perm = HIS.MATRIZ[s.rol] || {}, d = HIS.datos(), ok = m => HIS.permitido(s.rol, m);
+    const kp = [];
+    if (ok('pacientes')) kp.push(['🧑‍🤝‍🧑', 'Pacientes', d.pacientes.length, 'var(--ac)']);
+    if (ok('agenda')) kp.push(['📅', 'Citas', d.citas.length, 'var(--ambar)']);
+    if (ok('atenciones')) kp.push(['🩺', 'Atenciones', d.atenciones.length, 'var(--rosa)']);
+    if (ok('diagnosticos')) kp.push(['🧬', 'Diagnósticos', d.diagnosticos.length, 'var(--vio)']);
+    if (ok('signos_vitales')) kp.push(['💓', 'Signos vitales', d.signos_vitales.length, 'var(--verde)']);
+    if (ok('auditoria')) kp.push(['🛡️', 'Eventos de auditoría', d.auditoria.length, 'var(--naranja)']);
+    if (ok('incidencias')) kp.push(['🚨', 'Incidencias abiertas', HIS.incidencias().filter(x => x.estado !== 'Cerrada' && x.estado !== 'Resuelta').length, 'var(--rojo)']);
+    const graf = [];
+    if (ok('incidencias')) graf.push(`<div class="card graf"><h3>Incidencias por prioridad</h3>${barras(cuenta(HIS.incidencias(), x => HIS.prioridad(x.impacto, x.urgencia)).sort((a, b) => a[0].localeCompare(b[0])))}</div>`);
+    if (ok('pacientes')) {
+      graf.push(`<div class="card graf"><h3>Pacientes por ciudad</h3>${barras(cuenta(d.pacientes, p => p.ciudad).slice(0, 8))}</div>`);
+      graf.push(`<div class="card graf"><h3>Pacientes por sexo</h3>${dona(cuenta(d.pacientes, p => p.sexo).map(([k, n]) => [k === 'F' ? 'Mujeres' : 'Hombres', n, k === 'F' ? 'var(--rosa)' : 'var(--azul)']), d.pacientes.length)}</div>`);
+    }
+    if (ok('agenda')) {
+      const ec = { Agendada: 'var(--azul)', Atendida: 'var(--verde)', Cancelada: 'var(--rojo)' };
+      graf.push(`<div class="card graf"><h3>Citas por estado</h3>${dona(cuenta(d.citas, c => c.estado).map(([k, n]) => [k, n, ec[k] || 'var(--vio)']), d.citas.length)}</div>`);
+    }
+    if (ok('diagnosticos')) graf.push(`<div class="card graf"><h3>Diagnósticos más frecuentes</h3>${barras(cuenta(d.diagnosticos, x => `${x.cie10} ${x.descripcion}`).slice(0, 6))}</div>`);
+    if (ok('signos_vitales') && ok('pacientes')) {
+      const al = d.signos_vitales.filter(x => alertasDe(x).length).slice(-5).reverse();
+      graf.push(`<div class="card graf"><h3>Alertas de signos vitales</h3>${al.map(x => { const p = d.pacientes.find(y => y.id === x.paciente_id); return p ? `<a class="alerta" href="#ficha/${p.id}"><span>${esc(nombrePac(p))}</span><span>${alertasDe(x).map(k => k.toUpperCase()).join(' · ')}</span></a>` : ''; }).join('') || '<p class="mut">Sin alertas: todos los registros están en rango.</p>'}</div>`);
+    }
+    $('#vista').innerHTML = `<h1>Hola, ${esc(s.nombre)}</h1>
+      <p class="mut">Tu rol es <b>${esc(s.rol)}</b>. Este es el resumen de lo que puedes ver:</p>
+      <div class="kpis">${kp.map(([i, t, n, c]) => `<div class="kpi" style="--c:${c}"><em>${i}</em><b data-n="${n}">0</b><span>${t}</span></div>`).join('')}</div>
+      <div class="dos">${graf.join('')}</div>
+      <div class="card"><h3>Tu perfil de acceso</h3><div class="mods">${Object.entries(perm).map(([m, n]) => `<span class="badge b-${n}">${esc(NOMBRE_MOD[m] || m)} · ${n}</span>`).join('')}</div></div>
+      <div class="nota">El menú de la izquierda muestra solo los módulos permitidos para tu rol. Prueba entrar con otro usuario para ver cómo cambia este panel.</div>`;
+  },
+
+  pacientes() {
+    const s = HIS.sesion, puedeCrear = HIS.permitido(s.rol, 'pacientes', 'escribir');
+    let q = '', sx = '', ultima = [], pag = 0; const T = 15;
+    $('#vista').innerHTML = `<h1>Pacientes</h1>
+      <div class="fila"><div><label for="q">Buscar por nombre, RUT o ciudad</label><input id="q" style="min-width:260px"></div><div><label for="sx">Sexo</label><select id="sx"><option value="">Todos</option><option>F</option><option>M</option></select></div><button id="csv">Descargar CSV</button>
+      ${puedeCrear ? '<button class="pri" id="btnNuevo">+ Nuevo paciente</button>' : ''}</div>
+      ${puedeCrear ? `<form id="nuevo" class="card" hidden><h3>Nuevo paciente</h3><div class="fila">
+        <div><label>Nombres</label><input name="nombres" required></div><div><label>Apellidos</label><input name="apellidos" required></div>
+        <div><label>Fecha de nacimiento</label><input name="fecha_nacimiento" type="date" required></div>
+        <div><label>Sexo</label><select name="sexo" required><option value="F">F</option><option value="M">M</option></select></div>
+        <div><label>Teléfono</label><input name="telefono"></div><div><label>Correo</label><input name="email" type="email"></div>
+        <div><label>Ciudad</label><input name="ciudad"></div></div>
+        <button class="pri">Guardar</button> <button type="button" id="cancelar">Cancelar</button></form>` : ''}
+      <div class="card"><div class="tabla" id="tabla"></div><div class="fila" style="margin:.75rem 0 0;align-items:center">
+        <button id="ant">Anterior</button><span id="info" class="mut"></span><button id="sig">Siguiente</button></div></div>`;
+    const pintar = () => {
+      const t = q.toLowerCase();
+      const lista = HIS.datos().pacientes.filter(p => (!t || `${nombrePac(p)} ${p.rut} ${p.ciudad}`.toLowerCase().includes(t)) && (!sx || p.sexo === sx));
+      const maxPag = Math.max(0, Math.ceil(lista.length / T) - 1); pag = Math.min(pag, maxPag); ultima = lista;
+      $('#tabla').innerHTML = `<table><tr><th>ID</th><th>RUT</th><th>Paciente</th><th>Nacimiento</th><th>Sexo</th><th>Ciudad</th><th></th></tr>
+        ${lista.slice(pag * T, pag * T + T).map(p => `<tr><td>${p.id}</td><td>${esc(p.rut)}</td><td>${av(p)} ${esc(nombrePac(p))}</td><td>${esc(p.fecha_nacimiento)}</td><td><span class="sx sx-${esc(p.sexo)}">${esc(p.sexo)}</span></td><td>${esc(p.ciudad)}</td><td><a href="#ficha/${p.id}">Ver ficha</a></td></tr>`).join('') || '<tr><td colspan="7" class="mut">Sin resultados</td></tr>'}</table>`;
+      $('#info').textContent = `${lista.length} pacientes, página ${pag + 1} de ${maxPag + 1}`;
+      $('#ant').disabled = pag === 0; $('#sig').disabled = pag >= maxPag;
+    };
+    $('#q').addEventListener('input', e => { q = e.target.value; pag = 0; pintar(); });
+    $('#sx').onchange = e => { sx = e.target.value; pag = 0; pintar(); };
+    $('#csv').onclick = () => {
+      const c = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+      descargar('pacientes.csv', '\ufeff' + ['id,rut,nombres,apellidos,fecha_nacimiento,sexo,telefono,email,ciudad', ...ultima.map(p => [p.id, p.rut, p.nombres, p.apellidos, p.fecha_nacimiento, p.sexo, p.telefono, p.email, p.ciudad].map(c).join(','))].join('\n'), 'text/csv');
+      toast(`${ultima.length} pacientes exportados`);
+    };
+    $('#ant').onclick = () => { pag--; pintar(); }; $('#sig').onclick = () => { pag++; pintar(); };
+    if (puedeCrear) {
+      $('#btnNuevo').onclick = () => { $('#nuevo').hidden = false; };
+      $('#cancelar').onclick = () => { $('#nuevo').hidden = true; };
+      $('#nuevo').addEventListener('submit', e => {
+        e.preventDefault();
+        const d = Object.fromEntries(new FormData(e.target));
+        const p = HIS.nuevoPaciente(d); HIS.auditar(s.usuario, `Registro Paciente ${p.id}`, 'Pacientes'); toast('Paciente registrado');
+        e.target.reset(); e.target.hidden = true; q = ''; $('#q').value = ''; pag = 999; pintar();
+      });
+    }
+    pintar();
+  },
+
+  ficha(arg) {
+    const s = HIS.sesion, id = +arg, d = HIS.datos(), p = d.pacientes.find(x => x.id === id);
+    if (!p) { $('#vista').innerHTML = '<div class="aviso">Paciente no encontrado.</div>'; return; }
+    HIS.auditar(s.usuario, `Consulta ficha paciente ${id}`, 'Pacientes');
+    const profDe = pid => (d.profesionales.find(x => x.id === pid) || {}).nombre || '—';
+    let h = `<p><a href="#pacientes">Volver a pacientes</a></p><div class="fichahead">${av(p, 'grande')}<div><h1>${esc(nombrePac(p))}</h1><span class="mut">${Math.floor((Date.now() - new Date(p.fecha_nacimiento)) / 31557600000)} años · ${esc(p.ciudad)}</span></div></div>
+      <div class="card grid">${[['RUT', p.rut], ['Nacimiento', p.fecha_nacimiento], ['Sexo', p.sexo], ['Teléfono', p.telefono], ['Correo', p.email], ['Ciudad', p.ciudad]]
+        .map(([k, v]) => `<div class="dato"><b>${k}</b>${esc(v) || '—'}</div>`).join('')}</div>`;
+    {
+      const atp = d.atenciones.filter(a => a.paciente_id === id), ids = new Set(atp.map(a => a.id));
+      const dxp = d.diagnosticos.filter(x => ids.has(x.atencion_id)), ctp = d.citas.filter(c => c.paciente_id === id), svp = d.signos_vitales.filter(x => x.paciente_id === id);
+      const kp = [];
+      if (HIS.permitido(s.rol, 'atenciones')) kp.push(['🩺', 'Atenciones', atp.length, 'var(--rosa)']);
+      if (HIS.permitido(s.rol, 'diagnosticos')) kp.push(['🧬', 'Diagnósticos', dxp.length, 'var(--vio)']);
+      if (HIS.permitido(s.rol, 'agenda')) kp.push(['📅', 'Citas', ctp.length, 'var(--ambar)']);
+      if (HIS.permitido(s.rol, 'signos_vitales')) kp.push(['💓', 'Registros de signos', svp.length, 'var(--verde)']);
+      if (kp.length) h += `<div class="kpis">${kp.map(([i, t, n, c]) => `<div class="kpi" style="--c:${c}"><em>${i}</em><b data-n="${n}">0</b><span>${t}</span></div>`).join('')}</div>`;
+      if (HIS.permitido(s.rol, 'diagnosticos')) {
+        const u = new Map(); dxp.forEach(x => u.set(x.cie10, x.descripcion));
+        h += `<div class="card"><h3>Diagnósticos del paciente</h3><div class="mods">${[...u].map(([c, t]) => `<span class="badge m" style="--h:${hue(c)}">${esc(c)} · ${esc(t)}</span>`).join('') || '<span class="mut">Sin diagnósticos registrados</span>'}</div></div>`;
+      }
+    }
+    if (HIS.permitido(s.rol, 'atenciones')) {
+      const at = d.atenciones.filter(a => a.paciente_id === id), verDx = HIS.permitido(s.rol, 'diagnosticos');
+      h += `<div class="card tabla"><h2>Atenciones</h2><table><tr><th>Fecha</th><th>Profesional</th><th>Motivo</th>${verDx ? '<th>Diagnósticos (CIE-10)</th>' : ''}</tr>
+        ${at.map(a => `<tr><td>${a.fecha}</td><td>${esc(profDe(a.profesional_id))}</td><td>${esc(a.motivo)}</td>${verDx ? `<td>${d.diagnosticos.filter(x => x.atencion_id === a.id).map(x => `${esc(x.cie10)} · ${esc(x.descripcion)}`).join('<br>') || '—'}</td>` : ''}</tr>`).join('') || '<tr><td colspan="4" class="mut">Sin atenciones</td></tr>'}</table>${HIS.permitido(s.rol, 'diagnosticos', 'escribir') ? formDx(at) : ''}</div>`;
+    }
+    if (HIS.permitido(s.rol, 'signos_vitales')) {
+      const sv = d.signos_vitales.filter(x => x.paciente_id === id), puede = HIS.permitido(s.rol, 'signos_vitales', 'escribir');
+      h += `<div class="card tabla"><h2>Signos vitales</h2><table><tr><th>Fecha</th><th>PA</th><th>FC</th><th>FR</th><th>Temp °C</th><th>SatO₂ %</th></tr>
+        ${sv.map(x => `<tr><td>${x.fecha}</td>${vtd('pa', x.pa)}${vtd('fc', x.fc)}${vtd('fr', x.fr)}${vtd('temp', x.temp)}${vtd('sato2', x.sato2)}</tr>`).join('') || '<tr><td colspan="6" class="mut">Sin registros</td></tr>'}</table>
+        ${spark(sv)}
+        ${puede ? `<form id="formSv" class="fila" style="margin-top:1rem"><div><label>PA (ej. 120/80)</label><input name="pa" pattern="\\d{2,3}/\\d{2,3}" required size="8"></div>
+          <div><label>FC</label><input name="fc" type="number" min="20" max="250" required style="width:80px"></div><div><label>FR</label><input name="fr" type="number" min="5" max="80" required style="width:80px"></div>
+          <div><label>Temp °C</label><input name="temp" type="number" step="0.1" min="30" max="43" required style="width:90px"></div><div><label>SatO₂ %</label><input name="sato2" type="number" min="50" max="100" required style="width:90px"></div>
+          <button class="pri">Registrar</button></form>` : ''}</div>`;
+    }
+    if (HIS.permitido(s.rol, 'agenda')) {
+      const ct = d.citas.filter(c => c.paciente_id === id);
+      h += `<div class="card tabla"><h2>Citas</h2><table><tr><th>Fecha</th><th>Hora</th><th>Profesional</th><th>Estado</th></tr>
+        ${ct.map(c => `<tr><td>${c.fecha}</td><td>${c.hora}</td><td>${esc(profDe(c.profesional_id))}</td><td><span class="badge b-${esc(c.estado)}">${esc(c.estado)}</span></td></tr>`).join('') || '<tr><td colspan="4" class="mut">Sin citas</td></tr>'}</table></div>`;
+    }
+    const okF = HIS.permitido(s.rol, 'fhir'), okH = HIS.permitido(s.rol, 'hl7');
+    if (okF || okH) {
+      h += `<div class="card"><h2>Interoperabilidad</h2><div class="fila"><div><label for="ixT">Formato</label><select id="ixT">
+        ${okF ? '<option value="FHIR">FHIR R4 · Bundle completo del paciente</option>' : ''}
+        ${okH ? '<option value="ADT_A04">HL7 ADT^A04 · Registro de paciente</option><option value="ADT_A08">HL7 ADT^A08 · Actualización de datos</option><option value="ORU_R01">HL7 ORU^R01 · Signos vitales</option>' : ''}</select></div>
+        <button class="pri" id="ixGen">Generar</button><button id="ixCop" disabled>Copiar</button><button id="ixDes" disabled>Descargar</button></div>
+        <pre id="ixOut" class="mut">Elige un formato y presiona Generar.</pre></div>`;
+    }
+    $('#vista').innerHTML = h;
+    if ($('#ixGen')) {
+      let tx = '';
+      $('#ixGen').onclick = () => {
+        const t = $('#ixT').value, fh = t === 'FHIR';
+        tx = fh ? JSON.stringify(HIS.fhirBundle(id), null, 2) : HIS.hl7(t, id);
+        $('#ixOut').textContent = tx; $('#ixOut').classList.remove('mut'); $('#ixCop').disabled = $('#ixDes').disabled = false;
+        HIS.auditar(s.usuario, `Generación ${fh ? 'FHIR' : 'HL7'} paciente ${id}`, fh ? 'FHIR' : 'HL7'); toast(`${fh ? 'FHIR' : 'HL7'} generado`);
+      };
+      $('#ixCop').onclick = async () => { await copiar(tx); $('#ixCop').textContent = '¡Copiado!'; setTimeout(() => ($('#ixCop').textContent = 'Copiar'), 1500); };
+      $('#ixDes').onclick = () => { const fh = $('#ixT').value === 'FHIR'; descargar(fh ? `paciente-${id}.fhir.json` : `paciente-${id}.hl7.txt`, tx, fh ? 'application/json' : 'text/plain'); };
+    }
+    const fd = $('#formDx');
+    if (fd) {
+      $('#dxAt').onchange = () => { $('#dxMotivo').hidden = $('#dxAt').value !== '0'; };
+      $('#dxCod').addEventListener('input', () => { const t = catalogoCie().get($('#dxCod').value.trim().toUpperCase()); if (t) $('#dxDes').value = t; });
+      fd.addEventListener('submit', e => {
+        e.preventDefault(); const v = Object.fromEntries(new FormData(fd));
+        let aid = +v.atencion;
+        if (!aid) {
+          const dd = HIS.datos(), pr = dd.profesionales.find(x => x.nombre.replace(/^Dra?\. /, '') === s.nombre) || dd.profesionales.find(x => x.profesion === s.rol) || dd.profesionales[0];
+          aid = HIS.nuevaAtencion({ paciente_id: id, fecha: new Date().toISOString().slice(0, 10), profesional_id: pr.id, motivo: (v.motivo || '').trim() || 'Atención médica' }).id;
+          HIS.auditar(s.usuario, `Registro atención paciente ${id}`, 'Atenciones');
+        }
+        HIS.nuevoDiagnostico({ atencion_id: aid, cie10: v.cie10.trim().toUpperCase(), descripcion: v.descripcion.trim() });
+        HIS.auditar(s.usuario, `Registro diagnóstico paciente ${id}`, 'Diagnósticos');
+        toast('Diagnóstico registrado'); render();
+      });
+    }
+    const f = $('#formSv');
+    if (f) f.addEventListener('submit', e => {
+      e.preventDefault(); const v = Object.fromEntries(new FormData(f));
+      HIS.nuevoSigno({ paciente_id: id, fecha: new Date().toISOString().slice(0, 10), pa: v.pa, fc: +v.fc, fr: +v.fr, temp: +v.temp, sato2: +v.sato2 });
+      HIS.auditar(s.usuario, `Registro signos vitales paciente ${id}`, 'Signos vitales'); toast('Signos vitales registrados');
+      render();
+    });
+  },
+
+  agenda() {
+    const d = HIS.datos();
+    $('#vista').innerHTML = `<h1>Agenda</h1><div class="fila"><div><label for="fec">Filtrar por fecha</label><input id="fec" type="date"></div><div><label for="est">Estado</label><select id="est"><option value="">Todos</option><option>Agendada</option><option>Atendida</option><option>Cancelada</option></select></div><button id="limpiar">Ver todas</button></div>
+      <div class="card tabla" id="citas"></div>
+      <h2>Profesionales</h2><div class="grid">${d.profesionales.map(x => `<div class="card dato" style="margin:0;border-top:3px solid hsl(${hue(x.especialidad)} 85% 62%)"><b>${esc(x.profesion)}</b><span style="font-size:1.05rem;font-weight:600">${esc(x.nombre)}</span><br><span class="mut">${esc(x.especialidad)} · ${esc(x.rut)}</span></div>`).join('')}</div>`;
+    const pintar = () => {
+      const f = $('#fec').value, lista = d.citas.filter(c => (!f || c.fecha === f) && (!$('#est').value || c.estado === $('#est').value));
+      $('#citas').innerHTML = `<table><tr><th>Fecha</th><th>Hora</th><th>Paciente</th><th>Profesional</th><th>Estado</th></tr>
+        ${lista.map(c => { const p = d.pacientes.find(x => x.id === c.paciente_id), pr = d.profesionales.find(x => x.id === c.profesional_id);
+          return `<tr><td>${c.fecha}</td><td>${c.hora}</td><td><a href="#ficha/${c.paciente_id}">${esc(nombrePac(p))}</a></td><td>${esc(pr.nombre)}</td><td><span class="badge b-${esc(c.estado)}">${esc(c.estado)}</span></td></tr>`; }).join('') || '<tr><td colspan="5" class="mut">Sin citas para esa fecha</td></tr>'}</table>`;
+    };
+    $('#fec').onchange = pintar; $('#est').onchange = pintar; $('#limpiar').onclick = () => { $('#fec').value = ''; $('#est').value = ''; pintar(); };
+    pintar();
+  },
+
+  atenciones() {
+    const s = HIS.sesion, d = HIS.datos(), verDx = HIS.permitido(s.rol, 'diagnosticos');
+    $('#vista').innerHTML = `<h1>Atenciones</h1><div class="card tabla"><table><tr><th>Fecha</th><th>Paciente</th><th>Profesional</th><th>Motivo</th>${verDx ? '<th>Diagnósticos (CIE-10)</th>' : ''}</tr>
+      ${d.atenciones.map(a => { const p = d.pacientes.find(x => x.id === a.paciente_id), pr = d.profesionales.find(x => x.id === a.profesional_id);
+        return `<tr><td>${a.fecha}</td><td><a href="#ficha/${p.id}">${esc(nombrePac(p))}</a></td><td>${esc(pr.nombre)}</td><td>${esc(a.motivo)}</td>${verDx ? `<td>${d.diagnosticos.filter(x => x.atencion_id === a.id).map(x => `${esc(x.cie10)} · ${esc(x.descripcion)}`).join('<br>') || '—'}</td>` : ''}</tr>`; }).join('')}</table></div>`;
+  },
+
+  fhir() { interop('FHIR'); },
+  hl7() { interop('HL7'); },
+
+  auditoria() {
+    const todo = HIS.datos().auditoria.slice().reverse();
+    $('#vista').innerHTML = `<h1>Auditoría</h1><div class="fila"><div><label for="qa">Buscar usuario, acción o módulo</label><input id="qa" style="min-width:280px"></div></div>
+      <p class="mut" id="infoA"></p><div class="card tabla" id="tablaA"></div>`;
+    const pintar = () => {
+      const t = $('#qa').value.toLowerCase(), l = todo.filter(a => !t || `${a.usuario} ${a.accion} ${a.modulo}`.toLowerCase().includes(t)).slice(0, 150);
+      $('#infoA').textContent = `Mostrando ${l.length} eventos (incluye accesos denegados, en rojo).`;
+      $('#tablaA').innerHTML = `<table><tr><th>Fecha y hora</th><th>Usuario</th><th>Acción</th><th>Módulo</th></tr>
+        ${l.map(a => `<tr class="${/denegado|fallido/i.test(a.accion) ? 'mal' : ''}"><td>${esc(a.fecha_hora)}</td><td>${esc(a.usuario)}</td><td>${esc(a.accion)}</td><td><span class="badge m" style="--h:${hue(a.modulo)}">${esc(a.modulo)}</span></td></tr>`).join('')}</table>`;
+    };
+    $('#qa').addEventListener('input', pintar); pintar();
+  },
+
+  incidencias() {
+    const s = HIS.sesion, puede = HIS.permitido(s.rol, 'incidencias', 'escribir');
+    const ESTADOS = ['Nueva', 'En análisis', 'Escalada', 'Resuelta', 'Cerrada'];
+    const CATS = ['Clínica', 'Seguridad', 'Interoperabilidad', 'Datos', 'Funcional', 'Usabilidad', 'Rendimiento'];
+    const NV = ['Alto', 'Medio', 'Bajo'], PRIOS = ['P1 - Crítica', 'P2 - Alta', 'P3 - Media', 'P4 - Baja'];
+    const MODS = [...Object.values(NOMBRE_MOD).filter(m => m !== 'Incidencias'), 'Interfaz'];
+    const opt = (arr, sel) => arr.map(x => `<option${x === sel ? ' selected' : ''}>${esc(x)}</option>`).join('');
+    const cls = t => String(t).replace(/\s+/g, '-');
+    let fe = '', fp = '';
+    $('#vista').innerHTML = `<h1>Incidencias (ITIL)</h1>
+      <p class="mut">Registro de incidencias del ambiente UAT. La prioridad se calcula con impacto × urgencia. Un acceso denegado genera una incidencia de seguridad automática.</p>
+      <div class="kpis" id="kpiInc"></div>
+      <div class="fila"><div><label for="fe">Estado</label><select id="fe"><option value="">Todos</option>${opt(ESTADOS)}</select></div>
+        <div><label for="fp">Prioridad</label><select id="fp"><option value="">Todas</option>${opt(PRIOS)}</select></div>
+        <button id="csvInc">Descargar CSV</button>${puede ? '<button class="pri" id="btnInc">+ Nueva incidencia</button>' : ''}</div>
+      ${puede ? `<form id="formInc" class="card" hidden><h3>Nueva incidencia</h3><div class="fila">
+        <div><label>Módulo</label><select name="modulo">${opt(MODS)}</select></div>
+        <div><label>Categoría</label><select name="categoria">${opt(CATS)}</select></div>
+        <div><label>Caso UAT</label><input name="caso" placeholder="UAT-001" size="10"></div>
+        <div><label>Impacto</label><select name="impacto">${opt(NV, 'Medio')}</select></div>
+        <div><label>Urgencia</label><select name="urgencia">${opt(NV, 'Medio')}</select></div>
+        <div><label>Asignado a</label><input name="asignado" value="servicedesk1" size="14"></div></div>
+        <div class="fila"><div style="flex:1 1 100%"><label>Descripción</label><input name="descripcion" style="width:100%" required></div>
+        <div style="flex:1 1 260px"><label>Resultado esperado</label><input name="esperado" style="width:100%" required></div>
+        <div style="flex:1 1 260px"><label>Resultado obtenido</label><input name="obtenido" style="width:100%" required></div></div>
+        <button class="pri">Registrar</button> <button type="button" id="cancelInc">Cancelar</button></form>` : ''}
+      <div class="card tabla inc" id="tablaInc"></div>
+      <div class="nota"><b>Flujo ITIL:</b> Nueva → En análisis → Escalada → Resuelta → Cerrada. <b>Prioridad:</b> P1 Crítica · P2 Alta · P3 Media · P4 Baja (impacto × urgencia). ${puede ? 'Cambia el estado desde la tabla.' : 'Tu rol puede consultar, no modificar.'}</div>`;
+    const pintar = () => {
+      const todas = HIS.incidencias();
+      const kc = { Nueva: 'var(--azul)', 'En análisis': 'var(--ambar)', Escalada: 'var(--rojo)', Resuelta: 'var(--verde)', Cerrada: 'var(--vio)' };
+      $('#kpiInc').innerHTML = ESTADOS.map(e => `<div class="kpi" style="--c:${kc[e]}"><b>${todas.filter(x => x.estado === e).length}</b><span>${e}</span></div>`).join('');
+      const lista = todas.filter(x => (!fe || x.estado === fe) && (!fp || HIS.prioridad(x.impacto, x.urgencia) === fp)).slice().reverse();
+      $('#tablaInc').innerHTML = `<table><tr><th>ID</th><th>Fecha</th><th>Módulo</th><th>Categoría</th><th>Descripción</th><th>Prioridad</th><th>Estado</th><th>Reportó</th><th>Asignado</th></tr>
+        ${lista.map(x => { const pr = HIS.prioridad(x.impacto, x.urgencia); return `<tr>
+          <td><b>${esc(x.id)}</b>${x.caso ? `<small>${esc(x.caso)}</small>` : ''}</td><td>${esc(x.fecha)}</td><td>${esc(x.modulo)}</td><td>${esc(x.categoria)}</td>
+          <td class="desc">${x.auto ? '<span class="auto">AUTOMÁTICA</span> ' : ''}${esc(x.descripcion)}${x.repeticiones > 1 ? ` <span class="mut">(×${x.repeticiones})</span>` : ''}
+            <small>Esperado: ${esc(x.esperado)} · Obtenido: ${esc(x.obtenido)}</small>${x.resolucion ? `<small>✔ ${esc(x.resolucion)}${x.cierre ? ' · ' + esc(x.cierre) : ''}</small>` : ''}</td>
+          <td><span class="pr p-${esc(pr.slice(0, 2))}">${esc(pr)}</span></td>
+          <td>${puede ? `<select data-id="${esc(x.id)}">${opt(ESTADOS, x.estado)}</select>` : `<span class="badge e-${cls(x.estado)}">${esc(x.estado)}</span>`}</td>
+          <td>${esc(x.reportado)}</td><td>${esc(x.asignado || '—')}</td></tr>`; }).join('') || '<tr><td colspan="9" class="mut">Sin incidencias con ese filtro</td></tr>'}</table>`;
+      animar();
+    };
+    $('#fe').onchange = e => { fe = e.target.value; pintar(); };
+    $('#fp').onchange = e => { fp = e.target.value; pintar(); };
+    $('#csvInc').onclick = () => {
+      const q = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+      const cab = ['ID', 'Fecha', 'Caso UAT', 'Módulo', 'Categoría', 'Reportado por', 'Descripción', 'Esperado', 'Obtenido', 'Impacto', 'Urgencia', 'Prioridad', 'Estado', 'Asignado', 'Resolución', 'Cierre'];
+      const filas = HIS.incidencias().map(x => [x.id, x.fecha, x.caso, x.modulo, x.categoria, x.reportado, x.descripcion, x.esperado, x.obtenido, x.impacto, x.urgencia, HIS.prioridad(x.impacto, x.urgencia), x.estado, x.asignado, x.resolucion, x.cierre]);
+      descargar('incidencias_uat.csv', '\ufeff' + [cab, ...filas].map(f => f.map(q).join(';')).join('\n'), 'text/csv;charset=utf-8');
+    };
+    $('#tablaInc').addEventListener('change', e => {
+      const sel = e.target.closest('select[data-id]'); if (!sel || !puede) return;
+      const res = sel.value === 'Resuelta' ? (prompt('Acción o resolución aplicada (opcional):') || '') : '';
+      HIS.cambiarEstadoInc(sel.dataset.id, sel.value, res);
+      HIS.auditar(s.usuario, `Incidencia ${sel.dataset.id} → ${sel.value}`, 'Incidencias');
+      toast(`${sel.dataset.id}: ${sel.value}`); pintar();
+    });
+    if (puede) {
+      $('#btnInc').onclick = () => { $('#formInc').hidden = false; $('#formInc').querySelector('[name=descripcion]').focus(); };
+      $('#cancelInc').onclick = () => { $('#formInc').hidden = true; };
+      $('#formInc').addEventListener('submit', e => {
+        e.preventDefault(); const v = Object.fromEntries(new FormData(e.target));
+        const r = HIS.nuevaIncidencia({ ...v, reportado: s.usuario });
+        HIS.auditar(s.usuario, `Incidencia creada ${r.id}`, 'Incidencias'); toast(`${r.id} registrada`); render();
+      });
+    }
+    pintar();
+  },
+
+  roles() {
+    const roles = DATOS.roles, mods = Object.keys(NOMBRE_MOD), mio = HIS.sesion.rol;
+    $('#vista').innerHTML = `<h1>Roles y permisos</h1><p class="mut">Matriz de perfilado: qué puede hacer cada rol en cada módulo. Tu rol aparece resaltado.</p>
+      <div class="card tabla"><table><tr><th>Módulo</th>${roles.map(r => `<th${r === mio ? ' style="color:var(--ac)"' : ''}>${esc(r)}</th>`).join('')}</tr>
+      ${mods.map(m => `<tr><td><b>${esc(NOMBRE_MOD[m])}</b></td>${roles.map(r => { const n = (HIS.MATRIZ[r] || {})[m];
+        return `<td${r === mio ? ' style="background:var(--ac2)"' : ''}>${n ? `<span class="badge b-${n}">${n}</span>` : '<span class="mut">—</span>'}</td>`; }).join('')}</tr>`).join('')}</table></div>
+      <div class="nota"><b>ver</b>: solo consulta · <b>escribir</b>: consulta y registra. Los permisos de escritura están activos en Pacientes (alta), Signos vitales (registro) e Incidencias (registro y gestión).</div>`;
+  },
+};
+
+function interop(tipo) {
+  const d = HIS.datos(), s = HIS.sesion, esFhir = tipo === 'FHIR';
+  $('#vista').innerHTML = `<h1>Interoperabilidad ${tipo}</h1><div class="card"><div class="fila">
+    <div><label for="pac">Paciente</label><select id="pac">${d.pacientes.map(p => `<option value="${p.id}">${p.id} · ${esc(nombrePac(p))}</option>`).join('')}</select></div>
+    ${esFhir ? '' : '<div><label for="tipo">Tipo de mensaje</label><select id="tipo"><option value="ADT_A04">ADT^A04 · Registro de paciente</option><option value="ADT_A08">ADT^A08 · Actualización de datos</option><option value="ORU_R01">ORU^R01 · Resultado (signos vitales)</option></select></div>'}
+    <button class="pri" id="gen">Generar</button><button id="cop" disabled>Copiar</button><button id="des" disabled>Descargar</button></div>
+    <pre id="salida" class="mut">Elige un paciente y presiona Generar.</pre></div>`;
+  let texto = '';
+  $('#gen').onclick = () => {
+    const id = +$('#pac').value;
+    texto = esFhir ? JSON.stringify(HIS.fhirBundle(id), null, 2) : HIS.hl7($('#tipo').value, id);
+    $('#salida').textContent = texto; $('#salida').classList.remove('mut');
+    $('#cop').disabled = $('#des').disabled = false; toast(`${tipo} generado`);
+    HIS.auditar(s.usuario, `Generación ${tipo} paciente ${id}`, tipo);
+  };
+  $('#cop').onclick = async () => { await copiar(texto); $('#cop').textContent = '¡Copiado!'; setTimeout(() => ($('#cop').textContent = 'Copiar'), 1500); };
+  $('#des').onclick = () => descargar(esFhir ? `paciente-${$('#pac').value}.fhir.json` : `paciente-${$('#pac').value}.hl7.txt`, texto, esFhir ? 'application/json' : 'text/plain');
+}
+
+/* ---------- Enrutador ---------- */
+function render() {
+  const s = HIS.sesion;
+  if (!s) return mostrarLogin();
+  $('#login').hidden = true; $('#app').hidden = false;
+  $('#quien').innerHTML = `<strong>${esc(s.nombre)}</strong><span class="pill">${esc(s.rol)}</span>`;
+  const [vista, arg] = (location.hash.slice(1) || 'inicio').split('/');
+  if (!(vista in MOD_DE)) { location.hash = 'inicio'; return; }
+  const activo = vista === 'ficha' ? 'pacientes' : vista;
+  $('#menu').innerHTML = MENU.filter(m => !m.mod || HIS.permitido(s.rol, m.mod))
+    .map(m => `<a href="#${m.id}" style="--c:${COL_NAV[m.id]}" class="${m.id === activo ? 'act' : ''}">${m.t}</a>`).join('');
+  const mod = MOD_DE[vista];
+  if (mod && !HIS.permitido(s.rol, mod)) {
+    HIS.auditar(s.usuario, `Acceso denegado (${mod}:ver)`, NOMBRE_MOD[mod]);
+    HIS.incidenciaSeguridad(s.usuario, s.rol, NOMBRE_MOD[mod]);
+    $('#vista').innerHTML = `<h1>Acceso denegado</h1><div class="aviso">Tu rol (${esc(s.rol)}) no tiene permiso para el módulo «${esc(NOMBRE_MOD[mod])}». El intento quedó registrado en auditoría y como incidencia de seguridad.</div>`;
+    return;
+  }
+  VISTAS[vista](arg);
+  animar();
+  window.scrollTo(0, 0);
+}
+const relojTick = () => { $('#reloj').textContent = new Date().toLocaleString('es-CL', { dateStyle: 'medium', timeStyle: 'medium' }); };
+relojTick(); setInterval(relojTick, 1000);
+window.addEventListener('hashchange', render);
+cargarDatos().then(render);
+</script>
+</body>
+</html>

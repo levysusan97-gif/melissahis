@@ -1,0 +1,20 @@
+[
+  {
+    "ID": "1",
+    "Nombre": "Dr. Juan Pérez",
+    "Profesion": "Médico",
+    "Especialidad": "Medicina General"
+  },
+  {
+    "ID": "2",
+    "Nombre": "María Soto",
+    "Profesion": "Enfermero",
+    "Especialidad": "Enfermería"
+  },
+  {
+    "ID": "3",
+    "Nombre": "Ana Rojas",
+    "Profesion": "TENS",
+    "Especialidad": "Apoyo Clínico"
+  }
+]

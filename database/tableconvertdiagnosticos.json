@@ -1,0 +1,32 @@
+[
+  {
+    "ID": "1",
+    "AtencionID": "1",
+    "CIE10": "I10",
+    "Diagnostico": "Hipertensión esencial"
+  },
+  {
+    "ID": "2",
+    "AtencionID": "2",
+    "CIE10": "K29",
+    "Diagnostico": "Gastritis"
+  },
+  {
+    "ID": "3",
+    "AtencionID": "3",
+    "CIE10": "E11",
+    "Diagnostico": "Diabetes Mellitus Tipo 2"
+  },
+  {
+    "ID": "4",
+    "AtencionID": "4",
+    "CIE10": "J06",
+    "Diagnostico": "Infección respiratoria aguda"
+  },
+  {
+    "ID": "5",
+    "AtencionID": "5",
+    "CIE10": "Z00",
+    "Diagnostico": "Examen preventivo"
+  }
+]
